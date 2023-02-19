@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/courses.dart';
 
 import '../screens/home.dart';
 
@@ -12,14 +13,13 @@ class HomeArguments {
 
 class MyRouter {
   static const String home = 'home';
-  static const String splash = '/';
-  static const String login = 'login';
+  static const String courses = 'courses';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
     switch (settings.name) {
-      case splash:
-        // return MaterialPageRoute(builder: (_) => const MyHomePage(title: 'Splash',counter: 0));
+      case courses:
+        return MaterialPageRoute(builder: (_) => const CoursesPage(counter: 0));
       case home:
         if (args is HomeArguments) {
           return MaterialPageRoute(

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../config/router.dart';
 import '../const/themes.dart';
 
 final ThemeManager _themeManager = ThemeManager();
 
 class CoursesPage extends StatefulWidget {
-  const CoursesPage({super.key, required this.title, required this.counter});
+  const CoursesPage({super.key, required this.counter});
 
   final int counter;
-  final String title;
 
   @override
   State<CoursesPage> createState() => _CoursesPageState();
@@ -44,7 +42,7 @@ class _CoursesPageState extends State<CoursesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Courses"),
       ),
       body: Center(
         child: Column(
@@ -60,8 +58,11 @@ class _CoursesPageState extends State<CoursesPage> {
           ],
         ),
       ),
-      floatingActionButton: Switch(value: _themeManager.themeMode == ThemeMode.dark, onChanged: (newValue) {
-    _themeManager.toggleTheme(newValue);},
+      floatingActionButton: Switch(
+        value: _themeManager.themeMode == ThemeMode.dark,
+        onChanged: (newValue) {
+          _themeManager.toggleTheme(newValue);
+          },
       ),
     );
   }

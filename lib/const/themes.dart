@@ -24,8 +24,8 @@ ColorScheme lightTheme() {
 
 ColorScheme darkTheme() {
   return const ColorScheme(
-    brightness: Brightness.light,
-    primary: Colors.blue,
+    brightness: Brightness.dark,
+    primary: Colors.black,
     onPrimary: Colors.white,
     secondary: Colors.teal,
     onSecondary: Colors.black,

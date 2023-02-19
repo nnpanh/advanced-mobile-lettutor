@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter++;
     });
-    Navigator.pushNamed(context, MyRouter.home, arguments: HomeArguments(title: 'Hehe', number: 2));
+    Navigator.pushNamed(context, MyRouter.courses);
   }
 
   @override

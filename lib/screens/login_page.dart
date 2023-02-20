@@ -32,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             SizedBox(height: size.height * 0.06),
             Container(
@@ -138,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ?.copyWith(color: Colors.blueAccent),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  print('hehe');
+                                  Navigator.pushNamed(context, MyRouter.forgotPassword);
                                 })),
                     ),
                     SizedBox(

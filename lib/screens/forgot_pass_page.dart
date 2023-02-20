@@ -27,24 +27,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: size.height * 0.06),
-            Container(
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                child: Image.asset(
-                  ImagesPath.intro,
-                  fit: BoxFit.contain,
-                )),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 24),
               child: Text(
-                'Say hello to your English tutors',
+                'Reset Password',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: CustomColor.darkBlue,
                   fontWeight: FontWeight.w500,
@@ -53,9 +45,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(36, 6, 36, 18),
+              margin: const EdgeInsets.fromLTRB(40, 6, 40, 18),
               child: Text(
-                'Become fluent faster through one one one video chat lessons tailored to your goals.',
+                'Please enter your account email to receive a reset password link.',
                 style: bodyLarge(context),
                 textAlign: TextAlign.center,
               ),
@@ -91,56 +83,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             }
                           },
                         )),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(26,8,26,0),
-                        width: double.infinity,
-                        child: Text(
-                          'Password',
-                          style: bodyLargeBold(context),
-                          textAlign: TextAlign.start,
-                        )
-                    ),
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 24),
-                        child: TextFormField(
-                          obscureText: !_passwordVisible,
-                          decoration: InputDecoration(
-                            errorMaxLines: 4,
-                            suffixIcon: IconButton(
-                              icon: Icon(_passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                              onPressed: () {
-                                setState(() {
-                                  _passwordVisible = !_passwordVisible;
-                                });
-                              },
-                            ),
-                            border: const OutlineInputBorder(),
-                            hintText: '******',
-                          ),
-                          validator: (input) {
-                            if (input != null && !input.isValidPassword) {
-                              return 'Password must have at least 8 characters (A-z) and 1 number (0-9)';
-                            } else {
-                              return null;
-                            }
-                          },
-                        )),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(24,0,24,12),
-                      alignment: Alignment.centerRight,
-                      child: RichText(
-                          text: TextSpan(
-                              text: 'Forgot your password?',
-                              style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.blueAccent),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  print('hehe');
-                                })),
-                    ),
                     SizedBox(
                       width: double.infinity,
                       child: Container(
@@ -156,70 +98,29 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 Navigator.pushNamed(context, MyRouter.courses);
                               }
                             },
-                            child: const Text('Login')),
+                            child: const Text('Send link')),
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.fromLTRB(24,12,24,12),
-                      alignment: Alignment.center,
-                      child: Text('Or continue with',
-                              style: bodyLarge(context),
-                      )
-                    ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(24,12,24,0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                              child: Image.asset(
-                                ImagesPath.google,
-                                fit: BoxFit.contain,
-                                height: 36,
-                                  width: 36,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                              child: Image.asset(
-                                ImagesPath.facebook,
-                                fit: BoxFit.contain,
-                                height: 36,
-                                width: 36,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                              child: const Icon(
-                                FontAwesomeIcons.mobileScreen,
-                                size: 36
-                              )
-                            ),
-                          ]
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(24,24,24,24),
+                      margin: const EdgeInsets.fromLTRB(24,0,24,0),
                       alignment: Alignment.center,
                       child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                            text: 'Not a member yet?', style: bodyLarge(context)),
-                            TextSpan(
-                              text: ' Sign up',
-                              style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.blueAccent),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushNamed(context, MyRouter.signUp);
-                                })
-                          ]
-                        )
+                          text: TextSpan(
+                              children: [
+                                TextSpan(
+                                    text: "Don't remember your email? ", style: bodyLarge(context)),
+                                TextSpan(
+                                    text: ' Ask for help',
+                                    style: bodyLarge(context)
+                                        ?.copyWith(color: Colors.blueAccent),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushNamed(context, MyRouter.login);
+                                      })
+                              ]
+                          )
                       ),
                     ),
-                    SizedBox(height: size.height * 0.02),
                   ],
                 ))
           ],

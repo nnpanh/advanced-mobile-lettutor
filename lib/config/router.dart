@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/courses.dart';
+import 'package:lettutor/screens/forgot_pass_page.dart';
 import 'package:lettutor/screens/login_page.dart';
 import 'package:lettutor/screens/sign_up_page.dart';
 
@@ -17,10 +18,13 @@ class MyRouter {
   static const String courses = 'courses';
   static const String login ='login';
   static const String signUp ='signUp';
+  static const String forgotPassword ='forgotPassword';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
     switch (settings.name) {
+      case forgotPassword:
+        return MaterialPageRoute(builder: (_) => const ForgotPasswordPage());
       case login:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case signUp:

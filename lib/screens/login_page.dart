@@ -5,7 +5,7 @@ import 'package:lettutor/const/image_path.dart';
 
 import '../config/router.dart';
 import '../const/custom_color.dart';
-import 'common_widgets/app_bar.dart';
+import 'common_widgets/text_style.dart';
 import 'common_widgets/validation_extension.dart';
 
 class LoginPage extends StatefulWidget {
@@ -44,9 +44,8 @@ class _LoginPageState extends State<LoginPage> {
               margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 24),
               child: Text(
                 'Say hello to your English tutors',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: CustomColor.darkBlue,
-                  fontWeight: FontWeight.w500,
+                style: headLineMedium(context)?.copyWith(
+                  color: CustomColor.lightBlue,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -152,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                Navigator.pushNamed(context, MyRouter.courses);
+                                Navigator.pushNamed(context, MyRouter.home);
                               }
                             },
                             child: const Text('Login')),

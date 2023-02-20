@@ -1,6 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lettutor/screens/home_page.dart';
 import 'package:lettutor/screens/login_page.dart';
 import 'package:lettutor/utils.dart';
 import 'package:lettutor/const/image_path.dart';
@@ -46,7 +47,8 @@ class MyAppState extends State<MyApp> {
         home: AnimatedSplashScreen(
             duration: 2000,
             splash: const Image(image: AssetImage(ImagesPath.logo)),
-            nextScreen: const LoginPage(),
+            nextScreen: const HomePage(),
+            // nextScreen: const LoginPage(),
             splashTransition: SplashTransition.fadeTransition,
             pageTransitionType: PageTransitionType.bottomToTop,
             backgroundColor: Colors.white)

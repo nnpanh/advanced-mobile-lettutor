@@ -32,14 +32,16 @@ class MyRouter {
       case courses:
         return MaterialPageRoute(builder: (_) => const CoursesPage(counter: 0));
       case home:
-        if (args is HomeArguments) {
-          return MaterialPageRoute(
-              builder: (_) => HomePage(title: args.title),
-              settings:
-                  RouteSettings(name: home, arguments: settings.arguments));
-        } else {
-          return errorRoute("Input for Home is not HomeArguments");
-        }
+        return MaterialPageRoute(builder: (_) => const HomePage());
+
+    // if (args is HomeArguments) {
+        //   return MaterialPageRoute(
+        //       builder: (_) => HomePage(title: args.title),
+        //       settings:
+        //           RouteSettings(name: home, arguments: settings.arguments));
+        // } else {
+        //   return errorRoute("Input for Home is not HomeArguments");
+        // }
       default:
         return errorRoute("No route-name founded");
     }

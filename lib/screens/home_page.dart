@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/common_widgets/text_style.dart';
 
-import '../config/router.dart';
+import '../const/custom_color.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
-
-  final String title;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,20 +15,34 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'Hehe',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+          children: [
+            Container(
+                padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [CustomColor.shadowBlue, CustomColor.darkBlue],
+                        begin: Alignment.topLeft,
+                        end: const Alignment(0.75, 1))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'You have no upcoming lesson.',
+                      style: bodyLargeBold(context)
+                          ?.copyWith(color: Colors.white, fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Welcome to LetTutor!',
+                      style: bodyLarge(context)?.copyWith(color: Colors.white),
+                    )
+                  ],
+                )),
           ],
         ),
       ),

@@ -5,7 +5,7 @@ import 'package:lettutor/const/image_path.dart';
 
 import '../config/router.dart';
 import '../const/custom_color.dart';
-import 'common_widgets/app_bar.dart';
+import 'common_widgets/text_style.dart';
 import 'common_widgets/validation_extension.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -37,9 +37,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 24),
               child: Text(
                 'Reset Password',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: CustomColor.darkBlue,
-                  fontWeight: FontWeight.w500,
+                style: headLineMedium(context)?.copyWith(
+                  color: CustomColor.lightBlue,
                 ),
                 textAlign: TextAlign.center,
               ),

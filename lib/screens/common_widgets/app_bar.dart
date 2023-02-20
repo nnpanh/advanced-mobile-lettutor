@@ -13,3 +13,9 @@ AppBar appBar(String title, BuildContext context) {
       ),
     );
 }
+
+TextStyle? bodyLarge(BuildContext context) {
+  return Theme.of(context).textTheme.bodyLarge?.copyWith(
+    fontWeight: FontWeight.w400,
+  );
+}

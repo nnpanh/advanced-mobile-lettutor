@@ -1,8 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/const/image_path.dart';
 
 import '../config/router.dart';
 import '../const/custom_color.dart';
+import 'common_widgets/app_bar.dart';
 import 'common_widgets/validation_extension.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +17,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  late bool _passwordVisible;
+
+  @override
+  void initState() {
+    _passwordVisible = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            SizedBox(height: size.height * .16),
+            SizedBox(height: size.height * 0.06),
             Container(
                 margin: const EdgeInsets.symmetric(vertical: 12),
                 child: Image.asset(
@@ -36,19 +46,17 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 'Say hello to your English tutors',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: CustomColor.darkBlue,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  color: CustomColor.darkBlue,
+                  fontWeight: FontWeight.w500,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(36.0, 6.0, 36.0, 18.0),
+              margin: const EdgeInsets.fromLTRB(36, 6, 36, 18),
               child: Text(
                 'Become fluent faster through one one one video chat lessons tailored to your goals.',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w400,
-                    ),
+                style: bodyLarge(context),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -58,8 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Container(
                         margin: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 24),
+                            vertical: 12, horizontal: 24),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
                             labelText: 'Email',
                             border: OutlineInputBorder(),
@@ -67,19 +76,133 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           validator: (input) {
                             if (input != null && !input.isValidEmail) {
-                              return 'Invalid email format.';
+                              return 'Email must follow standard format';
                             } else {
                               return null;
                             }
                           },
                         )),
-                    ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, MyRouter.courses);
-                          }
-                        },
-                        child: Text('Submit'))
+                    Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 24),
+                        child: TextFormField(
+                          obscureText: !_passwordVisible,
+                          decoration: InputDecoration(
+                            errorMaxLines: 4,
+                            labelText: 'Password',
+                            suffixIcon: IconButton(
+                              icon: Icon(_passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                            ),
+                            border: const OutlineInputBorder(),
+                            hintText: 'Enter password',
+                          ),
+                          validator: (input) {
+                            if (input != null && !input.isValidPassword) {
+                              return 'Password must have at least 8 characters (A-z) and 1 number (0-9)';
+                            } else {
+                              return null;
+                            }
+                          },
+                        )),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(24,0,24,12),
+                      alignment: Alignment.centerRight,
+                      child: RichText(
+                          text: TextSpan(
+                              text: 'Forgot your password?',
+                              style: bodyLarge(context)
+                                  ?.copyWith(color: Colors.blueAccent),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  print('hehe');
+                                })),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(16),
+                              elevation: 3,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                          ),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.pushNamed(context, MyRouter.courses);
+                              }
+                            },
+                            child: const Text('Login')),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(24,12,24,12),
+                      alignment: Alignment.center,
+                      child: Text('Or continue with',
+                              style: bodyLarge(context),
+                      )
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(24,12,24,0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                              child: Image.asset(
+                                ImagesPath.google,
+                                fit: BoxFit.contain,
+                                height: 36,
+                                  width: 36,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                              child: Image.asset(
+                                ImagesPath.facebook,
+                                fit: BoxFit.contain,
+                                height: 36,
+                                width: 36,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                              child: const Icon(
+                                FontAwesomeIcons.mobileScreen,
+                                size: 36
+                              )
+                            ),
+                          ]
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(24,24,24,24),
+                      alignment: Alignment.center,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                            text: 'Not a member yet?', style: bodyLarge(context)),
+                            TextSpan(
+                              text: ' Sign up',
+                              style: bodyLarge(context)
+                                  ?.copyWith(color: Colors.blueAccent),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  print('hehe');
+                                })
+                          ]
+                        )
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.02),
                   ],
                 ))
           ],

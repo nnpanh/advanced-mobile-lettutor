@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/courses.dart';
 import 'package:lettutor/screens/login_page.dart';
+import 'package:lettutor/screens/sign_up_page.dart';
 
 import '../screens/home_page.dart';
 
@@ -15,12 +16,15 @@ class MyRouter {
   static const String home = 'home';
   static const String courses = 'courses';
   static const String login ='login';
+  static const String signUp ='signUp';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
     switch (settings.name) {
       case login:
         return MaterialPageRoute(builder: (_) => const LoginPage());
+      case signUp:
+        return MaterialPageRoute(builder: (_) => const SignUpPage());
       case courses:
         return MaterialPageRoute(builder: (_) => const CoursesPage(counter: 0));
       case home:

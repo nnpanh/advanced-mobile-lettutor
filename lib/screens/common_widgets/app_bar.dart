@@ -19,3 +19,9 @@ TextStyle? bodyLarge(BuildContext context) {
     fontWeight: FontWeight.w400,
   );
 }
+
+TextStyle? bodyLargeBold(BuildContext context) {
+  return Theme.of(context).textTheme.bodyLarge?.copyWith(
+    fontWeight: FontWeight.w500,
+  );
+}

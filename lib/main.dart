@@ -1,8 +1,9 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lettutor/screens/home.dart';
+import 'package:lettutor/screens/login_page.dart';
 import 'package:lettutor/utils.dart';
+import 'package:lettutor/const/image_path.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'config/router.dart';
@@ -42,15 +43,12 @@ class MyAppState extends State<MyApp> {
         themeMode: getDeviceThemeMode(),
         onGenerateRoute: MyRouter.generateRoute,
         home: AnimatedSplashScreen(
-            duration: 6000,
-            splash: Icons.home,
-            nextScreen: const MyHomePage(
-              title: 'Splash',
-              counter: 0,
-            ),
+            duration: 2000,
+            splash: const Image(image: AssetImage(ImagesPath.logo)),
+            nextScreen: const LoginPage(),
             splashTransition: SplashTransition.fadeTransition,
             pageTransitionType: PageTransitionType.bottomToTop,
-            backgroundColor: Colors.blue)
+            backgroundColor: Colors.white)
         // initialRoute: MyRouter.splash,
         );
   }

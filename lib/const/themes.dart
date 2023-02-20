@@ -25,16 +25,16 @@ ColorScheme lightTheme() {
 ColorScheme darkTheme() {
   return const ColorScheme(
     brightness: Brightness.dark,
-    primary: Colors.black,
-    onPrimary: Colors.white,
-    secondary: Colors.teal,
+    primary: Colors.blue,
+    onPrimary: Colors.black,
+    secondary: Colors.tealAccent,
     onSecondary: Colors.black,
-    error: Colors.red,
-    onError: Colors.white,
-    background: Colors.white,
-    onBackground: Colors.black,
-    surface: Colors.white,
-    onSurface: Colors.black,
+    error: Colors.redAccent,
+    onError: Colors.black,
+    background: Colors.black,
+    onBackground: Colors.white,
+    surface: Colors.black,
+    onSurface: Colors.white,
   );
 }
 

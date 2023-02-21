@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/utils/text_style.dart';
 
 import '../../const/custom_color.dart';
@@ -56,7 +57,7 @@ class TutorWidgetState extends State<TutorWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         child: Text(
                           "${widget.tutorData.name}",
                           style: bodyLargeBold(context),
@@ -74,21 +75,24 @@ class TutorWidgetState extends State<TutorWidget> {
                         ),
                       ),
                       Container(
-                        // child: RatingBar.builder(
-                        //   initialRating: 3,
-                        //   minRating: 1,
-                        //   direction: Axis.horizontal,
-                        //   allowHalfRating: true,
-                        //   itemCount: 5,
-                        //   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        //   itemBuilder: (context, _) => Icon(
-                        //     Icons.star,
-                        //     color: Colors.amber,
-                        //   ),
-                        //   onRatingUpdate: (rating) {
-                        //     print(rating);
-                        //   },
-                        // );,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: RatingBar(
+                          ignoreGestures: true,
+                          initialRating: 3,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          glow: false,
+                          itemPadding: EdgeInsets.symmetric(horizontal: 1),
+                          itemSize: 18,
+                          onRatingUpdate: (double value) {  },
+                          ratingWidget: RatingWidget(
+                            full: const Icon(Icons.star, color: Colors.amber),
+                            empty: const Icon(Icons.star_border, color: Colors.amber),
+                            half: const Icon(Icons.star_half, color: Colors.amber),
+                          ),
+                        ),
                       )
                     ],
                   ),

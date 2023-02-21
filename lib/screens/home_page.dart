@@ -6,6 +6,8 @@ import 'package:lettutor/screens/common_widgets/tutor_widget.dart';
 import 'package:lettutor/utils/text_style.dart';
 
 import '../const/custom_color.dart';
+import '../model/tutor_model.dart';
+import '../utils/utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,12 +35,18 @@ class _HomePageState extends State<HomePage> {
     'TOEFL',
   ];
 
+  List<TutorModel> tutorList = generateDummiesList();
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
                 padding: const EdgeInsets.fromLTRB(24, 60, 24, 36),
@@ -49,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                         begin: Alignment.topLeft,
                         end: const Alignment(0.75, 1))),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       'You have no upcoming lesson.',
@@ -149,11 +157,24 @@ class _HomePageState extends State<HomePage> {
               child: Text('Matched tutors',
                   style: headLineMedium(context)),
             ),
-            ListView.builder(
-              itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                const TutorWidget();
-                })
+            Container(
+              padding: const EdgeInsets.fromLTRB(24,0,24,0),
+              child: LimitedBox(
+                maxHeight: size.height*10,
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemCount: tutorList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return TutorWidget(tutorData: tutorList[index]);
+                  })
+              ),
+            )
+            // Container(
+            //   child: tutorList()
+            // )
           ],
         ),
       ),
@@ -171,5 +192,9 @@ class _HomePageState extends State<HomePage> {
         _txtController.clear();
       });
     }
+  }
+
+  void onClickFavorite() {
+
   }
 }

@@ -38,7 +38,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               child: Text(
                 'Reset Password',
                 style: headLineMedium(context)?.copyWith(
-                  color: CustomColor.lightBlue,
+                  color: CustomColor.originalBlue,
                 ),
                 textAlign: TextAlign.center,
               ),

@@ -45,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Text(
                 'Say hello to your English tutors',
                 style: headLineMedium(context)?.copyWith(
-                  color: CustomColor.lightBlue,
+                  color: CustomColor.originalBlue,
                 ),
                 textAlign: TextAlign.center,
               ),

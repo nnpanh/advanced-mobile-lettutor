@@ -75,7 +75,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             hintText: 'E.g. email@gmail.com',
                           ),
                           validator: (input) {
-                            if (input != null && !input.isValidEmail) {
+                            if (input != null && !input.trim().isValidEmail) {
                               return 'Email must follow standard format';
                             } else {
                               return null;
@@ -107,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           text: TextSpan(
                               children: [
                                 TextSpan(
-                                    text: "Don't remember your email? ", style: bodyLarge(context)),
+                                    text: "Don't remember your email?", style: bodyLarge(context)),
                                 TextSpan(
                                     text: ' Ask for help',
                                     style: bodyLarge(context)

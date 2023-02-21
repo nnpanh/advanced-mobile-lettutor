@@ -40,14 +40,14 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
         title: 'LetTutor',
-        theme: ThemeData.from(colorScheme: lightTheme()),
-        darkTheme: ThemeData.from(colorScheme: darkTheme()),
+        theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
+        darkTheme: ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
         themeMode: getDeviceThemeMode(),
         onGenerateRoute: MyRouter.generateRoute,
         home: AnimatedSplashScreen(
             duration: 2000,
             splash: const Image(image: AssetImage(ImagesPath.logo)),
-            nextScreen: const HomePage(),
+            nextScreen: const LoginPage(),
             // nextScreen: const LoginPage(),
             splashTransition: SplashTransition.fadeTransition,
             pageTransitionType: PageTransitionType.bottomToTop,

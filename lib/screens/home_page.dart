@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Container(
-                padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
+                padding: const EdgeInsets.fromLTRB(24, 60, 24, 36),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -43,6 +43,8 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 )),
+            Text('Find a tutor',
+            style: headLineMedium(context))
           ],
         ),
       ),

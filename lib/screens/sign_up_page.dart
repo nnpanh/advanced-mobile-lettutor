@@ -157,28 +157,39 @@ class _SignUpPageState extends State<SignUpPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                              child: Image.asset(
-                                ImagesPath.google,
-                                fit: BoxFit.contain,
-                                height: 36,
-                                width: 36,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: IconButton(
+                                icon: Image.asset(
+                                  ImagesPath.google,
+                                  fit: BoxFit.contain,
+                                ),
+                                iconSize: 36,
+                                onPressed: () {
+                                Navigator.pushNamed(context, MyRouter.home);
+                              },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                              child: Image.asset(
-                                ImagesPath.facebook,
-                                fit: BoxFit.contain,
-                                height: 36,
-                                width: 36,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: IconButton(
+                                icon: Image.asset(
+                                  ImagesPath.facebook,
+                                  fit: BoxFit.contain,
+                                ),
+                                iconSize: 36,
+                                onPressed: () {
+                                Navigator.pushNamed(context, MyRouter.home);
+                              },
                               ),
                             ),
                             Container(
-                                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                                child: const Icon(
-                                    FontAwesomeIcons.mobileScreen,
-                                    size: 36
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: IconButton(
+                                  icon: const Icon(FontAwesomeIcons.mobileScreen,),
+                                  iconSize: 36,
+                                  onPressed: () {
+                                  Navigator.pushNamed(context, MyRouter.home);
+                                },
                                 )
                             ),
                           ]

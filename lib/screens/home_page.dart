@@ -1,5 +1,9 @@
+import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
-import 'package:lettutor/screens/common_widgets/text_style.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lettutor/screens/common_widgets/tutor_widget.dart';
+import 'package:lettutor/utils/text_style.dart';
 
 import '../const/custom_color.dart';
 
@@ -11,6 +15,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int tag = 0;
+  final _txtController = TextEditingController();
+
+  // list of string options
+  List<String> options = [
+    'All categories',
+    'English for kids',
+    'English for Business',
+    'Conversational',
+    'Starters',
+    'Movers',
+    'Flyers',
+    'KET/PET',
+    'TOEIC',
+    'IELTS',
+    'TOEFL',
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +65,111 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 )),
-            Text('Find a tutor',
-            style: headLineMedium(context))
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.fromLTRB(24,24,24,18),
+              child: Text('Find a tutor',
+              style: headLineMedium(context)?.copyWith(
+                fontSize: 32
+              )),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: TextField(
+                keyboardType: TextInputType.text,
+                textAlign: TextAlign.start,
+                controller: _txtController,
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.search, color: Colors.black12,),
+                  contentPadding: EdgeInsets.all(18),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  ),
+                  hintText: 'Enter tutor name',
+                  hintStyle: TextStyle(color: Colors.black12)
+                ),
+                onChanged: (value) {
+                  onSearch("$value");
+                },
+              ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.fromLTRB(24,24,24,0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text('Select a specialities',
+                      style: headLineSmall(context)),
+                  IconButton(onPressed: () {
+                    resetFilter();
+                  }, icon: const Icon(FontAwesomeIcons.filterCircleXmark),
+                  iconSize: 18,)
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.fromLTRB(12,0,12,8),
+              child: ChipsChoice<int>.single(value: tag,
+                  choiceItems: C2Choice.listFrom<int, String>(
+                    source: options,
+                    value: (i, v) => i,
+                    label: (i, v) => v,
+                    // tooltip: (i, v) => v,
+                  ),
+                  wrapped: true,
+                  // choiceCheckmark: true,
+                  choiceStyle: C2ChipStyle.outlined(
+                    color: CustomColor.shadowBlue,
+                    // color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                    selectedStyle: C2ChipStyle.filled(
+                      color: Colors.blue,
+                      foregroundColor: Colors.white
+                    ),
+                  ),
+                  onChanged: (value){
+                setState(() {
+                  tag = value;
+                });
+              }),
+            ),
+            const Divider(
+              color: Colors.grey,
+              thickness: 1,
+              indent: 36,
+              endIndent: 36,
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.fromLTRB(24,24,24,0),
+              child: Text('Matched tutors',
+                  style: headLineMedium(context)),
+            ),
+            ListView.builder(
+              itemCount: 4,
+                itemBuilder: (BuildContext context, int index) {
+                const TutorWidget();
+                })
           ],
         ),
       ),
     );
+  }
+
+  void onSearch(String? input) {
+      print("$input");
+    }
+
+  void resetFilter() {
+    if (tag!=0 || _txtController.text.isNotEmpty) {
+      setState(() {
+        tag = 0;
+        _txtController.clear();
+      });
+    }
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lettutor/screens/home_page.dart';
 import 'package:lettutor/screens/login_page.dart';
-import 'package:lettutor/utils.dart';
+import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/const/image_path.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -37,22 +37,32 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-        title: 'LetTutor',
-        theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
-        darkTheme: ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
-        themeMode: getDeviceThemeMode(),
-        onGenerateRoute: MyRouter.generateRoute,
-        home: AnimatedSplashScreen(
-            duration: 2000,
-            splash: const Image(image: AssetImage(ImagesPath.logo)),
-            nextScreen: const LoginPage(),
-            // nextScreen: const LoginPage(),
-            splashTransition: SplashTransition.fadeTransition,
-            pageTransitionType: PageTransitionType.bottomToTop,
-            backgroundColor: Colors.white)
-        // initialRoute: MyRouter.splash,
-        );
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+          title: 'LetTutor',
+          theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
+          darkTheme: ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
+          themeMode: getDeviceThemeMode(),
+          onGenerateRoute: MyRouter.generateRoute,
+          home: AnimatedSplashScreen(
+              duration: 2000,
+              splash: const Image(image: AssetImage(ImagesPath.logo)),
+              nextScreen: const LoginPage(),
+              // nextScreen: const LoginPage(),
+              splashTransition: SplashTransition.fadeTransition,
+              pageTransitionType: PageTransitionType.bottomToTop,
+              backgroundColor: Colors.white)
+          // initialRoute: MyRouter.splash,
+          ),
+    );
   }
 }

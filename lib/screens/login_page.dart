@@ -5,8 +5,8 @@ import 'package:lettutor/const/image_path.dart';
 
 import '../config/router.dart';
 import '../const/custom_color.dart';
-import 'common_widgets/text_style.dart';
-import 'common_widgets/validation_extension.dart';
+import '../utils/text_style.dart';
+import '../utils/validation_extension.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

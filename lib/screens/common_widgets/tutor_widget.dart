@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/utils/text_style.dart';
 
-import '../../const/custom_color.dart';
+import '../../config/router.dart';
+import '../../const/const_value.dart';
 import '../../model/tutor_model.dart';
+import '../../utils/utils.dart';
 
 class TutorWidget extends StatefulWidget {
   const TutorWidget({super.key, required this.tutorData});
@@ -57,7 +59,8 @@ class TutorWidgetState extends State<TutorWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+                        // horizontal: 16, vertical: 12),
                         child: Text(
                           "${widget.tutorData.name}",
                           style: bodyLargeBold(context),
@@ -69,13 +72,13 @@ class TutorWidgetState extends State<TutorWidget> {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
                           "${widget.tutorData.nationality}",
-                          style: bodyLarge(context)?.copyWith(
-                            color: Colors.black38
-                          ),
+                          style: bodyLarge(context)
+                              ?.copyWith(color: Colors.black38),
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
                         child: RatingBar(
                           ignoreGestures: true,
                           initialRating: 3,
@@ -86,11 +89,13 @@ class TutorWidgetState extends State<TutorWidget> {
                           glow: false,
                           itemPadding: EdgeInsets.symmetric(horizontal: 1),
                           itemSize: 18,
-                          onRatingUpdate: (double value) {  },
+                          onRatingUpdate: (double value) {},
                           ratingWidget: RatingWidget(
                             full: const Icon(Icons.star, color: Colors.amber),
-                            empty: const Icon(Icons.star_border, color: Colors.amber),
-                            half: const Icon(Icons.star_half, color: Colors.amber),
+                            empty: const Icon(Icons.star_border,
+                                color: Colors.amber),
+                            half: const Icon(Icons.star_half,
+                                color: Colors.amber),
                           ),
                         ),
                       )
@@ -112,7 +117,8 @@ class TutorWidgetState extends State<TutorWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: Text(
                 "${widget.tutorData.description}",
-                style: bodyLarge(context)?.copyWith(height: 1.25),
+                style: bodyLarge(context)
+                    ?.copyWith(height: ConstValue.descriptionTextScale),
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 5,
@@ -123,29 +129,31 @@ class TutorWidgetState extends State<TutorWidget> {
               margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               // padding: const EdgeInsets.all(16),
               child: ActionChip(
-                padding: const EdgeInsets.fromLTRB(8,4,8,4),
+                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                 shape: const StadiumBorder(
                     side: BorderSide(
-                      width: 1,
-                      color: Colors.blue,
-                    )),
-                avatar: const Icon(Icons.calendar_month,size: 18, color: Colors.blue,),
+                  width: 1,
+                  color: Colors.blue,
+                )),
+                avatar: const Icon(
+                  Icons.calendar_month,
+                  size: 18,
+                  color: Colors.blue,
+                ),
                 label: const Text('Book'),
                 labelStyle: bodyLarge(context)?.copyWith(color: Colors.blue),
                 backgroundColor: Colors.transparent,
                 elevation: 1,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, MyRouter.tutorDetail,
+                      arguments:
+                          TutorDetailArguments(tutorModel: widget.tutorData));
+                },
               ),
             )
           ],
         ),
       ),
     );
-  }
-
-  double getDescriptionHeight(BuildContext context) {
-    double textHeight =
-        Theme.of(context).textTheme.bodyLarge?.fontSize?.toDouble() ?? 14;
-    return textHeight * 1.25 * 5 + 16 * 2;
   }
 }

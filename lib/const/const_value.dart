@@ -4,4 +4,9 @@ class ImagesPath {
   static const facebook = "assets/images/facebook.png";
   static const google = "assets/images/google.png";
   static const resetPassword = "assets/images/reset_pass.png";
+  static const youtube = "assets/images/youtube.jpeg";
+}
+
+class ConstValue {
+  static const descriptionTextScale = 1.5;
 }

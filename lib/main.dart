@@ -1,10 +1,9 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lettutor/screens/home_page.dart';
-import 'package:lettutor/screens/login_page.dart';
+import 'package:lettutor/const/const_value.dart';
+import 'package:lettutor/screens/authentication/login_page.dart';
 import 'package:lettutor/utils/utils.dart';
-import 'package:lettutor/const/image_path.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'config/router.dart';
@@ -47,7 +46,7 @@ class MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: false,
           title: 'LetTutor',
           theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
           darkTheme: ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),

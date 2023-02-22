@@ -1,12 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lettutor/const/image_path.dart';
 
-import '../config/router.dart';
-import '../const/custom_color.dart';
-import '../utils/text_style.dart';
-import '../utils/validation_extension.dart';
+import '../../config/router.dart';
+import '../../const/custom_color.dart';
+import '../../utils/text_style.dart';
+import '../../utils/validation_extension.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -27,7 +25,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Center(
         child: Column(
@@ -56,15 +53,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 child: Column(
                   children: [
                     Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 26),
-                      width: double.infinity,
-                      child: Text(
-                        'Email',
-                        style: bodyLargeBold(context),
-                        textAlign: TextAlign.start,
-                      )
-                    ),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 26),
+                        width: double.infinity,
+                        child: Text(
+                          'Email',
+                          style: bodyLargeBold(context),
+                          textAlign: TextAlign.start,
+                        )),
                     Container(
                         margin: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 24),
@@ -87,11 +83,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(24, 12, 24, 24),
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(16),
-                              elevation: 3,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-                          ),
+                            style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(16),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 Navigator.pushNamed(context, MyRouter.courses);
@@ -101,24 +97,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.fromLTRB(24,0,24,0),
+                      margin: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                       alignment: Alignment.center,
                       child: RichText(
-                          text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: "Don't remember your email?", style: bodyLarge(context)),
-                                TextSpan(
-                                    text: ' Ask for help',
-                                    style: bodyLarge(context)
-                                        ?.copyWith(color: Colors.blueAccent),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.pushNamed(context, MyRouter.login);
-                                      })
-                              ]
-                          )
-                      ),
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "Don't remember your email?",
+                            style: bodyLarge(context)),
+                        TextSpan(
+                            text: ' Ask for help',
+                            style: bodyLarge(context)
+                                ?.copyWith(color: Colors.blueAccent),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushNamed(context, MyRouter.login);
+                              })
+                      ])),
                     ),
                   ],
                 ))

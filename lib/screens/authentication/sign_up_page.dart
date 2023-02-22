@@ -1,21 +1,21 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lettutor/const/image_path.dart';
+import 'package:lettutor/const/const_value.dart';
 
-import '../config/router.dart';
-import '../const/custom_color.dart';
-import '../utils/text_style.dart';
-import '../utils/validation_extension.dart';
+import '../../config/router.dart';
+import '../../const/custom_color.dart';
+import '../../utils/text_style.dart';
+import '../../utils/validation_extension.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   late bool _passwordVisible;
 
@@ -63,15 +63,14 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 26),
-                      width: double.infinity,
-                      child: Text(
-                        'Email',
-                        style: bodyLargeBold(context),
-                        textAlign: TextAlign.start,
-                      )
-                    ),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 26),
+                        width: double.infinity,
+                        child: Text(
+                          'Email',
+                          style: bodyLargeBold(context),
+                          textAlign: TextAlign.start,
+                        )),
                     Container(
                         margin: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 24),
@@ -90,14 +89,13 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         )),
                     Container(
-                        margin: const EdgeInsets.fromLTRB(26,8,26,0),
+                        margin: const EdgeInsets.fromLTRB(26, 8, 26, 0),
                         width: double.infinity,
                         child: Text(
                           'Password',
                           style: bodyLargeBold(context),
                           textAlign: TextAlign.start,
-                        )
-                    ),
+                        )),
                     Container(
                         margin: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 24),
@@ -126,29 +124,16 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           },
                         )),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(24,0,24,12),
-                      alignment: Alignment.centerRight,
-                      child: RichText(
-                          text: TextSpan(
-                              text: 'Forgot your password?',
-                              style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.blueAccent),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushNamed(context, MyRouter.forgotPassword);
-                                })),
-                    ),
                     SizedBox(
                       width: double.infinity,
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(24, 12, 24, 24),
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(16),
-                              elevation: 3,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-                          ),
+                            style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(16),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 Navigator.pushNamed(context, MyRouter.home);
@@ -158,19 +143,20 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.fromLTRB(24,12,24,12),
-                      alignment: Alignment.center,
-                      child: Text('Or continue with',
-                              style: bodyLarge(context),
-                      )
-                    ),
+                        margin: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Or continue with',
+                          style: bodyLarge(context),
+                        )),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(24,12,24,0),
+                      padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: IconButton(
                                 icon: Image.asset(
                                   ImagesPath.google,
@@ -183,7 +169,8 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: IconButton(
                                 icon: Image.asset(
                                   ImagesPath.facebook,
@@ -196,37 +183,36 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 child: IconButton(
-                                  icon: const Icon(FontAwesomeIcons.mobileScreen,),
+                                  icon: const Icon(
+                                    FontAwesomeIcons.mobileScreen,
+                                  ),
                                   iconSize: 36,
                                   onPressed: () {
                                     Navigator.pushNamed(context, MyRouter.home);
                                   },
-                                )
-                            ),
-                          ]
-                      ),
+                                )),
+                          ]),
                     ),
                     Container(
-                      margin: const EdgeInsets.fromLTRB(24,24,24,24),
+                      margin: const EdgeInsets.fromLTRB(24, 24, 24, 24),
                       alignment: Alignment.center,
                       child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                            text: 'Not a member yet?', style: bodyLarge(context)),
-                            TextSpan(
-                              text: ' Sign up',
-                              style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.blueAccent),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushNamed(context, MyRouter.signUp);
-                                })
-                          ]
-                        )
-                      ),
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: 'Already a member?',
+                            style: bodyLarge(context)),
+                        TextSpan(
+                            text: ' Login',
+                            style: bodyLarge(context)
+                                ?.copyWith(color: Colors.blueAccent),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushNamed(context, MyRouter.login);
+                              })
+                      ])),
                     ),
                     SizedBox(height: size.height * 0.02),
                   ],

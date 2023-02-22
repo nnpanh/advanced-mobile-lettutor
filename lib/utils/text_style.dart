@@ -1,63 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/utils/utils.dart';
 
-// AppBar appBar(String title, BuildContext context) {
-//     return AppBar(
-//       backgroundColor: Theme.of(context).primaryColor,
-//       title: Text(title,
-//         style: const TextStyle(
-//         color: Colors.white,
-//         fontSize: 16,
-//         fontWeight: FontWeight.bold,
-//       ),
-//         textAlign: TextAlign.justify,
-//       ),
-//     );
-// }
 class DefaultColor {
   late Color fontColor = Colors.black;
   late Color backgroundColor = Colors.transparent;
 
-  DefaultColor(){
+  DefaultColor() {
     if (getDeviceThemeMode() == ThemeMode.light) {
-      fontColor =  Colors.black;
+      fontColor = Colors.black;
       backgroundColor = Colors.transparent;
     } else {
-      fontColor =  Colors.white;
+      fontColor = Colors.white;
       backgroundColor = Colors.black;
     }
   }
+}
 
+AppBar appBar(String title, BuildContext context) {
+  return AppBar(
+    backgroundColor: Theme.of(context).primaryColor,
+    titleSpacing: 0,
+    title: Text(
+      title,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+      textAlign: TextAlign.start,
+    ),
+  );
 }
 
 TextStyle? bodyLarge(BuildContext context) {
   return Theme.of(context).textTheme.bodyLarge?.copyWith(
-    fontWeight: FontWeight.w400,
-    color: DefaultColor().fontColor,
-    backgroundColor: DefaultColor().backgroundColor
-  );
+      fontWeight: FontWeight.w400,
+      color: DefaultColor().fontColor,
+      backgroundColor: DefaultColor().backgroundColor);
 }
 
 TextStyle? bodyLargeBold(BuildContext context) {
   return Theme.of(context).textTheme.bodyLarge?.copyWith(
-    fontWeight: FontWeight.w500,
-    color: DefaultColor().fontColor,
-    backgroundColor: DefaultColor().backgroundColor
-  );
+      fontWeight: FontWeight.w500,
+      color: DefaultColor().fontColor,
+      backgroundColor: DefaultColor().backgroundColor);
 }
 
 TextStyle? headLineSmall(BuildContext context) {
   return Theme.of(context).textTheme.headlineSmall?.copyWith(
       fontWeight: FontWeight.w500,
       color: DefaultColor().fontColor,
-      backgroundColor: DefaultColor().backgroundColor
-  );
+      backgroundColor: DefaultColor().backgroundColor);
 }
 
 TextStyle? headLineMedium(BuildContext context) {
   return Theme.of(context).textTheme.headlineMedium?.copyWith(
-    fontWeight: FontWeight.w500,
-    color: DefaultColor().fontColor,
-    backgroundColor: DefaultColor().backgroundColor
-  );
+      fontWeight: FontWeight.w500,
+      color: DefaultColor().fontColor,
+      backgroundColor: DefaultColor().backgroundColor);
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../const/themes.dart';
+import '../../const/themes.dart';
 
 final ThemeManager _themeManager = ThemeManager();
 
@@ -14,7 +14,6 @@ class CoursesPage extends StatefulWidget {
 }
 
 class _CoursesPageState extends State<CoursesPage> {
-
   @override
   void initState() {
     _counter = widget.counter;
@@ -22,11 +21,9 @@ class _CoursesPageState extends State<CoursesPage> {
     super.initState();
   }
 
-  themeListener(){
-    if(mounted){
-      setState(() {
-
-      });
+  themeListener() {
+    if (mounted) {
+      setState(() {});
     }
   }
 
@@ -62,7 +59,7 @@ class _CoursesPageState extends State<CoursesPage> {
         value: _themeManager.themeMode == ThemeMode.dark,
         onChanged: (newValue) {
           _themeManager.toggleTheme(newValue);
-          },
+        },
       ),
     );
   }

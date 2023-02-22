@@ -1,13 +1,12 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/screens/common_widgets/tutor_widget.dart';
 import 'package:lettutor/utils/text_style.dart';
 
-import '../const/custom_color.dart';
-import '../model/tutor_model.dart';
-import '../utils/utils.dart';
+import '../../const/custom_color.dart';
+import '../../model/tutor_model.dart';
+import '../../utils/utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,11 +74,9 @@ class _HomePageState extends State<HomePage> {
                 )),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24,24,24,18),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 18),
               child: Text('Find a tutor',
-              style: headLineMedium(context)?.copyWith(
-                fontSize: 32
-              )),
+                  style: headLineMedium(context)?.copyWith(fontSize: 32)),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -88,14 +85,16 @@ class _HomePageState extends State<HomePage> {
                 textAlign: TextAlign.start,
                 controller: _txtController,
                 decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.search, color: Colors.black12,),
-                  contentPadding: EdgeInsets.all(18),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  ),
-                  hintText: 'Enter tutor name',
-                  hintStyle: TextStyle(color: Colors.black12)
-                ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.black12,
+                    ),
+                    contentPadding: EdgeInsets.all(18),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    ),
+                    hintText: 'Enter tutor name',
+                    hintStyle: TextStyle(color: Colors.black12)),
                 onChanged: (value) {
                   onSearch("$value");
                 },
@@ -103,23 +102,26 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24,24,24,0),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('Select a specialities',
-                      style: headLineSmall(context)),
-                  IconButton(onPressed: () {
-                    resetFilter();
-                  }, icon: const Icon(FontAwesomeIcons.filterCircleXmark),
-                  iconSize: 18,)
+                  Text('Select a specialities', style: headLineSmall(context)),
+                  IconButton(
+                    onPressed: () {
+                      resetFilter();
+                    },
+                    icon: const Icon(FontAwesomeIcons.filterCircleXmark),
+                    iconSize: 18,
+                  )
                 ],
               ),
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(12,0,12,8),
-              child: ChipsChoice<int>.single(value: tag,
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+              child: ChipsChoice<int>.single(
+                  value: tag,
                   choiceItems: C2Choice.listFrom<int, String>(
                     source: options,
                     value: (i, v) => i,
@@ -135,15 +137,13 @@ class _HomePageState extends State<HomePage> {
                       Radius.circular(25),
                     ),
                     selectedStyle: C2ChipStyle.filled(
-                      color: Colors.blue,
-                      foregroundColor: Colors.white
-                    ),
+                        color: Colors.blue, foregroundColor: Colors.white),
                   ),
-                  onChanged: (value){
-                setState(() {
-                  tag = value;
-                });
-              }),
+                  onChanged: (value) {
+                    setState(() {
+                      tag = value;
+                    });
+                  }),
             ),
             const Divider(
               color: Colors.grey,
@@ -153,24 +153,22 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24,24,24,0),
-              child: Text('Matched tutors',
-                  style: headLineMedium(context)),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+              child: Text('Matched tutors', style: headLineMedium(context)),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(24,0,24,0),
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
               child: LimitedBox(
-                maxHeight: size.height*10,
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemCount: tutorList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TutorWidget(tutorData: tutorList[index]);
-                  })
-              ),
+                  maxHeight: size.height * 10,
+                  child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: tutorList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return TutorWidget(tutorData: tutorList[index]);
+                      })),
             )
             // Container(
             //   child: tutorList()
@@ -182,11 +180,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onSearch(String? input) {
-      print("$input");
-    }
+    print("$input");
+  }
 
   void resetFilter() {
-    if (tag!=0 || _txtController.text.isNotEmpty) {
+    if (tag != 0 || _txtController.text.isNotEmpty) {
       setState(() {
         tag = 0;
         _txtController.clear();
@@ -194,7 +192,5 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void onClickFavorite() {
-
-  }
+  void onClickFavorite() {}
 }

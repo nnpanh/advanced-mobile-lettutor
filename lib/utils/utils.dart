@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:lettutor/const/const_value.dart';
+import 'package:lettutor/model/review_model.dart';
 
 import '../model/tutor_model.dart';
 
@@ -24,6 +25,28 @@ List<String> generateDayList() {
   return ['21/2 (Today)', '22/2', '23/2', '24/2', '25/2', '26/2', '27/2'];
 }
 
+List<ReviewModel> generateReviewList() {
+  var sampleReview = ReviewModel(
+      "Kinn",
+      "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand",
+      "Lorem Ipsum is simply dummy text of the printing and typesett",
+      3.5,
+      DateTime.now());
+  var sampleReview2 = ReviewModel(
+      "Geto",
+      "https://www.linkpicture.com/q/306931717_180342937860292_6628553018679771531_n.jpg",
+      "Lorem Ipsum is simply dummy text of the printing and typesett",
+      2,
+      DateTime.now());
+
+  List<ReviewModel> reviewList = [];
+  for (var i = 10; i >= 1; i--) {
+    reviewList.add(sampleReview);
+    reviewList.add(sampleReview2);
+  }
+  return reviewList;
+}
+
 List<TutorModel> generateDummiesList() {
   List<TutorModel> tutorList = [];
   var sampleTutor = TutorModel(
@@ -33,7 +56,7 @@ List<TutorModel> generateDummiesList() {
       true,
       ['IELTS', 'TOEIC'],
       "https://www.linkpicture.com/q/306931717_180342937860292_6628553018679771531_n.jpg",
-      'Vietname');
+      'Vietnamese');
   var sampleTutor2 = TutorModel(
       'Shuumatsu no Valkyrie',
       "Very short intro",
@@ -41,7 +64,7 @@ List<TutorModel> generateDummiesList() {
       false,
       ['IELTS', 'TOEIC'],
       "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand",
-      'Vietname');
+      'Vietnamese');
   for (var i = 3; i >= 1; i--) {
     tutorList.add(sampleTutor);
     tutorList.add(sampleTutor2);

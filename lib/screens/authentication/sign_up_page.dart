@@ -1,10 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lettutor/const/const_value.dart';
 
 import '../../config/router.dart';
-import '../../const/custom_color.dart';
+import '../../const/export_const.dart';
 import '../../utils/text_style.dart';
 import '../../utils/validation_extension.dart';
 

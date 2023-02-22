@@ -1,11 +1,11 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lettutor/screens/common_widgets/tutor_widget.dart';
+import 'package:lettutor/screens/tutors/widgets/tutor_widget.dart';
 import 'package:lettutor/utils/text_style.dart';
 
-import '../../const/custom_color.dart';
-import '../../model/tutor_model.dart';
+import '../../const/export_const.dart';
+import '../../model/export_model.dart';
 import '../../utils/utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -108,9 +108,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text('Select a specialities', style: headLineSmall(context)),
                   IconButton(
-                    onPressed: () {
-                      resetFilter();
-                    },
+                    onPressed: resetFilter,
                     icon: const Icon(FontAwesomeIcons.filterCircleXmark),
                     iconSize: 18,
                   )

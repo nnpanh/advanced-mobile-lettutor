@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/utils/text_style.dart';
 
-import '../../config/router.dart';
-import '../../const/const_value.dart';
-import '../../model/tutor_model.dart';
-import '../../utils/utils.dart';
+import '../../../config/router.dart';
+import '../../../const/const_value.dart';
+import '../../../model/tutor_model.dart';
+import '../../../utils/utils.dart';
 
 class TutorWidget extends StatefulWidget {
   const TutorWidget({super.key, required this.tutorData});
@@ -17,14 +17,6 @@ class TutorWidget extends StatefulWidget {
 }
 
 class TutorWidgetState extends State<TutorWidget> {
-  // late TutorModel tutorState;
-  //
-  // @override
-  // void initState() {
-  //   tutorState = widget.initData;
-  //   super.initState();
-  // }
-
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,

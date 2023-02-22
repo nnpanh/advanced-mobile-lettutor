@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../config/router.dart';
-import '../../const/custom_color.dart';
+import '../../const/export_const.dart';
 import '../../utils/text_style.dart';
 import '../../utils/validation_extension.dart';
 

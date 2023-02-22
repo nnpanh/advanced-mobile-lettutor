@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/screens/common_widgets/title_and_chips_schedule.dart';
+import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:readmore/readmore.dart';
 
-import '../../const/const_value.dart';
-import '../../model/tutor_model.dart';
+import '../../const/export_const.dart';
+import '../../model/export_model.dart';
 import '../../utils/text_style.dart';
+import '../common_widgets/dialogs/widget_dialog.dart';
 import '../common_widgets/title_and_chips.dart';
+import 'widgets/review_dialog_content.dart';
 
 class TutorDetailPage extends StatefulWidget {
   const TutorDetailPage({super.key, required this.tutorModel});
@@ -161,7 +164,9 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            onPressedReport(size, tutorData.name);
+                          },
                           icon: const Icon(
                             Icons.report_outlined,
                             color: Colors.blue,
@@ -177,7 +182,9 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            onPressedReviews(size);
+                          },
                           icon: const Icon(
                             Icons.reviews_outlined,
                             color: Colors.blue,
@@ -205,10 +212,29 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                   size: size.width,
                   options: generateDayList(),
                   title: 'Available schedule',
-                )
+                ),
               ],
             ),
           ),
         ));
+  }
+
+  void onPressedReport(Size size, String? tutorName) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return WidgetDialog(
+              title: "Report $tutorName",
+              widget: ReportDialogContent(size: size));
+        });
+  }
+
+  void onPressedReviews(Size size) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return WidgetDialog(
+              title: 'Reviews', widget: ReviewDialogContent(size: size));
+        });
   }
 }

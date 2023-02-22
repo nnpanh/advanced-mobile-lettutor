@@ -16,12 +16,14 @@ class ReviewDialogContent extends StatelessWidget {
     return SizedBox(
       height: size.height * 0.5, // Change as per your requirement
       width: size.width * 0.8, // Change as per your requirement
-      child: Column(
-        children: [
-          ReviewWidget(
-            reviewData: listReview[0],
-          )
-        ],
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: listReview.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ReviewWidget(
+            reviewData: listReview[index],
+          );
+        },
       ),
     );
   }

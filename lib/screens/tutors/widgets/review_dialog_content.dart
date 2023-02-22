@@ -20,8 +20,11 @@ class ReviewDialogContent extends StatelessWidget {
         shrinkWrap: true,
         itemCount: listReview.length,
         itemBuilder: (BuildContext context, int index) {
-          return ReviewWidget(
-            reviewData: listReview[index],
+          return Container(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: ReviewWidget(
+              reviewData: listReview[index],
+            ),
           );
         },
       ),

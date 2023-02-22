@@ -5,8 +5,10 @@ import '../../utils/text_style.dart';
 class ChipButton extends StatelessWidget {
   final VoidCallback callback;
   final String title;
+  final IconData? icon;
+  final bool hasIcon;
 
-  const ChipButton({super.key, required this.callback, required this.title});
+  const ChipButton({super.key, required this.callback, required this.title, required this.icon, required this.hasIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +19,11 @@ class ChipButton extends StatelessWidget {
         width: 1,
         color: Colors.blue,
       )),
-      avatar: const Icon(
-        Icons.calendar_month,
+      avatar: hasIcon? Icon(
+        icon,
         size: 18,
         color: Colors.blue,
-      ),
+      ):null,
       label: Text(title),
       labelStyle: bodyLarge(context)?.copyWith(color: Colors.blue),
       backgroundColor: Colors.transparent,

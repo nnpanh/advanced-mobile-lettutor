@@ -15,6 +15,7 @@ ThemeMode getDeviceThemeMode() {
   }
 }
 
+//Heigh x 5 lines + padding = 16x2
 double getDescriptionHeight(BuildContext context) {
   double textHeight =
       Theme.of(context).textTheme.bodyLarge?.fontSize?.toDouble() ?? 14;

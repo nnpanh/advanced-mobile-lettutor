@@ -6,6 +6,7 @@ import '../../../config/router.dart';
 import '../../../const/const_value.dart';
 import '../../../model/tutor_model.dart';
 import '../../../utils/utils.dart';
+import '../../common_widgets/chip_button.dart';
 
 class TutorWidget extends StatefulWidget {
   const TutorWidget({super.key, required this.tutorData});
@@ -120,28 +121,13 @@ class TutorWidgetState extends State<TutorWidget> {
               alignment: Alignment.bottomRight,
               margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               // padding: const EdgeInsets.all(16),
-              child: ActionChip(
-                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                shape: const StadiumBorder(
-                    side: BorderSide(
-                  width: 1,
-                  color: Colors.blue,
-                )),
-                avatar: const Icon(
-                  Icons.calendar_month,
-                  size: 18,
-                  color: Colors.blue,
-                ),
-                label: const Text('Book'),
-                labelStyle: bodyLarge(context)?.copyWith(color: Colors.blue),
-                backgroundColor: Colors.transparent,
-                elevation: 1,
-                onPressed: () {
+              child: ChipButton(title: 'Book', icon: Icons.calendar_month, hasIcon: true,
+                callback: () {
                   Navigator.pushNamed(context, MyRouter.tutorDetail,
-                      arguments:
-                          TutorDetailArguments(tutorModel: widget.tutorData));
+                              arguments:
+                                  TutorDetailArguments(tutorModel: widget.tutorData));
                 },
-              ),
+              )
             )
           ],
         ),

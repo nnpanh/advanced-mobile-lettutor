@@ -9,4 +9,10 @@ class ImagesPath {
 
 class ConstValue {
   static const descriptionTextScale = 1.5;
+  static const courseNameTextScale = 1.75;
+}
+
+class ChipType {
+  static const outlinedChip = "outlinedChip";
+  static const filledChip = "filledChip";
 }

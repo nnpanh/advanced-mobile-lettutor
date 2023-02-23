@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/utils/text_style.dart';
 
-import '../../../model/export_model.dart';
-import '../../../utils/utils.dart';
+import '../../../const/export_const.dart';
 import '../../common_widgets/chip_button.dart';
 
 class ReportModel {
@@ -26,9 +25,9 @@ class ReportDialogContentState extends State<ReportDialogContent> {
   @override
   void initState() {
     listReport = [
-      ReportModel("This tutor is pretending to be someone else/This tutor profile is fake.", false),
-      ReportModel("This tutor' courses is from someone else.", false),
-      ReportModel("This tutor is harassing/annoying me.", false),
+      ReportModel("This tutor is pretending to be someone else", false),
+      ReportModel("This tutor's profile information is fake", false),
+      ReportModel("This tutor is harassing me", false),
     ];
     super.initState();
   }
@@ -58,22 +57,39 @@ class ReportDialogContentState extends State<ReportDialogContent> {
             ],
           ),
         ),
-        ReportCheckList(report: listReport[0],onChanged: () {
-          setState(() {
-            onPressed(0);
-          });
-          },),
-        ReportCheckList(report: listReport[1],onChanged: () {
-          setState(() {
-            onPressed(1);
-          });
-        },),
-        ReportCheckList(report: listReport[2],onChanged: () {
-          setState(() {
-            onPressed(2);
-          });
-        },),
-        ChipButton(callback: () {}, title: 'Send', hasIcon: false, icon: null,)
+        ReportCheckList(
+          report: listReport[0],
+          onChanged: () {
+            setState(() {
+              onPressed(0);
+            });
+          },
+        ),
+        ReportCheckList(
+          report: listReport[1],
+          onChanged: () {
+            setState(() {
+              onPressed(1);
+            });
+          },
+        ),
+        ReportCheckList(
+          report: listReport[2],
+          onChanged: () {
+            setState(() {
+              onPressed(2);
+            });
+          },
+        ),
+        ChipButton(
+          callback: () {
+            Navigator.of(context).pop();
+          },
+          title: 'Send',
+          hasIcon: false,
+          icon: null,
+          chipType: ChipType.filledChip,
+        )
       ],
     );
   }
@@ -86,7 +102,8 @@ class ReportDialogContentState extends State<ReportDialogContent> {
 }
 
 class ReportCheckList extends StatelessWidget {
-  const ReportCheckList({super.key, required this.report, required this.onChanged});
+  const ReportCheckList(
+      {super.key, required this.report, required this.onChanged});
   final ReportModel report;
   final VoidCallback onChanged;
 
@@ -94,10 +111,10 @@ class ReportCheckList extends StatelessWidget {
   Widget build(BuildContext context) {
     return CheckboxListTile(
       title: Text(report.content),
-          value: report.isChecked,
-          onChanged: (bool? value) {
-            onChanged();
-          },
-        );
+      value: report.isChecked,
+      onChanged: (bool? value) {
+        onChanged();
+      },
+    );
   }
 }

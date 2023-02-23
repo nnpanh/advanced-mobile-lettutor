@@ -1,12 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:lettutor/screens/common_widgets/title_and_chips_schedule.dart';
 import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
-import 'package:lettutor/utils/utils.dart';
 import 'package:readmore/readmore.dart';
 
+import '../../config/router.dart';
 import '../../const/export_const.dart';
-import '../../model/export_model.dart';
+import '../../model/tutor_model.dart';
 import '../../utils/text_style.dart';
 import '../common_widgets/dialogs/widget_dialog.dart';
 import '../common_widgets/title_and_chips.dart';
@@ -117,14 +117,15 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: ReadMoreText(
                     "${tutorData.description}",
                     trimLines: 4,
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
-                        height: ConstValue.descriptionTextScale,
-                        fontStyle: FontStyle.italic),
+                      color: CustomColor.greyTextColor,
+                      height: ConstValue.descriptionTextScale,
+                    ),
                     colorClickableText: Colors.blue,
                     trimMode: TrimMode.Line,
                     trimCollapsedText: 'Show more',
@@ -208,10 +209,90 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                     options: tutorData.specialities, title: 'Languages'),
                 TitleAndChips(
                     options: tutorData.specialities, title: 'Specialities'),
-                TitleAndChipsSchedule(
-                  size: size.width,
-                  options: generateDayList(),
-                  title: 'Available schedule',
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child:
+                      Text('Suggested Courses', style: headLineSmall(context)),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                  child: LimitedBox(
+                    maxHeight: double.maxFinite,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: tutorData.suggestedCourses.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var course = tutorData.suggestedCourses[index];
+                        return LimitedBox(
+                          maxWidth: double.maxFinite,
+                          maxHeight: double.maxFinite,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(12, 8, 12, 16),
+                            child: RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                text: "•  ${course.courseName}   ",
+                                style: bodyLarge(context)?.copyWith(
+                                    fontSize: 16,
+                                    height: ConstValue.courseNameTextScale),
+                              ),
+                              TextSpan(
+                                  text: 'View',
+                                  style: bodyLarge(context)
+                                      ?.copyWith(color: Colors.blueAccent),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushNamed(
+                                          context, MyRouter.courses);
+                                    })
+                            ])),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: Text('Interests', style: headLineSmall(context)),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+                  child: ReadMoreText(
+                    "${tutorData.interests}",
+                    trimLines: 20,
+                    textAlign: TextAlign.justify,
+                    style: bodyLarge(context)?.copyWith(
+                      color: CustomColor.greyTextColor,
+                      height: ConstValue.descriptionTextScale,
+                    ),
+                    colorClickableText: Colors.blue,
+                    trimMode: TrimMode.Line,
+                    trimCollapsedText: 'Show more',
+                    trimExpandedText: ' Show less',
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: Text('Teaching experience',
+                      style: headLineSmall(context)),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+                  child: ReadMoreText(
+                    "${tutorData.teachingExperience}",
+                    trimLines: 20,
+                    textAlign: TextAlign.justify,
+                    style: bodyLarge(context)?.copyWith(
+                      color: CustomColor.greyTextColor,
+                      height: ConstValue.descriptionTextScale,
+                    ),
+                    colorClickableText: Colors.blue,
+                    trimMode: TrimMode.Line,
+                    trimCollapsedText: 'Show more',
+                    trimExpandedText: ' Show less',
+                  ),
                 ),
               ],
             ),

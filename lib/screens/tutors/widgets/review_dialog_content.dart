@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../const/export_const.dart';
-import '../../../model/export_model.dart';
+import '../../../model/review_model.dart';
 import '../../../utils/text_style.dart';
 import '../../../utils/utils.dart';
 

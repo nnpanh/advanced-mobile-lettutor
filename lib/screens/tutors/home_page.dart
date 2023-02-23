@@ -5,7 +5,7 @@ import 'package:lettutor/screens/tutors/widgets/tutor_widget.dart';
 import 'package:lettutor/utils/text_style.dart';
 
 import '../../const/export_const.dart';
-import '../../model/export_model.dart';
+import '../../model/tutor_model.dart';
 import '../../utils/utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
               child: LimitedBox(
-                  maxHeight: size.height * 10,
+                  maxHeight: double.maxFinite,
                   child: ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,

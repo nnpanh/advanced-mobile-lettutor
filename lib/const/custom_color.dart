@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'hex_color.dart';
 
-
 class CustomColor {
-
   static final HexColor originalBlue = HexColor("#0471ee");
   static final HexColor brightBlue = HexColor("#F2FAFF");
   static final HexColor tealBlue = HexColor("#00D7ED");
@@ -12,6 +11,6 @@ class CustomColor {
   static final HexColor darkBlue = HexColor("#001777");
 
   //background
-  static const Color mediumGreyColor = Color.fromRGBO(34, 49, 63, 0.7);
+  static const Color greyTextColor = Colors.black38;
+  static const Color darkGreyTextColor = Colors.black87;
 }
-

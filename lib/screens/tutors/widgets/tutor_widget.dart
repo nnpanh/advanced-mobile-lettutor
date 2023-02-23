@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/utils/text_style.dart';
 
 import '../../../config/router.dart';
-import '../../../const/const_value.dart';
+import '../../../const/export_const.dart';
 import '../../../model/tutor_model.dart';
 import '../../../utils/utils.dart';
 import '../../common_widgets/chip_button.dart';
@@ -56,9 +56,10 @@ class TutorWidgetState extends State<TutorWidget> {
                         // horizontal: 16, vertical: 12),
                         child: Text(
                           "${widget.tutorData.name}",
-                          style: bodyLargeBold(context),
+                          style: bodyLargeBold(context)?.copyWith(
+                              height: ConstValue.descriptionTextScale),
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                          maxLines: 2,
                         ),
                       ),
                       Container(
@@ -66,7 +67,7 @@ class TutorWidgetState extends State<TutorWidget> {
                         child: Text(
                           "${widget.tutorData.nationality}",
                           style: bodyLarge(context)
-                              ?.copyWith(color: Colors.black38),
+                              ?.copyWith(color: CustomColor.greyTextColor),
                         ),
                       ),
                       Container(
@@ -107,28 +108,33 @@ class TutorWidgetState extends State<TutorWidget> {
             ),
             Container(
               height: getDescriptionHeight(context),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: Text(
                 "${widget.tutorData.description}",
-                style: bodyLarge(context)
-                    ?.copyWith(height: ConstValue.descriptionTextScale),
-                textAlign: TextAlign.start,
+                style: bodyLarge(context)?.copyWith(
+                    height: ConstValue.descriptionTextScale,
+                    color: CustomColor.greyTextColor),
+                textAlign: TextAlign.justify,
+                softWrap: true,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 5,
               ),
             ),
             Container(
-              alignment: Alignment.bottomRight,
-              margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-              // padding: const EdgeInsets.all(16),
-              child: ChipButton(title: 'Book', icon: Icons.calendar_month, hasIcon: true,
-                callback: () {
-                  Navigator.pushNamed(context, MyRouter.tutorDetail,
-                              arguments:
-                                  TutorDetailArguments(tutorModel: widget.tutorData));
-                },
-              )
-            )
+                alignment: Alignment.bottomRight,
+                margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                // padding: const EdgeInsets.all(16),
+                child: ChipButton(
+                  title: 'Book',
+                  icon: Icons.calendar_month,
+                  hasIcon: true,
+                  chipType: ChipType.outlinedChip,
+                  callback: () {
+                    Navigator.pushNamed(context, MyRouter.tutorDetail,
+                        arguments:
+                            TutorDetailArguments(tutorModel: widget.tutorData));
+                  },
+                ))
           ],
         ),
       ),

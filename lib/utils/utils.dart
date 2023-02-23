@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/model/review_model.dart';
 
+import '../config/router.dart';
 import '../model/course_model.dart';
 import '../model/tutor_model.dart';
 
@@ -25,6 +26,20 @@ double getDescriptionHeight(BuildContext context) {
 
 List<String> generateDayList() {
   return ['21/2 (Today)', '22/2', '23/2', '24/2', '25/2', '26/2', '27/2'];
+}
+
+void popUntilHomeAndRefresh(BuildContext context) {
+  int reachedHome = 0;
+  Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) {
+    if (reachedHome == 1) {
+      return true;
+    } else {
+      if (route.settings.name == MyRouter.home) {
+        reachedHome++;
+      }
+      return false;
+    }
+  });
 }
 
 List<ReviewModel> generateReviewList() {

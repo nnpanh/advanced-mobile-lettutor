@@ -88,7 +88,7 @@ class ReportDialogContentState extends State<ReportDialogContent> {
           title: 'Send',
           hasIcon: false,
           icon: null,
-          chipType: ChipType.filledChip,
+          chipType: ButtonType.filledButton,
         )
       ],
     );

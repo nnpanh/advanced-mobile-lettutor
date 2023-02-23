@@ -6,6 +6,7 @@ import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../utils/text_style.dart';
 import '../../utils/validation_extension.dart';
+import '../common_widgets/elevated_button.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -127,18 +128,15 @@ class _SignUpPageState extends State<SignUpPage> {
                       width: double.infinity,
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(24, 12, 24, 24),
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(16),
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            onPressed: () {
+                        child: CustomElevatedButton(
+                            title: 'Sign up',
+                            callback: () {
                               if (_formKey.currentState!.validate()) {
                                 Navigator.pushNamed(context, MyRouter.home);
                               }
                             },
-                            child: const Text('Login')),
+                            buttonType: ButtonType.filledButton,
+                            radius: 10),
                       ),
                     ),
                     Container(

@@ -9,6 +9,7 @@ import '../../const/export_const.dart';
 import '../../model/tutor_model.dart';
 import '../../utils/text_style.dart';
 import '../common_widgets/dialogs/widget_dialog.dart';
+import '../common_widgets/elevated_button.dart';
 import '../common_widgets/title_and_chips.dart';
 import 'widgets/review_dialog_content.dart';
 
@@ -38,7 +39,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
-            padding: const EdgeInsets.fromLTRB(16, 16, 6, 16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -69,7 +70,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(16, 12, 14, 12),
+                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
                             child: Text(
                               "${tutorData.name}",
                               style: bodyLargeBold(context)?.copyWith(
@@ -228,7 +229,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                           maxWidth: double.maxFinite,
                           maxHeight: double.maxFinite,
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(12, 8, 12, 16),
+                            padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
                             child: RichText(
                                 text: TextSpan(children: [
                               TextSpan(
@@ -292,6 +293,21 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                     trimMode: TrimMode.Line,
                     trimCollapsedText: 'Show more',
                     trimExpandedText: ' Show less',
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    child: CustomElevatedButton(
+                        title: 'Book this tutor',
+                        buttonType: ButtonType.filledButton,
+                        callback: () {
+                          Navigator.pushNamed(context, MyRouter.bookTutor,
+                              arguments:
+                                  TutorDetailArguments(tutorModel: tutorData));
+                        },
+                        radius: 15),
                   ),
                 ),
               ],

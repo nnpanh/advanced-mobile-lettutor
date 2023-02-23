@@ -12,7 +12,8 @@ class ConstValue {
   static const courseNameTextScale = 1.75;
 }
 
-class ChipType {
-  static const outlinedChip = "outlinedChip";
-  static const filledChip = "filledChip";
+class ButtonType {
+  static const outlinedButton = "outlinedChip";
+  static const filledButton = "filledChip";
+  static const confirmButton = "confirmButton";
 }

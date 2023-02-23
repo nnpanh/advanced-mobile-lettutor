@@ -128,7 +128,7 @@ class TutorWidgetState extends State<TutorWidget> {
                   title: 'Book',
                   icon: Icons.calendar_month,
                   hasIcon: true,
-                  chipType: ChipType.outlinedChip,
+                  chipType: ButtonType.outlinedButton,
                   callback: () {
                     Navigator.pushNamed(context, MyRouter.tutorDetail,
                         arguments:

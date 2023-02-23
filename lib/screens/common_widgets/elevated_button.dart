@@ -41,7 +41,6 @@ class CustomElevatedButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(16),
-        elevation: 3,
         foregroundColor: Colors.blue,
         backgroundColor: Colors.white,
         shape: const StadiumBorder(

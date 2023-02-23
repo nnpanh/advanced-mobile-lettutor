@@ -17,12 +17,11 @@ class ConfirmDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var maxLines = 3;
 
     return AlertDialog(
-      title: const Column(
+      title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: const [
           Text(
             'Announcement',
             maxLines: 1,
@@ -39,23 +38,26 @@ class ConfirmDialog extends StatelessWidget {
         ],
       ),
       content: SizedBox(
-        width: size.width * 0.8,
-        height: 16 * maxLines * ConstValue.descriptionTextScale,
+        width: size.width*0.8,
         child: Text(
           content,
+          softWrap: true,
           style: bodyLarge(context)
-              ?.copyWith(fontSize: 16, height: ConstValue.descriptionTextScale),
-          maxLines: maxLines,
+              ?.copyWith(fontSize: 16, height: ConstValue.descriptionTextScale,),
           overflow: TextOverflow.ellipsis,
+          maxLines: 3,
         ),
       ),
       actions: <Widget>[
-        ChipButton(
-          callback: onClose,
-          title: 'Close',
-          hasIcon: false,
-          icon: null,
-          chipType: ButtonType.filledButton,
+        Container(
+          padding: const EdgeInsets.only(right: 8),
+          child: ChipButton(
+            callback: onClose,
+            title: 'Close',
+            hasIcon: false,
+            icon: null,
+            chipType: ButtonType.confirmButton,
+          ),
         )
       ],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),

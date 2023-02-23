@@ -25,6 +25,10 @@ class ChipButton extends StatelessWidget {
         return outlinedChip(context);
       case ButtonType.filledButton:
         return filledChip(context);
+      case ButtonType.confirmButton:
+        return Container(
+          padding: const EdgeInsets.fromLTRB(0, 0, 8, 8),
+            child: confirmChip(context));
       default:
         return outlinedChip(context);
     }
@@ -47,6 +51,25 @@ class ChipButton extends StatelessWidget {
       onPressed: callback,
     );
   }
+
+  ActionChip confirmChip(BuildContext context) {
+    return ActionChip(
+        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+        avatar: hasIcon
+            ? Icon(
+          icon,
+          size: 18,
+          color: Colors.blue,
+        )
+            : null,
+        label: Text(title),
+        labelStyle: bodyLarge(context)?.copyWith(color: Colors.white),
+        backgroundColor: Colors.blue,
+        elevation: 0,
+        onPressed: callback,
+    );
+  }
+
 
   ActionChip outlinedChip(BuildContext context) {
     return ActionChip(

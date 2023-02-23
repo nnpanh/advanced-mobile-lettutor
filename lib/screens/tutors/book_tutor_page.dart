@@ -6,6 +6,7 @@ import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../model/tutor_model.dart';
 import '../../utils/text_style.dart';
+import '../../utils/utils.dart';
 import '../common_widgets/dialogs/confirm_dialog.dart';
 import '../common_widgets/dialogs/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';
@@ -21,10 +22,14 @@ class BookTutorPage extends StatefulWidget {
 
 class _BookTutorPageState extends State<BookTutorPage> {
   late TutorModel tutorData;
+  late String date;
+  late String time;
 
   @override
   void initState() {
     tutorData = widget.tutorModel;
+    date = "Tuesday, 20/11/2023";
+    time = "01:30-02:30";
     super.initState();
   }
 
@@ -53,8 +58,24 @@ class _BookTutorPageState extends State<BookTutorPage> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: CustomElevatedButton(
-                        title: 'Tuesday, 20/11/2023',
-                        callback: () {},
+                        title: date,
+                        callback: () {
+                          Future<DateTime?> dateTime = showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2025),
+                          );
+
+
+                          dateTime.then((value) => {
+                            if (value!=null){
+                              setState(){
+                                date = "Tuesday, ${value.day}/${value.month}/${value.year}";
+                              }
+                            }
+                          });
+                        },
                         buttonType: ButtonType.outlinedButton,
                         radius: 15,
                         icon: Icons.calendar_month),
@@ -66,7 +87,7 @@ class _BookTutorPageState extends State<BookTutorPage> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: CustomElevatedButton(
-                        title: '01:30 - 02:30',
+                        title: time,
                         callback: () {},
                         buttonType: ButtonType.outlinedButton,
                         radius: 15,
@@ -129,8 +150,8 @@ class _BookTutorPageState extends State<BookTutorPage> {
                                   size: size,
                                   content: "Book this tutor successfully.",
                                   onClose: () {
-                                    Navigator.of(context).pop();
-                                    // popUntilHomeAndRefresh(context);
+                                    // Navigator.of(context).pop();
+                                    popUntilHomeAndRefresh(context);
                                   },
                                 );
                               });

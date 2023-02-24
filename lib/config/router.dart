@@ -6,6 +6,7 @@ import 'package:lettutor/screens/authentication/login_page.dart';
 import 'package:lettutor/screens/authentication/sign_up_page.dart';
 
 import '../screens/courses/course_detail_page.dart';
+import '../screens/courses/select_page.dart';
 import '../screens/courses/courses_page.dart';
 import '../screens/tutors/book_tutor_page.dart';
 import '../screens/home_page.dart';
@@ -27,6 +28,8 @@ class MyRouter {
   static const String tutors = 'tutors';
   static const String tutorDetail = 'tutorDetail';
   static const String bookTutor = 'bookTutor';
+  //Selector
+  static const String selectTutorOrCourse = 'selectTutorOrCourse';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
@@ -41,6 +44,8 @@ class MyRouter {
         return successRoute(const CoursesPage(), settings);
       case tutors:
         return successRoute(const TutorsPage(), settings);
+      case selectTutorOrCourse:
+        return successRoute(const TestPage(), settings);
       case home:
         return successRoute(const HomePage(), settings);
       case tutorDetail:

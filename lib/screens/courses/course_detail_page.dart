@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/screens/courses/widgets/chapter_card.dart';
 import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
 import 'package:readmore/readmore.dart';
@@ -9,6 +10,7 @@ import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../model/course_model.dart';
 import '../../utils/default_style.dart';
+import '../../utils/utils.dart';
 import '../common_widgets/dialogs/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 import '../common_widgets/title_and_chips.dart';
@@ -78,21 +80,7 @@ class CourseDetailPage extends StatelessWidget {
                     trimExpandedText: ' Show less',
                   ),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-                    child: CustomElevatedButton(
-                        title: 'Discover',
-                        buttonType: ButtonType.filledButton,
-                        callback: () {
-                          // Navigator.pushNamed(context, MyRouter.bookTutor,
-                          //     arguments:
-                          // TutorDetailArguments(courseModel: tutorData));
-                        },
-                        radius: 50),
-                  ),
-                ),
+
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
                   child:
@@ -157,8 +145,69 @@ class CourseDetailPage extends StatelessWidget {
 
                             },);
                           })),
-                )
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+                  child: Text('Suggested Tutors',
+                      style: headLineSmall(context)?.copyWith(
+                          fontSize: 20
+                      )),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                  child: LimitedBox(
+                    maxHeight: double.maxFinite,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: courseModel.suggestedTutor.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var course = courseModel.suggestedTutor[index];
+                        return LimitedBox(
+                          maxWidth: double.maxFinite,
+                          maxHeight: double.maxFinite,
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
+                            child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text: "•  $course   ",
+                                    style: bodyLarge(context)?.copyWith(
+                                        fontSize: 16,
+                                        height: ConstValue.courseNameTextScale),
+                                  ),
+                                  TextSpan(
+                                      text: 'More info',
+                                      style: bodyLarge(context)
+                                          ?.copyWith(color: Colors.blueAccent),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
 
+                                          Navigator.pushNamed(
+                                              context, MyRouter.tutorDetail, arguments: TutorDetailArguments(tutorModel: testTutor()));
+                                        })
+                                ])),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(24,8,24,24),
+                    child: CustomElevatedButton(
+                        title: 'Discover',
+                        buttonType: ButtonType.filledButton,
+                        callback: () {
+                          // Navigator.pushNamed(context, MyRouter.bookTutor,
+                          //     arguments:
+                          // TutorDetailArguments(courseModel: tutorData));
+                        },
+                        radius: 50),
+                  ),
+                ),
               ],
             ),
           ),

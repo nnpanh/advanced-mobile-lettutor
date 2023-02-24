@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/const/const_value.dart';
+import 'package:lettutor/screens/courses/courses_page.dart';
 import 'package:lettutor/utils/utils.dart';
 
 import '../config/router.dart';
+import '../screens/courses/select_page.dart';
 
 class DefaultColor {
   late Color fontColor = Colors.black;
@@ -62,10 +64,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
           pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.home);
           break;
         case NavigationIndex.settingsPage:
-          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.login);
-          break;
-        case NavigationIndex.tutorsPage:
           pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.tutors);
+          break;
+        case NavigationIndex.studyPage:
+          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.selectTutorOrCourse);
           break;
       }
   }
@@ -94,12 +96,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_edu),
-            label: 'Course',
+            icon: Icon(Icons.timer_sharp),
+            label: 'Schedule',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Tutor',
+            label: 'Study',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

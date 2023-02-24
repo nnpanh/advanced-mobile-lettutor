@@ -5,6 +5,8 @@ class ImagesPath {
   static const google = "assets/images/google.png";
   static const resetPassword = "assets/images/reset_pass.png";
   static const youtube = "assets/images/youtube.jpeg";
+  static const tutor = "assets/images/tutors.png";
+  static const selfStudy = "assets/images/selfstudy.png";
 }
 
 class ConstValue {
@@ -21,6 +23,6 @@ class ButtonType {
 class NavigationIndex {
   static const homePage = 0;
   static const coursesPage = 1;
-  static const tutorsPage = 2;
+  static const studyPage = 2;
   static const settingsPage = 3;
 }

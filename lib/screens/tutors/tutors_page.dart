@@ -172,7 +172,7 @@ class _TutorsPageState extends State<TutorsPage> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.tutorsPage, context: context,),
+      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.studyPage, context: context,),
     );
   }
 

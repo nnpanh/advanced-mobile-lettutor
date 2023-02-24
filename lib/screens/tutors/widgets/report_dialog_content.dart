@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/utils/text_style.dart';
+import 'package:lettutor/screens/common_widgets/elevated_button.dart';
+import 'package:lettutor/utils/default_style.dart';
 
 import '../../../const/export_const.dart';
-import '../../common_widgets/chip_button.dart';
 
 class ReportModel {
   bool isChecked = false;
@@ -26,7 +26,8 @@ class ReportDialogContentState extends State<ReportDialogContent> {
   void initState() {
     listReport = [
       ReportModel("This tutor is pretending to be someone else", false),
-      ReportModel("This tutor's profile information is fake", false),
+      ReportModel(
+          "This tutor's profile information is shadyrect, shady", false),
       ReportModel("This tutor is harassing me", false),
     ];
     super.initState();
@@ -52,7 +53,7 @@ class ReportDialogContentState extends State<ReportDialogContent> {
               ),
               Text(
                 "Help us know what's happening",
-                style: bodyLargeBold(context),
+                style: bodyLargeBold(context)?.copyWith(fontSize: 16),
               ),
             ],
           ),
@@ -81,14 +82,17 @@ class ReportDialogContentState extends State<ReportDialogContent> {
             });
           },
         ),
-        ChipButton(
-          callback: () {
-            Navigator.of(context).pop();
-          },
-          title: 'Send',
-          hasIcon: false,
-          icon: null,
-          chipType: ButtonType.filledButton,
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 8),
+          child: CustomElevatedButton(
+            callback: () {
+              Navigator.of(context).pop();
+            },
+            title: '     Send report     ',
+            icon: null,
+            buttonType: ButtonType.filledButton,
+            radius: 15,
+          ),
         )
       ],
     );
@@ -111,6 +115,7 @@ class ReportCheckList extends StatelessWidget {
   Widget build(BuildContext context) {
     return CheckboxListTile(
       title: Text(report.content),
+      contentPadding: EdgeInsets.zero,
       value: report.isChecked,
       onChanged: (bool? value) {
         onChanged();

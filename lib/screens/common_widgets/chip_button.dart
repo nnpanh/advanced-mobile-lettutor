@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../const/export_const.dart';
-import '../../utils/text_style.dart';
+import '../../utils/default_style.dart';
 
 class ChipButton extends StatelessWidget {
   final String chipType;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:lettutor/utils/text_style.dart';
+import 'package:lettutor/utils/default_style.dart';
 
 import '../../../config/router.dart';
 import '../../../const/export_const.dart';

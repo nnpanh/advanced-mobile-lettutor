@@ -4,16 +4,16 @@ import '../../const/themes.dart';
 
 final ThemeManager _themeManager = ThemeManager();
 
-class CoursesPage extends StatefulWidget {
-  const CoursesPage({super.key, required this.counter});
+class TestPage extends StatefulWidget {
+  const TestPage({super.key, required this.counter});
 
   final int counter;
 
   @override
-  State<CoursesPage> createState() => _CoursesPageState();
+  State<TestPage> createState() => _TestPageState();
 }
 
-class _CoursesPageState extends State<CoursesPage> {
+class _TestPageState extends State<TestPage> {
   @override
   void initState() {
     _counter = widget.counter;

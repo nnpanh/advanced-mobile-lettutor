@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../const/export_const.dart';
 import '../../../model/review_model.dart';
-import '../../../utils/text_style.dart';
+import '../../../utils/default_style.dart';
 import '../../../utils/utils.dart';
 
 class ReviewDialogContent extends StatelessWidget {
@@ -14,8 +14,8 @@ class ReviewDialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: size.height * 0.5, // Change as per your requirement
-      width: size.width * 0.8, // Change as per your requirement
+      height: size.height * 0.6, // Change as per your requirement
+      width: size.width, // Change as per your requirement
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: listReview.length,
@@ -57,7 +57,7 @@ class ReviewWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 3,
+          flex: 4,
           child: Container(
             padding: EdgeInsets.fromLTRB(12, 0, 0, 16),
             child: Column(

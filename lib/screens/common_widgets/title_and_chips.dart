@@ -1,7 +1,7 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/text_style.dart';
+import '../../utils/default_style.dart';
 
 class TitleAndChips extends StatelessWidget {
   const TitleAndChips({super.key, required this.options, required this.title});

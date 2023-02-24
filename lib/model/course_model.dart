@@ -1,5 +1,10 @@
 class CourseModel {
-  final String? courseName;
+  final String? title;
+  final String? description;
+  final String? level;
+  final List<String> chapterTitles;
+  final String? illustrateUrl;
 
-  CourseModel(this.courseName);
+  CourseModel(this.title, this.description, this.level, this.chapterTitles,
+      this.illustrateUrl);
 }

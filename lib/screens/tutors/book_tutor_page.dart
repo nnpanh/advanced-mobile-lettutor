@@ -5,12 +5,10 @@ import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
 import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../model/tutor_model.dart';
-import '../../utils/text_style.dart';
 import '../../utils/utils.dart';
+import '../../utils/default_style.dart';
 import '../common_widgets/dialogs/confirm_dialog.dart';
-import '../common_widgets/dialogs/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';
-import 'widgets/review_dialog_content.dart';
 
 class BookTutorPage extends StatefulWidget {
   const BookTutorPage({super.key, required this.tutorModel});
@@ -173,15 +171,31 @@ class _BookTutorPageState extends State<BookTutorPage> {
           return WidgetDialog(
               title: "Report $tutorName",
               widget: ReportDialogContent(size: size));
-        });
+                          onPressedConfirm(context, size);
+                        },
+                        buttonType: ButtonType.filledButton,
+                        radius: 15),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 
-  void onPressedReviews(Size size) {
+  void onPressedConfirm(BuildContext context, Size size) {
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
-          return WidgetDialog(
-              title: 'Reviews', widget: ReviewDialogContent(size: size));
+          return ConfirmDialog(
+            size: size,
+            content: "Book this tutor successfully.",
+            onClose: () {
+              Navigator.of(context).pop();
+              // popUntilHomeAndRefresh(context);
+            },
+          );
         });
   }
 }

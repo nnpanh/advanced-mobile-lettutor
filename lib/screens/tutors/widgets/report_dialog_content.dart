@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/utils/text_style.dart';
+import 'package:lettutor/utils/default_style.dart';
 
 import '../../../const/export_const.dart';
 import '../../common_widgets/chip_button.dart';

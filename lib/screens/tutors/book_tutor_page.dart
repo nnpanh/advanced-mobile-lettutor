@@ -5,7 +5,7 @@ import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
 import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../model/tutor_model.dart';
-import '../../utils/text_style.dart';
+import '../../utils/default_style.dart';
 import '../common_widgets/dialogs/confirm_dialog.dart';
 import '../common_widgets/dialogs/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';

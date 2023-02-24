@@ -7,7 +7,7 @@ import 'package:readmore/readmore.dart';
 import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../model/tutor_model.dart';
-import '../../utils/text_style.dart';
+import '../../utils/default_style.dart';
 import '../common_widgets/dialogs/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 import '../common_widgets/title_and_chips.dart';
@@ -233,7 +233,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                             child: RichText(
                                 text: TextSpan(children: [
                               TextSpan(
-                                text: "•  ${course.courseName}   ",
+                                text: "•  ${course.title}   ",
                                 style: bodyLarge(context)?.copyWith(
                                     fontSize: 16,
                                     height: ConstValue.courseNameTextScale),

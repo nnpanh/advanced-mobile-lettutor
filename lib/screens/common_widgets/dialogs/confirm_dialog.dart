@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../const/const_value.dart';
-import '../../../utils/text_style.dart';
+import '../../../utils/default_style.dart';
 import '../chip_button.dart';
 
 class ConfirmDialog extends StatelessWidget {

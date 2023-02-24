@@ -2,7 +2,7 @@ import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/screens/tutors/widgets/tutor_widget.dart';
-import 'package:lettutor/utils/text_style.dart';
+import 'package:lettutor/utils/default_style.dart';
 
 import '../../const/export_const.dart';
 import '../../model/tutor_model.dart';
@@ -38,8 +38,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

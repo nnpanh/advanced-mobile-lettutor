@@ -18,6 +18,7 @@ class DefaultColor {
 
 AppBar appBar(String title, BuildContext context) {
   return AppBar(
+    centerTitle: true,
     backgroundColor: Theme.of(context).primaryColor,
     titleSpacing: 0,
     title: Text(
@@ -29,6 +30,17 @@ AppBar appBar(String title, BuildContext context) {
       ),
       textAlign: TextAlign.start,
     ),
+    actions: <Widget>[
+      IconButton(
+        icon: const Icon(
+          Icons.home,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          popUntilHomeAndRefresh(context);
+        },
+      )
+    ],
   );
 }
 

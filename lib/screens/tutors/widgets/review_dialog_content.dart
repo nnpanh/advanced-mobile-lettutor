@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../const/export_const.dart';
 import '../../../model/review_model.dart';
-import '../../../utils/text_style.dart';
+import '../../../utils/default_style.dart';
 import '../../../utils/utils.dart';
 
 class ReviewDialogContent extends StatelessWidget {

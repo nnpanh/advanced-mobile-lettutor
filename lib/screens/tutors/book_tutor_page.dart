@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
 
 import '../../config/router.dart';
@@ -20,13 +21,13 @@ class BookTutorPage extends StatefulWidget {
 
 class _BookTutorPageState extends State<BookTutorPage> {
   late TutorModel tutorData;
-  late String date;
+  late DateTime date;
   late String time;
 
   @override
   void initState() {
     tutorData = widget.tutorModel;
-    date = "Tuesday, 20/11/2023";
+    date = DateTime.now();
     time = "01:30-02:30";
     super.initState();
   }
@@ -36,7 +37,7 @@ class _BookTutorPageState extends State<BookTutorPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBar("Booking details", context),
+        appBar: appBar("Booking Details", context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -56,21 +57,31 @@ class _BookTutorPageState extends State<BookTutorPage> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: CustomElevatedButton(
-                        title: date,
+                        title: getDateString(date),
                         callback: () {
                           Future<DateTime?> dateTime = showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2025),
+                            initialDate: date,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(const Duration(days: 14)),
+                            builder: (BuildContext context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  dialogTheme: DialogTheme(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16.0), // this is the border radius of the picker
+                                    ),
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
                           );
-
-
-                          dateTime.then((value) => {
+                          dateTime.then((value) {
                             if (value!=null){
-                              setState(){
-                                date = "Tuesday, ${value.day}/${value.month}/${value.year}";
-                              }
+                              setState(() {
+                                date = value;
+                              });
                             }
                           });
                         },
@@ -149,29 +160,10 @@ class _BookTutorPageState extends State<BookTutorPage> {
                                   content: "Book this tutor successfully.",
                                   onClose: () {
                                     // Navigator.of(context).pop();
-                                    popUntilHomeAndRefresh(context);
+                                    pushNamedAndRemoveUntilHome(context);
                                   },
                                 );
                               });
-                        },
-                        buttonType: ButtonType.filledButton,
-                        radius: 15),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ));
-  }
-
-  void onPressedReport(Size size, String? tutorName) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return WidgetDialog(
-              title: "Report $tutorName",
-              widget: ReportDialogContent(size: size));
-                          onPressedConfirm(context, size);
                         },
                         buttonType: ButtonType.filledButton,
                         radius: 15),
@@ -197,5 +189,10 @@ class _BookTutorPageState extends State<BookTutorPage> {
             },
           );
         });
+  }
+
+  String getDateString(DateTime value) {
+    String dayOfWeek = DateFormat('EEEE').format(value);
+    return "$dayOfWeek, ${value.day}/${value.month}/${value.year}";
   }
 }

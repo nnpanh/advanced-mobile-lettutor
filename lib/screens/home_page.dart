@@ -1,12 +1,12 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lettutor/screens/tutors/widgets/tutor_widget.dart';
+import 'package:lettutor/screens/tutors/widgets/tutor_card.dart';
 import 'package:lettutor/utils/default_style.dart';
 
-import '../../const/export_const.dart';
-import '../../model/tutor_model.dart';
-import '../../utils/utils.dart';
+import '../const/export_const.dart';
+import '../model/tutor_model.dart';
+import '../utils/utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -163,15 +163,13 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.vertical,
                       itemCount: tutorList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return TutorWidget(tutorData: tutorList[index]);
+                        return TutorCard(tutorData: tutorList[index]);
                       })),
             )
-            // Container(
-            //   child: tutorList()
-            // )
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.homePage, context: context,),
     );
   }
 

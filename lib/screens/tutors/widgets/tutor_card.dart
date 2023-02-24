@@ -3,21 +3,22 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/utils/default_style.dart';
 
 import '../../../config/router.dart';
+import '../../../config/router_arguments.dart';
 import '../../../const/export_const.dart';
 import '../../../model/tutor_model.dart';
 import '../../../utils/utils.dart';
 import '../../common_widgets/chip_button.dart';
 
-class TutorWidget extends StatefulWidget {
-  const TutorWidget({super.key, required this.tutorData});
+class TutorCard extends StatefulWidget {
+  const TutorCard({super.key, required this.tutorData});
 
   final TutorModel tutorData;
 
   @override
-  State<TutorWidget> createState() => TutorWidgetState();
+  State<TutorCard> createState() => TutorCardState();
 }
 
-class TutorWidgetState extends State<TutorWidget> {
+class TutorCardState extends State<TutorCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,

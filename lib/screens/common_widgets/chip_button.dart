@@ -9,6 +9,7 @@ class ChipButton extends StatelessWidget {
   final String title;
   final IconData? icon;
   final bool hasIcon;
+  final EdgeInsets? customPadding;
 
   const ChipButton(
       {super.key,
@@ -16,7 +17,7 @@ class ChipButton extends StatelessWidget {
       required this.title,
       this.icon,
       required this.hasIcon,
-      required this.chipType});
+      required this.chipType, this.customPadding});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class ChipButton extends StatelessWidget {
         return filledChip(context);
       case ButtonType.confirmButton:
         return Container(
-          padding: const EdgeInsets.fromLTRB(0, 0, 8, 8),
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
             child: confirmChip(context));
       default:
         return outlinedChip(context);
@@ -36,7 +37,7 @@ class ChipButton extends StatelessWidget {
 
   ActionChip filledChip(BuildContext context) {
     return ActionChip(
-      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      padding: customPadding??const EdgeInsets.fromLTRB(8, 4, 8, 4),
       avatar: hasIcon
           ? Icon(
               icon,
@@ -54,7 +55,7 @@ class ChipButton extends StatelessWidget {
 
   ActionChip confirmChip(BuildContext context) {
     return ActionChip(
-        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+        padding: customPadding??const EdgeInsets.fromLTRB(16, 12, 16, 12),
         avatar: hasIcon
             ? Icon(
           icon,
@@ -73,7 +74,7 @@ class ChipButton extends StatelessWidget {
 
   ActionChip outlinedChip(BuildContext context) {
     return ActionChip(
-      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      padding: customPadding??const EdgeInsets.fromLTRB(8, 4, 8, 4),
       shape: const StadiumBorder(
           side: BorderSide(
         width: 1,

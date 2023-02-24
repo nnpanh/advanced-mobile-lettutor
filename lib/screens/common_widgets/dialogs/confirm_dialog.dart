@@ -19,6 +19,7 @@ class ConfirmDialog extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return AlertDialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [

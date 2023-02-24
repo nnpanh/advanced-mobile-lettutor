@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/model/tutor_model.dart';
 import 'package:lettutor/screens/authentication/forgot_pass_page.dart';
 import 'package:lettutor/screens/authentication/login_page.dart';
 import 'package:lettutor/screens/authentication/sign_up_page.dart';
 
+import '../screens/courses/course_detail_page.dart';
 import '../screens/courses/courses_page.dart';
 import '../screens/tutors/book_tutor_page.dart';
-import '../screens/tutors/home_page.dart';
+import '../screens/home_page.dart';
 import '../screens/tutors/tutor_detail_page.dart';
+import '../screens/tutors/tutors_page.dart';
 
-class TutorDetailArguments {
-  final TutorModel tutorModel;
 
-  const TutorDetailArguments({required this.tutorModel});
-}
 
 class MyRouter {
   static const String home = 'home';
+  //Courses
   static const String courses = 'courses';
+  static const String courseDetail = 'courseDetail';
+  //Authentication
   static const String login = 'login';
   static const String signUp = 'signUp';
   static const String forgotPassword = 'forgotPassword';
+  //Tutors
+  static const String tutors = 'tutors';
   static const String tutorDetail = 'tutorDetail';
   static const String bookTutor = 'bookTutor';
 
@@ -31,12 +35,12 @@ class MyRouter {
         return successRoute(const ForgotPasswordPage(), settings);
       case login:
         return successRoute(const LoginPage(), settings);
-
       case signUp:
         return successRoute(const SignUpPage(), settings);
-
       case courses:
         return successRoute(const CoursesPage(), settings);
+      case tutors:
+        return successRoute(const TutorsPage(), settings);
       case home:
         return successRoute(const HomePage(), settings);
       case tutorDetail:
@@ -54,6 +58,14 @@ class MyRouter {
         } else {
           return errorRoute(
               'Input for Book t page is not TutorDetailArguments');
+        }
+      case courseDetail:
+        if (args is CourseDetailArguments) {
+          return successRoute(
+              CourseDetailPage(courseModel: args.courseModel), settings);
+        } else {
+          return errorRoute(
+              'Input for Tutor detail page is not TutorDetailArguments');
         }
       default:
         return errorRoute("No route-name founded");

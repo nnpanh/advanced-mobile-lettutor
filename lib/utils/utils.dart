@@ -28,14 +28,16 @@ List<String> generateDayList() {
   return ['21/2 (Today)', '22/2', '23/2', '24/2', '25/2', '26/2', '27/2'];
 }
 
-void popUntilHomeAndRefresh(BuildContext context) {
+void pushNamedAndRemoveUntilHome(BuildContext context, {String? newRoute}) {
   int reachedHome = 0;
-  Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) {
+  Navigator.pushNamedAndRemoveUntil(context, newRoute??MyRouter.home, (route) {
     if (reachedHome == 1) {
       return true;
     } else {
       if (route.settings.name == MyRouter.home) {
         reachedHome++;
+        //If want to keep home before this newRoute screen -> newRoute not null
+        if (newRoute!=null && newRoute!=MyRouter.home) return true;
       }
       return false;
     }

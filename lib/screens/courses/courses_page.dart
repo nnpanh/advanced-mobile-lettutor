@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/screens/courses/widgets/course_tab.dart';
 
+import '../../const/const_value.dart';
+import '../../utils/default_style.dart';
+
 class CoursesPage extends StatefulWidget {
   const CoursesPage({super.key});
 
@@ -37,7 +40,7 @@ class _CoursesPageState extends State<CoursesPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: isSearching ? buildSearchField() : Text('Course'),
+        title: isSearching ? buildSearchField() : const Text('Online Courses'),
         // automaticallyImplyLeading: isSearching ? false : true,
         leading: isSearching
             ? IconButton(
@@ -59,6 +62,7 @@ class _CoursesPageState extends State<CoursesPage>
         bottom: TabBar(
           controller: _tabController,
           tabs: myTabs,
+          indicatorColor: Colors.white,
         ),
         actions: <Widget>[
           IconButton(
@@ -83,6 +87,7 @@ class _CoursesPageState extends State<CoursesPage>
           return Center(child: CourseTab(tabType: label));
         }).toList(),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.coursesPage, context: context,),
     );
   }
 
@@ -101,7 +106,7 @@ class _CoursesPageState extends State<CoursesPage>
         border: InputBorder.none,
         hintStyle: TextStyle(color: Colors.white54),
       ),
-      style: TextStyle(color: Colors.white, fontSize: 16.0),
+      style: const TextStyle(color: Colors.white, fontSize: 16.0),
       onChanged: (query) {},
     );
   }

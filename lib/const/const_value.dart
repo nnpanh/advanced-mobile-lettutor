@@ -13,7 +13,14 @@ class ConstValue {
 }
 
 class ButtonType {
-  static const outlinedButton = "outlinedChip";
-  static const filledButton = "filledChip";
+  static const outlinedButton = "outlinedButton";
+  static const filledButton = "filledButton";
   static const confirmButton = "confirmButton";
+}
+
+class NavigationIndex {
+  static const homePage = 0;
+  static const coursesPage = 1;
+  static const tutorsPage = 2;
+  static const settingsPage = 3;
 }

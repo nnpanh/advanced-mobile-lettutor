@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/common_widgets/chip_button.dart';
 import 'package:lettutor/screens/common_widgets/elevated_button.dart';
 import 'package:lettutor/utils/default_style.dart';
 
@@ -82,17 +83,38 @@ class ReportDialogContentState extends State<ReportDialogContent> {
             });
           },
         ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 8),
-          child: CustomElevatedButton(
-            callback: () {
-              Navigator.of(context).pop();
-            },
-            title: '     Send report     ',
-            icon: null,
-            buttonType: ButtonType.filledButton,
-            radius: 15,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+
+            Container(
+              alignment: Alignment.bottomRight,
+              // margin: EdgeInsets.symmetric(vertical: 8),
+              child: ChipButton(
+                callback: () {
+                  Navigator.of(context).pop();
+                },
+                title: 'Send report',
+                icon: null,
+                chipType: ButtonType.confirmButton,
+                hasIcon: false,
+              ),
+            ),
+            Container(
+              alignment: Alignment.bottomRight,
+              // margin: EdgeInsets.symmetric(vertical: 8),
+              child: ChipButton(
+                callback: () {
+                  Navigator.of(context).pop();
+                },
+                title: '  Cancel  ',
+                icon: null,
+                chipType: ButtonType.outlinedButton,
+                hasIcon: false,
+                customPadding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+              ),
+            ),
+          ],
         )
       ],
     );

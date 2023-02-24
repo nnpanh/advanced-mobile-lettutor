@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/utils/utils.dart';
 
 import '../../../model/course_model.dart';
-import 'course_widget.dart';
+import 'course_card.dart';
 
 class CourseTab extends StatefulWidget {
   const CourseTab({super.key, required this.tabType});
@@ -23,7 +23,7 @@ class _CourseTabState extends State<CourseTab> {
         scrollDirection: Axis.vertical,
         itemCount: courseList.length,
         itemBuilder: (BuildContext context, int index) {
-          return CourseWidget(courseData: courseList[index]);
+          return CourseCard(courseData: courseList[index]);
         });
   }
 }

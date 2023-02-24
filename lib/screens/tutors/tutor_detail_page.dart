@@ -5,6 +5,7 @@ import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
+import '../../config/router_arguments.dart';
 import '../../const/export_const.dart';
 import '../../model/tutor_model.dart';
 import '../../utils/default_style.dart';
@@ -35,7 +36,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBar("Tutor's detail", context),
+        appBar: appBar("Tutor Details", context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,

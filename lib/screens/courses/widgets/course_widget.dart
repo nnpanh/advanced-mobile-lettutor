@@ -60,7 +60,7 @@ class CourseWidgetState extends State<CourseWidget> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: const EdgeInsets.all(24),
             child: Text(
               "${widget.courseData.level}  •  ${widget.courseData.chapterTitles.length} Lessons",
               style: bodyLarge(context)

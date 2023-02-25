@@ -16,8 +16,6 @@ class ChapterCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Container(
-            // padding: const EdgeInsets.all(16),
-            child: ListTile(title: Text(title, style: bodyLarge(context),), onTap: clickAction)));
+        child: ListTile(title: Text(title, style: bodyLarge(context),), onTap: clickAction));
   }
 }

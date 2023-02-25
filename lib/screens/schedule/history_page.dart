@@ -23,7 +23,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   late List<LessonModel> lessonList;
   late int selectedFilter = 0;
-  List<String> filterOptions = ['Last 1 month','Last 3 months', 'Lasth 6 months'];
+  List<String> filterOptions = ['Last 1 month','Last 3 months', 'Last 6 months'];
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _HistoryPageState extends State<HistoryPage> {
           color: Colors.white,
         ),
         onPressed: () {
-          onPressedFilter(context);
+          onPressedFilter(context, size);
         },
       )),
       body: SingleChildScrollView(
@@ -90,7 +90,32 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  void onPressedFilter(BuildContext context) {
-    showBottomDialog(context, 'Select a filter', Text('Hello'));
+  void onPressedFilter(BuildContext context, Size size) {
+    Widget child =  LimitedBox(
+      maxHeight: size.height * 0.5, // Change as per your requirement
+      maxWidth: size.width, // Change as per your requirement
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: filterOptions.length,
+        itemBuilder: (BuildContext context, int index) {
+          Widget? trailing;
+          if (index == selectedFilter) trailing = const Icon(Icons.check, color: Colors.blue,);
+
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: ListTile(title: Text(filterOptions[index]),
+              tileColor: CustomColor.brightBlue.withOpacity(0.5),
+              trailing: trailing,
+              onTap: () {
+              Navigator.of(context).pop();
+              setState(() {
+                selectedFilter = index;
+              });
+            },),
+          );
+        },
+      ),
+    );
+    showBottomDialog(context, 'Select a filter', child);
   }
 }

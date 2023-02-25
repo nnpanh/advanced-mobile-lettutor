@@ -3,6 +3,7 @@ import 'package:lettutor/utils/default_style.dart';
 
 void showBottomDialog(BuildContext context, String title, Widget widget) {
   showModalBottomSheet(
+    backgroundColor: Colors.white,
     context: context,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
@@ -11,7 +12,7 @@ void showBottomDialog(BuildContext context, String title, Widget widget) {
     ),
     clipBehavior: Clip.antiAliasWithSaveLayer, builder: (BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,6 +30,9 @@ void showBottomDialog(BuildContext context, String title, Widget widget) {
                 height: 1,
                 thickness: 1,
                 color: Colors.black26,
+              ),
+              const SizedBox(
+                height: 16,
               ),
               widget
             ],

@@ -68,7 +68,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.home);
           break;
         case NavigationIndex.settingsPage:
-          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.tutors);
+          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.setting);
           break;
         case NavigationIndex.studyPage:
           pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.selectTutorOrCourse);

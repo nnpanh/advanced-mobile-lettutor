@@ -4,7 +4,9 @@ import 'package:lettutor/model/tutor_model.dart';
 import 'package:lettutor/screens/authentication/forgot_pass_page.dart';
 import 'package:lettutor/screens/authentication/login_page.dart';
 import 'package:lettutor/screens/authentication/sign_up_page.dart';
+import 'package:lettutor/screens/schedule/analysis_page.dart';
 import 'package:lettutor/screens/schedule/history_page.dart';
+import 'package:lettutor/screens/settings/settings_page.dart';
 
 import '../screens/courses/course_detail_page.dart';
 import '../screens/courses/select_page.dart';
@@ -35,6 +37,10 @@ class MyRouter {
   //Schedule
   static const String schedule = 'schedule';
   static const String learningHistory = 'learningHistory';
+  static const String analysis = 'analysis';
+  //Settings
+  static const String setting = 'setting';
+
 
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -82,6 +88,10 @@ class MyRouter {
         return successRoute(const SchedulePage(), settings);
       case learningHistory:
         return successRoute(const HistoryPage(), settings);
+      case analysis:
+        return successRoute(const AnalysisPage(), settings);
+      case setting:
+        return successRoute(const SettingsPage(), settings);
       default:
         return errorRoute("No route-name founded");
     }

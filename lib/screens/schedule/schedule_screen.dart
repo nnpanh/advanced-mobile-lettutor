@@ -24,16 +24,11 @@ class _SchedulePageState extends State<SchedulePage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
                 padding: const EdgeInsets.fromLTRB(24, 60, 24, 36),
                 width: double.infinity,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [Colors.lightBlue, CustomColor.originalBlue],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight)),
+                    color: Colors.blue,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -89,7 +84,9 @@ class _SchedulePageState extends State<SchedulePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            Navigator.pushNamed(context, MyRouter.analysis);
+                          },
                           icon: const Icon(Icons.bar_chart),
                           color: Colors.blue,
                           iconSize: 30,

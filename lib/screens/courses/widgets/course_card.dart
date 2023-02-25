@@ -20,17 +20,17 @@ class CourseCardState extends State<CourseCard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return GestureDetector(
-      onTap: (){
-        Navigator.of(context).pushNamed(MyRouter.courseDetail, arguments: CourseDetailArguments(courseModel: widget.courseData));
-      },
-      child: Card(
-        elevation: 4,
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        margin: const EdgeInsets.all(16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
+    return Card(
+      elevation: 4,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      margin: const EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: InkWell(
+        onTap: (){
+          Navigator.of(context).pushNamed(MyRouter.courseDetail, arguments: CourseDetailArguments(courseModel: widget.courseData));
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

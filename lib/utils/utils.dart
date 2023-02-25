@@ -86,6 +86,10 @@ void pushNamedAndRemoveUntilHome(BuildContext context, {String? newRoute}) {
   });
 }
 
+void pushUntilLogin(BuildContext context) {
+  Navigator.pushNamedAndRemoveUntil(context, MyRouter.login, (route) => false);
+}
+
 List<LessonModel> generateLessons() {
   List<LessonModel> lessons = [];
   var sampleLesson = LessonModel('Kimetsu no Yaiba','Shuumatsu no Valkyrie', DateTime.now(), DateTime.now().add(const Duration(hours:1)), "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand", "I will leave before the lessson ends about 5mins");

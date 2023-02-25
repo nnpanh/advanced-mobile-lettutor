@@ -104,7 +104,7 @@ class _HistoryPageState extends State<HistoryPage> {
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: ListTile(title: Text(filterOptions[index]),
-              tileColor: CustomColor.brightBlue.withOpacity(0.5),
+              tileColor: CustomColor.brightBlue,
               trailing: trailing,
               onTap: () {
               Navigator.of(context).pop();

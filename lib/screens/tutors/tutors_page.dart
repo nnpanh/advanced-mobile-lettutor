@@ -39,37 +39,13 @@ class _TutorsPageState extends State<TutorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: appBarDefault('Recommend Tutor', context),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container(
-            //     padding: const EdgeInsets.fromLTRB(24, 60, 24, 36),
-            //     width: double.infinity,
-            //     decoration: BoxDecoration(
-            //         gradient: LinearGradient(
-            //             colors: [CustomColor.shadowBlue, CustomColor.darkBlue],
-            //             begin: Alignment.topLeft,
-            //             end: const Alignment(0.75, 1))),
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       children: [
-            //         Text(
-            //           'You have no upcoming lesson.',
-            //           style: bodyLargeBold(context)
-            //               ?.copyWith(color: Colors.white, fontSize: 18),
-            //         ),
-            //         const SizedBox(
-            //           height: 24,
-            //         ),
-            //         Text(
-            //           'Welcome to LetTutor!',
-            //           style: bodyLarge(context)?.copyWith(color: Colors.white),
-            //         )
-            //       ],
-            //     )),
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(24, 60, 24, 18),

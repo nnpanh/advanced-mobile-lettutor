@@ -21,7 +21,7 @@ class DefaultColor {
   }
 }
 
-AppBar appBar(String title, BuildContext context) {
+AppBar appBarWithCustomAction(String title, BuildContext context, Widget action) {
   return AppBar(
     centerTitle: true,
     backgroundColor: Theme.of(context).primaryColor,
@@ -36,17 +36,21 @@ AppBar appBar(String title, BuildContext context) {
       textAlign: TextAlign.start,
     ),
     actions: <Widget>[
-      IconButton(
-        icon: const Icon(
-          Icons.home,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          pushNamedAndRemoveUntilHome(context);
-        },
-      )
+      action
     ],
   );
+}
+
+AppBar appBarDefault(String title, BuildContext context) {
+  return appBarWithCustomAction(title, context, IconButton(
+    icon: const Icon(
+      Icons.home,
+      color: Colors.white,
+    ),
+    onPressed: () {
+      pushNamedAndRemoveUntilHome(context);
+    },
+  ));
 }
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -57,8 +61,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   void _onItemTapped(int index) {
       switch(index){
-        case NavigationIndex.coursesPage:
-          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.courses);
+        case NavigationIndex.schedulePage:
+          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.schedule);
           break;
         case NavigationIndex.homePage:
           pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.home);
@@ -121,6 +125,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 TextStyle? bodyLarge(BuildContext context) {
   return Theme.of(context).textTheme.bodyLarge?.copyWith(
       fontWeight: FontWeight.w400,
+      height: ConstValue.descriptionTextScale,
       color: DefaultColor().fontColor,
       backgroundColor: DefaultColor().backgroundColor);
 }
@@ -128,6 +133,7 @@ TextStyle? bodyLarge(BuildContext context) {
 TextStyle? bodyLargeBold(BuildContext context) {
   return Theme.of(context).textTheme.bodyLarge?.copyWith(
       fontWeight: FontWeight.w500,
+      height: ConstValue.descriptionTextScale,
       color: DefaultColor().fontColor,
       backgroundColor: DefaultColor().backgroundColor);
 }
@@ -135,6 +141,7 @@ TextStyle? bodyLargeBold(BuildContext context) {
 TextStyle? headLineSmall(BuildContext context) {
   return Theme.of(context).textTheme.headlineSmall?.copyWith(
       fontWeight: FontWeight.w500,
+      height: ConstValue.descriptionTextScale,
       color: DefaultColor().fontColor,
       backgroundColor: DefaultColor().backgroundColor);
 }
@@ -142,6 +149,7 @@ TextStyle? headLineSmall(BuildContext context) {
 TextStyle? headLineMedium(BuildContext context) {
   return Theme.of(context).textTheme.headlineMedium?.copyWith(
       fontWeight: FontWeight.w500,
+      height: ConstValue.descriptionTextScale,
       color: DefaultColor().fontColor,
       backgroundColor: DefaultColor().backgroundColor);
 }

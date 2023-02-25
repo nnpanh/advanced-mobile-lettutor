@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart';
 import 'package:lettutor/const/const_value.dart';
+import 'package:lettutor/model/lesson_model.dart';
 import 'package:lettutor/model/review_model.dart';
 
 import '../config/router.dart';
 import '../model/course_model.dart';
 import '../model/tutor_model.dart';
+import '../screens/common_widgets/dialogs/base_dialog/widget_dialog.dart';
+import '../screens/common_widgets/dialogs/report_dialog.dart';
 
 ThemeMode getDeviceThemeMode() {
   var brightness =
@@ -24,8 +28,46 @@ double getDescriptionHeight(BuildContext context) {
   return textHeight * ConstValue.descriptionTextScale * 5 + 16 * 2;
 }
 
-List<String> generateDayList() {
-  return ['21/2 (Today)', '22/2', '23/2', '24/2', '25/2', '26/2', '27/2'];
+String getDateString(DateTime value, String getType) {
+  String dayOfWeek = DateFormat('EEEE').format(value);
+  String dateNo =  "$dayOfWeek, ${value.day}/${value.month}/${value.year}";
+  String dateOnly =  "${value.day}/${value.month}/${value.year}";
+  String time = DateFormat.Hms().format(value);
+  switch(getType) {
+    case TimeFormat.getDateNo:
+      return dateNo;
+    case TimeFormat.getTime:
+      return time;
+    case TimeFormat.getDateAndTime:
+      return "$dateNo - $time";
+    case TimeFormat.getDateOnly:
+      return dateOnly;
+    default:
+      return "$dateNo - $time";
+  }
+}
+
+String timeAgo(DateTime d) {
+  Duration diff = DateTime.now().difference(d);
+  if (diff.inDays > 365) {
+    return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
+  }
+  if (diff.inDays > 30) {
+    return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
+  }
+  if (diff.inDays > 7) {
+    return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
+  }
+  if (diff.inDays > 0) {
+    return "${diff.inDays} ${diff.inDays == 1 ? "day" : "days"} ago";
+  }
+  if (diff.inHours > 0) {
+    return "${diff.inHours} ${diff.inHours == 1 ? "hour" : "hours"} ago";
+  }
+  if (diff.inMinutes > 0) {
+    return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
+  }
+  return "Just now";
 }
 
 void pushNamedAndRemoveUntilHome(BuildContext context, {String? newRoute}) {
@@ -43,6 +85,23 @@ void pushNamedAndRemoveUntilHome(BuildContext context, {String? newRoute}) {
     }
   });
 }
+
+List<LessonModel> generateLessons() {
+  List<LessonModel> lessons = [];
+  var sampleLesson = LessonModel('Kimetsu no Yaiba','Shuumatsu no Valkyrie', DateTime.now(), DateTime.now().add(const Duration(hours:1)), "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand", "I will leave before the lessson ends about 5mins");
+  var sampleLesson2 = LessonModel('Shuumatsu no Valkyrie: Ragnarok War of God and Humans','Kain', DateTime.now(),DateTime.now().add(const Duration(hours:1)), "https://www.linkpicture.com/q/306931717_180342937860292_6628553018679771531_n.jpg",null);
+  for (var i = 5; i >= 1; i--) {
+    lessons.add(sampleLesson);
+    lessons.add(sampleLesson2);
+  }
+
+  return lessons;
+}
+
+List<String> generateDayList() {
+  return ['21/2 (Today)', '22/2', '23/2', '24/2', '25/2', '26/2', '27/2'];
+}
+
 
 List<ReviewModel> generateReviewList() {
   var sampleReview = ReviewModel(

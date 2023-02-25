@@ -4,10 +4,12 @@ import 'package:lettutor/model/tutor_model.dart';
 import 'package:lettutor/screens/authentication/forgot_pass_page.dart';
 import 'package:lettutor/screens/authentication/login_page.dart';
 import 'package:lettutor/screens/authentication/sign_up_page.dart';
+import 'package:lettutor/screens/schedule/history_page.dart';
 
 import '../screens/courses/course_detail_page.dart';
 import '../screens/courses/select_page.dart';
 import '../screens/courses/courses_page.dart';
+import '../screens/schedule/schedule_screen.dart';
 import '../screens/tutors/book_tutor_page.dart';
 import '../screens/home_page.dart';
 import '../screens/tutors/tutor_detail_page.dart';
@@ -30,6 +32,10 @@ class MyRouter {
   static const String bookTutor = 'bookTutor';
   //Selector
   static const String selectTutorOrCourse = 'selectTutorOrCourse';
+  //Schedule
+  static const String schedule = 'schedule';
+  static const String learningHistory = 'learningHistory';
+
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
@@ -72,6 +78,10 @@ class MyRouter {
           return errorRoute(
               'Input for Tutor detail page is not TutorDetailArguments');
         }
+      case schedule:
+        return successRoute(const SchedulePage(), settings);
+      case learningHistory:
+        return successRoute(const HistoryPage(), settings);
       default:
         return errorRoute("No route-name founded");
     }

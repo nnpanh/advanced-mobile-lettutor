@@ -4,12 +4,23 @@ import 'package:lettutor/screens/common_widgets/elevated_button.dart';
 import 'package:lettutor/utils/default_style.dart';
 
 import '../../../const/export_const.dart';
+import 'base_dialog/widget_dialog.dart';
 
 class ReportModel {
   bool isChecked = false;
   final String content;
 
   ReportModel(this.content, this.isChecked);
+}
+
+void onPressedReport(Size size, String? tutorName, BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return WidgetDialog(
+            title: "Report $tutorName",
+            widget: ReportDialogContent(size: size));
+      });
 }
 
 class ReportDialogContent extends StatefulWidget {
@@ -28,7 +39,7 @@ class ReportDialogContentState extends State<ReportDialogContent> {
     listReport = [
       ReportModel("This tutor is pretending to be someone else", false),
       ReportModel(
-          "This tutor's profile information is shadyrect, shady", false),
+          "This tutor's profile information is incorrect, shady", false),
       ReportModel("This tutor is harassing me", false),
     ];
     super.initState();
@@ -86,20 +97,6 @@ class ReportDialogContentState extends State<ReportDialogContent> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-
-            Container(
-              alignment: Alignment.bottomRight,
-              // margin: EdgeInsets.symmetric(vertical: 8),
-              child: ChipButton(
-                callback: () {
-                  Navigator.of(context).pop();
-                },
-                title: 'Send report',
-                icon: null,
-                chipType: ButtonType.confirmButton,
-                hasIcon: false,
-              ),
-            ),
             Container(
               alignment: Alignment.bottomRight,
               // margin: EdgeInsets.symmetric(vertical: 8),
@@ -114,6 +111,20 @@ class ReportDialogContentState extends State<ReportDialogContent> {
                 customPadding: EdgeInsets.fromLTRB(16, 12, 16, 12),
               ),
             ),
+            Container(
+              alignment: Alignment.bottomRight,
+              // margin: EdgeInsets.symmetric(vertical: 8),
+              child: ChipButton(
+                callback: () {
+                  Navigator.of(context).pop();
+                },
+                title: 'Send report',
+                icon: null,
+                chipType: ButtonType.confirmButton,
+                hasIcon: false,
+              ),
+            ),
+
           ],
         )
       ],
@@ -136,7 +147,7 @@ class ReportCheckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
-      title: Text(report.content),
+      title: Text(report.content,),
       contentPadding: EdgeInsets.zero,
       value: report.isChecked,
       onChanged: (bool? value) {

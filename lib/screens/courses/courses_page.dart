@@ -87,7 +87,6 @@ class _CoursesPageState extends State<CoursesPage>
           return Center(child: CourseTab(tabType: label));
         }).toList(),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.coursesPage, context: context,),
     );
   }
 

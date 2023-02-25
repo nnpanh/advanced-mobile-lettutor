@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
+import 'package:lettutor/screens/common_widgets/dialogs/report_dialog.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
@@ -9,10 +9,11 @@ import '../../config/router_arguments.dart';
 import '../../const/export_const.dart';
 import '../../model/tutor_model.dart';
 import '../../utils/default_style.dart';
-import '../common_widgets/dialogs/widget_dialog.dart';
+import '../../utils/utils.dart';
+import '../common_widgets/dialogs/show_reviews_dialog.dart';
+import '../common_widgets/dialogs/base_dialog/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 import '../common_widgets/title_and_chips.dart';
-import 'widgets/review_dialog_content.dart';
 
 class TutorDetailPage extends StatefulWidget {
   const TutorDetailPage({super.key, required this.tutorModel});
@@ -36,7 +37,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBar("Tutor Details", context),
+        appBar: appBarDefault("Tutor Details", context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -76,7 +77,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                               "${tutorData.name}",
                               style: bodyLargeBold(context)?.copyWith(
                                   fontSize: 18,
-                                  height: ConstValue.descriptionTextScale),
+                                  ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
@@ -126,7 +127,6 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
                       color: CustomColor.greyTextColor,
-                      height: ConstValue.descriptionTextScale,
                     ),
                     colorClickableText: Colors.blue,
                     trimMode: TrimMode.Line,
@@ -168,7 +168,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            onPressedReport(size, tutorData.name);
+                            onPressedReport(size, tutorData.name,context);
                           },
                           icon: const Icon(
                             Icons.report_outlined,
@@ -186,7 +186,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            onPressedReviews(size);
+                            onPressedShowReviews(size, context);
                           },
                           icon: const Icon(
                             Icons.reviews_outlined,
@@ -246,7 +246,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.pushNamed(
-                                          context, MyRouter.courses);
+                                          context, MyRouter.courseDetail, arguments: CourseDetailArguments(courseModel: course));
                                     })
                             ])),
                           ),
@@ -267,7 +267,6 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
                       color: CustomColor.greyTextColor,
-                      height: ConstValue.descriptionTextScale,
                     ),
                     colorClickableText: Colors.blue,
                     trimMode: TrimMode.Line,
@@ -288,7 +287,6 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
                       color: CustomColor.greyTextColor,
-                      height: ConstValue.descriptionTextScale,
                     ),
                     colorClickableText: Colors.blue,
                     trimMode: TrimMode.Line,
@@ -317,22 +315,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
         ));
   }
 
-  void onPressedReport(Size size, String? tutorName) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return WidgetDialog(
-              title: "Report $tutorName",
-              widget: ReportDialogContent(size: size));
-        });
-  }
 
-  void onPressedReviews(Size size) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return WidgetDialog(
-              title: 'Reviews', widget: ReviewDialogContent(size: size));
-        });
-  }
+
+
 }

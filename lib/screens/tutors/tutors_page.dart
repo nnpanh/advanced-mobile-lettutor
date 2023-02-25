@@ -87,6 +87,7 @@ class _TutorsPageState extends State<TutorsPage> {
                       Icons.search,
                       color: Colors.black12,
                     ),
+
                     contentPadding: EdgeInsets.all(18),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -172,7 +173,6 @@ class _TutorsPageState extends State<TutorsPage> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.studyPage, context: context,),
     );
   }
 

@@ -57,8 +57,7 @@ class TutorCardState extends State<TutorCard> {
                         // horizontal: 16, vertical: 12),
                         child: Text(
                           "${widget.tutorData.name}",
-                          style: bodyLargeBold(context)?.copyWith(
-                              height: ConstValue.descriptionTextScale),
+                          style: bodyLargeBold(context),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
@@ -113,7 +112,6 @@ class TutorCardState extends State<TutorCard> {
               child: Text(
                 "${widget.tutorData.description}",
                 style: bodyLarge(context)?.copyWith(
-                    height: ConstValue.descriptionTextScale,
                     color: CustomColor.greyTextColor),
                 textAlign: TextAlign.justify,
                 softWrap: true,

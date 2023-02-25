@@ -60,7 +60,6 @@ class _TestPageState extends State<TestPage> {
                     width: size.width*0.4,
                     child: Text('Find a tutor for a one-on-one lesson', style: bodyLarge(context)?.copyWith(
                         color: Colors.white,
-                      height: ConstValue.descriptionTextScale
                     ),),
                   )
                   ],
@@ -84,14 +83,13 @@ class _TestPageState extends State<TestPage> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         const Icon(Icons.history_edu, color: Colors.blue, size: 48,),
-                        Text('Courses', style: headLineMedium(context)?.copyWith(
+                        Text('Course', style: headLineMedium(context)?.copyWith(
                             color: Colors.blue
                         ),),
                         SizedBox(
                           width: size.width*0.5,
                           child: Text('Or exploring yourself with our library of lessons and ebooks', style: bodyLarge(context)?.copyWith(
                               color: Colors.blue,
-                            height: ConstValue.descriptionTextScale
                           ),textAlign: TextAlign.end,
                           ),
                         )

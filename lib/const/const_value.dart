@@ -15,12 +15,25 @@ class ConstValue {
 class ButtonType {
   static const outlinedButton = "outlinedButton";
   static const filledButton = "filledButton";
+  static const filledWhiteButton = "filledWhiteButton";
   static const confirmButton = "confirmButton";
 }
 
 class NavigationIndex {
   static const homePage = 0;
-  static const coursesPage = 1;
+  static const schedulePage = 1;
   static const studyPage = 2;
   static const settingsPage = 3;
+}
+
+class CourseOverView {
+  static const takenReason = "Our world is rapidly changing thanks to new technology, and the vocabulary needed to discuss modern life is evolving almost daily. In this course you will learn the most up-to-date terminology from expertly crafted lessons as well from your native-speaking tutor.";
+  static const achievement = "You will learn vocabulary related to timely topics like remote work, artificial intelligence, online privacy, and more. In addition to discussion questions, you will practice intermediate level speaking tasks such as using data to describe trends.";
+}
+
+class TimeFormat {
+  static const getDateNo = "getDateNo";
+  static const getTime = "getTime";
+  static const getDateAndTime = "getDateAndTime";
+  static const getDateOnly = "getDateOnly";
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../const/const_value.dart';
-import '../../../utils/default_style.dart';
-import '../chip_button.dart';
+import '../../../../const/const_value.dart';
+import '../../../../utils/default_style.dart';
+import '../../chip_button.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final String content;
@@ -44,7 +44,7 @@ class ConfirmDialog extends StatelessWidget {
           content,
           softWrap: true,
           style: bodyLarge(context)
-              ?.copyWith(fontSize: 16, height: ConstValue.descriptionTextScale,),
+              ?.copyWith(fontSize: 16),
           overflow: TextOverflow.ellipsis,
           maxLines: 3,
         ),

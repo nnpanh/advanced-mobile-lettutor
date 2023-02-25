@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/screens/courses/widgets/chapter_card.dart';
-import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
+import 'package:lettutor/screens/common_widgets/dialogs/report_dialog.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
@@ -11,7 +11,7 @@ import '../../const/export_const.dart';
 import '../../model/course_model.dart';
 import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
-import '../common_widgets/dialogs/widget_dialog.dart';
+import '../common_widgets/dialogs/base_dialog/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 import '../common_widgets/title_and_chips.dart';
 
@@ -38,7 +38,7 @@ class CourseDetailPage extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBar("Course Details", context),
+        appBar: appBarDefault("Course Details", context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -72,7 +72,6 @@ class CourseDetailPage extends StatelessWidget {
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
                       color: CustomColor.greyTextColor,
-                      height: ConstValue.descriptionTextScale,
                     ),
                     colorClickableText: Colors.blue,
                     trimMode: TrimMode.Line,
@@ -80,7 +79,84 @@ class CourseDetailPage extends StatelessWidget {
                     trimExpandedText: ' Show less',
                   ),
                 ),
-
+                SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(24,16,24,16),
+                    child: CustomElevatedButton(
+                        title: 'Discover',
+                        buttonType: ButtonType.filledButton,
+                        callback: () {
+                          // Navigator.pushNamed(context, MyRouter.bookTutor,
+                          //     arguments:
+                          // TutorDetailArguments(courseModel: tutorData));
+                        },
+                        radius: 50),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+                  child:
+                  Text('Overview', style: headLineSmall(context)?.copyWith(
+                      fontSize: 20
+                  )),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Icon(Icons.question_mark_rounded, color: Colors.blue,),
+                      const SizedBox(width: 12,),
+                      Text("Why take this course",
+                          style: bodyLargeBold(context)?.copyWith(
+                              height: ConstValue.courseNameTextScale)
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Text(CourseOverView.takenReason,
+                            style: bodyLarge(context),
+                          textAlign: TextAlign.justify,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Icon(Icons.question_mark_rounded, color: Colors.blue,),
+                      const SizedBox(width: 12,),
+                      Text("What will you be able to do",
+                          style: bodyLargeBold(context)?.copyWith(
+                              height: ConstValue.courseNameTextScale)
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Text(CourseOverView.achievement,
+                          style: bodyLarge(context),
+                          textAlign: TextAlign.justify,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
                   child:
@@ -193,21 +269,7 @@ class CourseDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(24,8,24,24),
-                    child: CustomElevatedButton(
-                        title: 'Discover',
-                        buttonType: ButtonType.filledButton,
-                        callback: () {
-                          // Navigator.pushNamed(context, MyRouter.bookTutor,
-                          //     arguments:
-                          // TutorDetailArguments(courseModel: tutorData));
-                        },
-                        radius: 50),
-                  ),
-                ),
+
               ],
             ),
           ),

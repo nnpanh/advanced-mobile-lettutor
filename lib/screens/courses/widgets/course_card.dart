@@ -57,7 +57,6 @@ class CourseCardState extends State<CourseCard> {
               child: Text(
                 "${widget.courseData.description}",
                 style: bodyLarge(context)?.copyWith(
-                    height: ConstValue.descriptionTextScale,
                     color: CustomColor.greyTextColor),
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
@@ -69,8 +68,7 @@ class CourseCardState extends State<CourseCard> {
               padding: const EdgeInsets.all(24),
               child: Text(
                 "${widget.courseData.level}  •  ${widget.courseData.chapterTitles.length} Lessons",
-                style: bodyLarge(context)
-                    ?.copyWith(height: ConstValue.descriptionTextScale),
+                style: bodyLarge(context),
                 textAlign: TextAlign.start,
                 softWrap: true,
               ),

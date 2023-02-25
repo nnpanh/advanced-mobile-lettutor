@@ -5,7 +5,16 @@ import '../../../const/export_const.dart';
 import '../../../model/review_model.dart';
 import '../../../utils/default_style.dart';
 import '../../../utils/utils.dart';
+import 'base_dialog/widget_dialog.dart';
 
+void onPressedShowReviews(Size size, BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return WidgetDialog(
+            title: 'Reviews', widget: ReviewDialogContent(size: size));
+      });
+}
 class ReviewDialogContent extends StatelessWidget {
   ReviewDialogContent({super.key, required this.size});
   final Size size;
@@ -66,8 +75,7 @@ class ReviewWidget extends StatelessWidget {
               children: [
                 Text(
                   "${reviewData.userName}",
-                  style: bodyLargeBold(context)
-                      ?.copyWith(height: ConstValue.descriptionTextScale),
+                  style: bodyLargeBold(context),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),

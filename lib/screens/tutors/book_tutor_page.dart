@@ -1,14 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lettutor/screens/tutors/widgets/report_dialog_content.dart';
+import 'package:lettutor/screens/common_widgets/dialogs/report_dialog.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../model/tutor_model.dart';
 import '../../utils/utils.dart';
 import '../../utils/default_style.dart';
-import '../common_widgets/dialogs/confirm_dialog.dart';
+import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 
 class BookTutorPage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _BookTutorPageState extends State<BookTutorPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBar("Booking Details", context),
+        appBar: appBarDefault("Booking Details", context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -57,7 +57,7 @@ class _BookTutorPageState extends State<BookTutorPage> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: CustomElevatedButton(
-                        title: getDateString(date),
+                        title: getDateString(date, TimeFormat.getDateNo),
                         callback: () {
                           Future<DateTime?> dateTime = showDatePicker(
                             context: context,
@@ -189,10 +189,5 @@ class _BookTutorPageState extends State<BookTutorPage> {
             },
           );
         });
-  }
-
-  String getDateString(DateTime value) {
-    String dayOfWeek = DateFormat('EEEE').format(value);
-    return "$dayOfWeek, ${value.day}/${value.month}/${value.year}";
   }
 }

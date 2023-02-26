@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/screens/common_widgets/elevated_button.dart';
+import 'package:lettutor/view/common_widgets/elevated_button.dart';
 import 'package:lettutor/utils/utils.dart';
 
 import '../../../../const/const_value.dart';

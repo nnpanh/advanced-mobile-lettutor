@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/config/router_arguments.dart';
-import 'package:lettutor/screens/authentication/forgot_pass_page.dart';
-import 'package:lettutor/screens/authentication/login_page.dart';
-import 'package:lettutor/screens/authentication/sign_up_page.dart';
-import 'package:lettutor/screens/schedule/history_page.dart';
-import 'package:lettutor/screens/settings/account_page.dart';
-import 'package:lettutor/screens/settings/become_tutor_page.dart';
-import 'package:lettutor/screens/settings/settings_page.dart';
+import 'package:lettutor/view/authentication/forgot_pass_page.dart';
+import 'package:lettutor/view/authentication/login_page.dart';
+import 'package:lettutor/view/authentication/sign_up_page.dart';
+import 'package:lettutor/view/schedule/history_page.dart';
+import 'package:lettutor/view/settings/account_page.dart';
+import 'package:lettutor/view/settings/become_tutor_page.dart';
+import 'package:lettutor/view/settings/settings_page.dart';
 
-import '../screens/courses/course_detail_page.dart';
-import '../screens/courses/courses_page.dart';
-import '../screens/courses/select_page.dart';
-import '../screens/home_page.dart';
-import '../screens/schedule/schedule_page.dart';
-import '../screens/tutors/booking_detail_page.dart';
-import '../screens/tutors/tutor_detail_page.dart';
-import '../screens/tutors/tutors_page.dart';
+import '../view/courses/course_detail_page.dart';
+import '../view/courses/courses_page.dart';
+import '../view/courses/select_page.dart';
+import '../view/home_page.dart';
+import '../view/schedule/schedule_page.dart';
+import '../view/tutors/booking_detail_page.dart';
+import '../view/tutors/tutor_detail_page.dart';
+import '../view/tutors/tutors_page.dart';
 import 'error_page.dart';
 
 class MyRouter {

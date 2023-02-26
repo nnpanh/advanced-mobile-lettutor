@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:lettutor/screens/common_widgets/dialogs/report_dialog.dart';
+import 'package:lettutor/view/common_widgets/dialogs/report_dialog.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';

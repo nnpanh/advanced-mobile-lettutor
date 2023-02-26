@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/screens/settings/widget/menu_widget.dart';
+import 'package:lettutor/view/settings/widget/menu_widget.dart';
 import 'package:lettutor/utils/default_style.dart';
 import 'package:lettutor/utils/utils.dart';
 
+import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 
@@ -76,7 +77,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       child: const Icon(Icons.edit, color: Colors.blue, size: 24,)
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(MyRouter.account);
+                    },
                   ),
                   InkWell(
                     child: Container(
@@ -91,7 +94,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     onTap: () {
                       onPressedLogOut(context, size);
-
                     },
                   ),
                 ],

@@ -8,8 +8,8 @@ import 'package:lettutor/model/review_model.dart';
 import '../config/router.dart';
 import '../model/course_model.dart';
 import '../model/tutor_model.dart';
-import '../screens/common_widgets/dialogs/base_dialog/widget_dialog.dart';
-import '../screens/common_widgets/dialogs/report_dialog.dart';
+import '../view/common_widgets/dialogs/base_dialog/widget_dialog.dart';
+import '../view/common_widgets/dialogs/report_dialog.dart';
 
 ThemeMode getDeviceThemeMode() {
   var brightness =
@@ -107,12 +107,9 @@ List<LessonModel> generateLessons() {
 
   return lessons;
 }
-
 List<String> generateDayList() {
   return ['21/2 (Today)', '22/2', '23/2', '24/2', '25/2', '26/2', '27/2'];
 }
-
-
 List<ReviewModel> generateReviewList() {
   var sampleReview = ReviewModel(
       "Kinn",
@@ -134,7 +131,6 @@ List<ReviewModel> generateReviewList() {
   }
   return reviewList;
 }
-
 List<CourseModel> generateCourses() {
   List<CourseModel> courseList = [];
   var sampleCourse = CourseModel(
@@ -161,7 +157,6 @@ List<CourseModel> generateCourses() {
   }
   return courseList;
 }
-
 TutorModel testTutor() {
   return TutorModel(
       'Shuumatsu no Valkyrie: Ragnarok War of God and Humans',
@@ -175,7 +170,7 @@ TutorModel testTutor() {
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       generateCourses());
 }
-List<TutorModel> generateDummiesList() {
+List<TutorModel> generateTutorList() {
   List<TutorModel> tutorList = [];
   List<CourseModel> courseList = generateCourses();
 

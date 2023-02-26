@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/config/router_arguments.dart';
-import 'package:lettutor/screens/courses/widgets/chapter_card.dart';
+import 'package:lettutor/view/courses/widgets/chapter_card.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';

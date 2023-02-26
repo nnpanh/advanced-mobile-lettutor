@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/screens/common_widgets/chip_button.dart';
-import 'package:lettutor/screens/common_widgets/elevated_button.dart';
+import 'package:lettutor/view/common_widgets/chip_button.dart';
+import 'package:lettutor/view/common_widgets/elevated_button.dart';
 import 'package:lettutor/utils/default_style.dart';
 
 import '../../../const/export_const.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/model/lesson_model.dart';
 import 'package:lettutor/model/review_model.dart';
-import 'package:lettutor/screens/common_widgets/dialogs/create_review_dialog.dart';
-import 'package:lettutor/screens/schedule/widgets/lesson_card.dart';
+import 'package:lettutor/view/common_widgets/dialogs/create_review_dialog.dart';
+import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';

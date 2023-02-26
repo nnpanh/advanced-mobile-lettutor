@@ -1,27 +1,26 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lettutor/screens/tutors/widgets/tutor_card.dart';
+import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
 import 'package:lettutor/utils/default_style.dart';
 
-import '../../config/router.dart';
-import '../../const/export_const.dart';
-import '../../model/tutor_model.dart';
-import '../../utils/utils.dart';
+import '../const/export_const.dart';
+import '../model/tutor_model.dart';
+import '../utils/utils.dart';
 
-class TutorsPage extends StatefulWidget {
-  const TutorsPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<TutorsPage> createState() => _TutorsPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _TutorsPageState extends State<TutorsPage> {
-  int speciality = 0;
+class _HomePageState extends State<HomePage> {
+  int tag = 0;
   final _txtController = TextEditingController();
 
   // list of string options
-  List<String> specialities = [
+  List<String> options = [
     'All categories',
     'English for kids',
     'English for Business',
@@ -35,26 +34,42 @@ class _TutorsPageState extends State<TutorsPage> {
     'TOEFL',
   ];
 
-  int nationality = 0;
-  List<String> nationalities = [
-    'All nationalities',
-    'Vietnamese',
-    'Native speaker',
-    'Foreign speaker',
-  ];
-
-  List<TutorModel> tutorList = generateDummiesList();
+  List<TutorModel> tutorList = generateTutorList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDefault(MyRouter.tutors, context),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+                padding: const EdgeInsets.fromLTRB(24, 60, 24, 36),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [CustomColor.shadowBlue, CustomColor.darkBlue],
+                        begin: Alignment.topLeft,
+                        end: const Alignment(0.75, 1))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'You have no upcoming lesson.',
+                      style: bodyLargeBold(context)
+                          ?.copyWith(color: Colors.white, fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Welcome to LetTutor!',
+                      style: bodyLarge(context)?.copyWith(color: Colors.white),
+                    )
+                  ],
+                )),
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 18),
@@ -72,7 +87,6 @@ class _TutorsPageState extends State<TutorsPage> {
                       Icons.search,
                       color: Colors.black12,
                     ),
-
                     contentPadding: EdgeInsets.all(18),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -103,9 +117,9 @@ class _TutorsPageState extends State<TutorsPage> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
               child: ChipsChoice<int>.single(
-                  value: speciality,
+                  value: tag,
                   choiceItems: C2Choice.listFrom<int, String>(
-                    source: specialities,
+                    source: options,
                     value: (i, v) => i,
                     label: (i, v) => v,
                     // tooltip: (i, v) => v,
@@ -123,45 +137,7 @@ class _TutorsPageState extends State<TutorsPage> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      speciality = value;
-                    });
-                  }),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Select nationality', style: headLineSmall(context)),
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-              child: ChipsChoice<int>.single(
-                  value: nationality,
-                  choiceItems: C2Choice.listFrom<int, String>(
-                    source: nationalities,
-                    value: (i, v) => i,
-                    label: (i, v) => v,
-                    // tooltip: (i, v) => v,
-                  ),
-                  wrapped: true,
-                  // choiceCheckmark: true,
-                  choiceStyle: C2ChipStyle.outlined(
-                    color: CustomColor.shadowBlue,
-                    // color: Theme.of(context).primaryColor,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                    selectedStyle: C2ChipStyle.filled(
-                        color: Colors.blue, foregroundColor: Colors.white),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      nationality = value;
+                      tag = value;
                     });
                   }),
             ),
@@ -174,7 +150,7 @@ class _TutorsPageState extends State<TutorsPage> {
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-              child: Text('Matched tutors', style: headLineMedium(context)),
+              child: Text('Recommed tutors', style: headLineMedium(context)),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
@@ -190,12 +166,10 @@ class _TutorsPageState extends State<TutorsPage> {
                         return TutorCard(tutorData: tutorList[index]);
                       })),
             )
-            // Container(
-            //   child: tutorList()
-            // )
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.homePage, context: context,),
     );
   }
 
@@ -204,10 +178,9 @@ class _TutorsPageState extends State<TutorsPage> {
   }
 
   void resetFilter() {
-    if (speciality != 0 || _txtController.text.isNotEmpty || nationality != 0) {
+    if (tag != 0 || _txtController.text.isNotEmpty) {
       setState(() {
-        nationality = 0;
-        speciality = 0;
+        tag = 0;
         _txtController.clear();
       });
     }

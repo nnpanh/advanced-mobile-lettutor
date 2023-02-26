@@ -17,7 +17,6 @@ class ButtonType {
   static const outlinedButton = "outlinedButton";
   static const filledButton = "filledButton";
   static const filledWhiteButton = "filledWhiteButton";
-  static const confirmButton = "confirmButton";
 }
 
 class NavigationIndex {
@@ -37,4 +36,23 @@ class TimeFormat {
   static const getTime = "getTime";
   static const getDateAndTime = "getDateAndTime";
   static const getDateOnly = "getDateOnly";
+}
+
+enum Speciality {
+  forKids, forBusiness, conversational, starters, movers, flyers, ketPet, toeic, ielts, toefl, }
+
+extension ChipExtension on Speciality {
+  List<String> get getList {
+    return ["English for kids", "English for Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
+  }
+
+  String get name {
+    return getList[index];
+  }
+}
+
+class Nationality {
+  static const nationVN = 'Vietnamese';
+  static const nationNative = 'Native speaker';
+  static const nationForeign = 'Foreign speaker';
 }

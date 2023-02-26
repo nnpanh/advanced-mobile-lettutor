@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/const/const_value.dart';
-import 'package:lettutor/screens/courses/courses_page.dart';
+import 'package:lettutor/view/courses/courses_page.dart';
 import 'package:lettutor/utils/utils.dart';
 
 import '../config/router.dart';
-import '../screens/courses/select_page.dart';
+import '../view/courses/select_page.dart';
 
 class DefaultColor {
   late Color fontColor = Colors.black;

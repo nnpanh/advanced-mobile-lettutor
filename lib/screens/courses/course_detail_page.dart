@@ -1,9 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/screens/courses/widgets/chapter_card.dart';
-import 'package:lettutor/screens/common_widgets/dialogs/report_dialog.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
@@ -11,9 +9,7 @@ import '../../const/export_const.dart';
 import '../../model/course_model.dart';
 import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
-import '../common_widgets/dialogs/base_dialog/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';
-import '../common_widgets/title_and_chips.dart';
 
 
 class CourseDetailPage extends StatelessWidget {
@@ -38,7 +34,7 @@ class CourseDetailPage extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBarDefault("Course Details", context),
+        appBar: appBarDefault(MyRouter.courseDetail, context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,

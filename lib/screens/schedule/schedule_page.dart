@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/common_widgets/chip_button.dart';
+import 'package:lettutor/screens/common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import 'package:lettutor/screens/schedule/widgets/lesson_card.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
-import '../../const/custom_color.dart';
 import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
-import '../tutors/widgets/tutor_card.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -21,14 +20,15 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-                padding: const EdgeInsets.fromLTRB(24, 60, 24, 36),
+                padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
                 width: double.infinity,
-                    color: Colors.blue,
+                color: Colors.blue,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -38,7 +38,7 @@ class _SchedulePageState extends State<SchedulePage> {
                           ?.copyWith(color: Colors.white, fontSize: 18),
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 8,
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -54,16 +54,26 @@ class _SchedulePageState extends State<SchedulePage> {
                             ),
                           ),
                           Expanded(
-                            flex: 1,
+                              flex: 1,
                               child: Container(
                                 // alignment: Alignment.centerLeft,
-                                child: ChipButton(callback: () {  }, title: '  Join  ', hasIcon: false, chipType: ButtonType.filledWhiteButton,
-
-                          ),
+                                child: ChipButton(
+                                  callback: () {},
+                                  title: '  Join  ',
+                                  hasIcon: false,
+                                  chipType: ButtonType.filledWhiteButton,
+                                ),
                               ))
                         ],
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      'Total learning hours left: 4 hours',
+                      style: bodyLarge(context)?.copyWith(color: Colors.white),
+                    ),
                   ],
                 )),
             Container(
@@ -117,13 +127,100 @@ class _SchedulePageState extends State<SchedulePage> {
                       itemCount: lessonList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return LessonCard(
-                          lessonData: lessonList[index], isHistoryCard: false, leftButton: 'Cancel', rightButton: 'Go to meeting', leftButtonCallback: () {  }, rightButtonCallback: () {  },);
+                          lessonData: lessonList[index],
+                          isHistoryCard: false,
+                          leftButton: 'Cancel',
+                          rightButton: 'Go to meeting',
+                          leftButtonCallback: () {
+                            onPressedCancel(context, size);
+                          },
+                          rightButtonCallback: () {},
+                          iconButtonCallback: () {
+                            onPressedLeaveNote(context, size);
+                          },
+                        );
                       })),
             )
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.schedulePage, context: context,),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: NavigationIndex.schedulePage,
+        context: context,
+      ),
     );
   }
+
+  void onPressedCancel(BuildContext context, Size size) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ConfirmDialog(
+            content: null,
+            title: 'Cancel lesson',
+            widget: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Do you want to cancel this lesson?'),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: const TextField(
+                    maxLines: 5,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Leave the reason why you cancel this lesson..',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            size: size,
+            onRightButton: () {
+              Navigator.of(context).pop();
+            },
+            onLeftButton: () {
+              Navigator.of(context).pop();
+            },
+            leftButton: 'Cancel',
+            rightButton: 'Confirm',
+            hasLeftButton: true,
+          );
+        });
+  }
+
+  void onPressedLeaveNote(BuildContext context, Size size) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ConfirmDialog(
+            content: null,
+            title: 'Send note',
+            widget: Container(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: const TextField(
+                maxLines: 5,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Leave a note for your tutor before the lesson..',
+                ),
+              ),
+            ),
+            size: size,
+            onRightButton: () {
+              Navigator.of(context).pop();
+            },
+            onLeftButton: () {
+              Navigator.of(context).pop();
+            },
+            leftButton: 'Cancel',
+            rightButton: 'Send',
+            hasLeftButton: true,
+          );
+        });
+  }
+
+  void onPressedGoToMeeting() {}
 }

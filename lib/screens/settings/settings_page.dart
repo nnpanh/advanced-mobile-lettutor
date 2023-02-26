@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/screens/courses/widgets/chapter_card.dart';
 import 'package:lettutor/screens/settings/widget/menu_widget.dart';
 import 'package:lettutor/utils/default_style.dart';
 import 'package:lettutor/utils/utils.dart';
 
 import '../../const/const_value.dart';
-import '../../const/custom_color.dart';
 import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -27,18 +25,19 @@ class _SettingsPageState extends State<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(24, 60, 24, 24),
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Colors.blue,),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      radius: 28,
+              padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 28,
                       backgroundColor: Colors.white,
                       foregroundImage: NetworkImage("https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
                     ),

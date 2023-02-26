@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/screens/tutors/widgets/tutor_card.dart';
 import 'package:lettutor/utils/default_style.dart';
 
+import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../model/tutor_model.dart';
 import '../../utils/utils.dart';
@@ -16,11 +17,11 @@ class TutorsPage extends StatefulWidget {
 }
 
 class _TutorsPageState extends State<TutorsPage> {
-  int tag = 0;
+  int speciality = 0;
   final _txtController = TextEditingController();
 
   // list of string options
-  List<String> options = [
+  List<String> specialities = [
     'All categories',
     'English for kids',
     'English for Business',
@@ -34,12 +35,20 @@ class _TutorsPageState extends State<TutorsPage> {
     'TOEFL',
   ];
 
+  int nationality = 0;
+  List<String> nationalities = [
+    'All nationalities',
+    'Vietnamese',
+    'Native speaker',
+    'Foreign speaker',
+  ];
+
   List<TutorModel> tutorList = generateDummiesList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDefault('Recommend Tutor', context),
+      appBar: appBarDefault(MyRouter.tutors, context),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -48,7 +57,7 @@ class _TutorsPageState extends State<TutorsPage> {
           children: [
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24, 60, 24, 18),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 18),
               child: Text('Find a tutor',
                   style: headLineMedium(context)?.copyWith(fontSize: 32)),
             ),
@@ -94,9 +103,9 @@ class _TutorsPageState extends State<TutorsPage> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
               child: ChipsChoice<int>.single(
-                  value: tag,
+                  value: speciality,
                   choiceItems: C2Choice.listFrom<int, String>(
-                    source: options,
+                    source: specialities,
                     value: (i, v) => i,
                     label: (i, v) => v,
                     // tooltip: (i, v) => v,
@@ -114,7 +123,45 @@ class _TutorsPageState extends State<TutorsPage> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      tag = value;
+                      speciality = value;
+                    });
+                  }),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text('Select nationality', style: headLineSmall(context)),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+              child: ChipsChoice<int>.single(
+                  value: nationality,
+                  choiceItems: C2Choice.listFrom<int, String>(
+                    source: nationalities,
+                    value: (i, v) => i,
+                    label: (i, v) => v,
+                    // tooltip: (i, v) => v,
+                  ),
+                  wrapped: true,
+                  // choiceCheckmark: true,
+                  choiceStyle: C2ChipStyle.outlined(
+                    color: CustomColor.shadowBlue,
+                    // color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                    selectedStyle: C2ChipStyle.filled(
+                        color: Colors.blue, foregroundColor: Colors.white),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      nationality = value;
                     });
                   }),
             ),
@@ -157,9 +204,10 @@ class _TutorsPageState extends State<TutorsPage> {
   }
 
   void resetFilter() {
-    if (tag != 0 || _txtController.text.isNotEmpty) {
+    if (speciality != 0 || _txtController.text.isNotEmpty || nationality != 0) {
       setState(() {
-        tag = 0;
+        nationality = 0;
+        speciality = 0;
         _txtController.clear();
       });
     }

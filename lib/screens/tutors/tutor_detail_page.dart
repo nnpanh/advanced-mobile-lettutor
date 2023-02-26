@@ -9,9 +9,7 @@ import '../../config/router_arguments.dart';
 import '../../const/export_const.dart';
 import '../../model/tutor_model.dart';
 import '../../utils/default_style.dart';
-import '../../utils/utils.dart';
 import '../common_widgets/dialogs/show_reviews_dialog.dart';
-import '../common_widgets/dialogs/base_dialog/widget_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 import '../common_widgets/title_and_chips.dart';
 
@@ -37,7 +35,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBarDefault("Tutor Details", context),
+        appBar: appBarDefault(MyRouter.tutorDetail, context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -302,7 +300,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         title: 'Book this tutor',
                         buttonType: ButtonType.filledButton,
                         callback: () {
-                          Navigator.pushNamed(context, MyRouter.bookTutor,
+                          Navigator.pushNamed(context, MyRouter.bookingDetail,
                               arguments:
                                   TutorDetailArguments(tutorModel: tutorData));
                         },

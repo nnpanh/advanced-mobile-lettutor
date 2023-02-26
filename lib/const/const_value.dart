@@ -5,6 +5,7 @@ class ImagesPath {
   static const google = "assets/images/google.png";
   static const resetPassword = "assets/images/reset_pass.png";
   static const youtube = "assets/images/youtube.jpeg";
+  static const error = "assets/images/error_mascot.png";
 }
 
 class ConstValue {

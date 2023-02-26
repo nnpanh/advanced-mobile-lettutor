@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-              child: Text('Matched tutors', style: headLineMedium(context)),
+              child: Text('Recommed tutors', style: headLineMedium(context)),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),

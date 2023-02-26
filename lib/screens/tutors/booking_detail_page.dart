@@ -1,25 +1,24 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:lettutor/screens/common_widgets/dialogs/report_dialog.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../model/tutor_model.dart';
-import '../../utils/utils.dart';
 import '../../utils/default_style.dart';
+import '../../utils/utils.dart';
 import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 
-class BookTutorPage extends StatefulWidget {
-  const BookTutorPage({super.key, required this.tutorModel});
+class BookingDetailPage extends StatefulWidget {
+  const BookingDetailPage({super.key, required this.tutorModel});
+
   final TutorModel tutorModel;
 
   @override
-  State<BookTutorPage> createState() => _BookTutorPageState();
+  State<BookingDetailPage> createState() => _BookingDetailPageState();
 }
 
-class _BookTutorPageState extends State<BookTutorPage> {
+class _BookingDetailPageState extends State<BookingDetailPage> {
   late TutorModel tutorData;
   late DateTime date;
   late String time;
@@ -37,7 +36,7 @@ class _BookTutorPageState extends State<BookTutorPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBarDefault("Booking Details", context),
+        appBar: appBarDefault(MyRouter.bookingDetail, context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -169,9 +168,15 @@ class _BookTutorPageState extends State<BookTutorPage> {
         builder: (BuildContext context) {
           return ConfirmDialog(
             size: size,
-            content: "Book this tutor successfully.", title: 'Announcement', onLeftButton: () {
-            Navigator.of(context).pop();
-          }, onRightButton: () {  }, leftButton: '', rightButton: 'Confirm', hasLeftButton: false,
+            content: "Book this tutor successfully.",
+            title: 'Announcement',
+            onLeftButton: () {},
+            onRightButton: () {
+              Navigator.of(context).pop();
+            },
+            leftButton: '',
+            rightButton: 'Confirm',
+            hasLeftButton: false,
           );
         });
   }

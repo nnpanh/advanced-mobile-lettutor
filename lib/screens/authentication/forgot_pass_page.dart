@@ -16,13 +16,6 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  late bool _passwordVisible;
-
-  @override
-  void initState() {
-    _passwordVisible = false;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

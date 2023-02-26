@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class BaseScreen extends StatefulWidget {
-  const BaseScreen({super.key});
+class BecomeTutorPage extends StatefulWidget {
+  const BecomeTutorPage({super.key});
 
   @override
-  State<BaseScreen> createState() => _BaseScreenState();
+  State<BecomeTutorPage> createState() => _BecomeTutorPageState();
 }
 
-class _BaseScreenState extends State<BaseScreen> {
+class _BecomeTutorPageState extends State<BecomeTutorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Courses"),
+        title: const Text("Courses"),
       ),
       body: const Text(
         'You have pushed the button this many times:',

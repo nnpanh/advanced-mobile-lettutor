@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/model/lesson_model.dart';
 import 'package:lettutor/model/review_model.dart';
-import 'package:lettutor/screens/common_widgets/chip_button.dart';
 import 'package:lettutor/screens/common_widgets/dialogs/create_review_dialog.dart';
 import 'package:lettutor/screens/schedule/widgets/lesson_card.dart';
 
+import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../const/custom_color.dart';
 import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 import '../common_widgets/dialogs/report_dialog.dart';
-import '../tutors/widgets/tutor_card.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -35,15 +34,18 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBarWithCustomAction('Learning History', context,IconButton(
-        icon: const Icon(
-          Icons.filter_alt_rounded,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          onPressedFilter(context, size);
-        },
-      )),
+      appBar: appBarWithCustomAction(
+          MyRouter.learningHistory,
+          context,
+          IconButton(
+            icon: const Icon(
+              Icons.filter_alt_rounded,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              onPressedFilter(context, size);
+            },
+          )),
       body: SingleChildScrollView(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -74,14 +76,28 @@ class _HistoryPageState extends State<HistoryPage> {
                         LessonModel lesson = lessonList[index];
                         return LessonCard(
                           lessonData: lesson,
-                          isHistoryCard: true, leftButton: 'Report', rightButton: 'Add a review',
+                          isHistoryCard: true,
+                          leftButton: 'Report',
+                          rightButton: 'Add a review',
                           leftButtonCallback: () {
                             onPressedReport(size, lesson.tutorName, context);
                           },
                           rightButtonCallback: () {
-                            ReviewModel newReview = ReviewModel(lesson.tutorName, lesson.tutorAvatarUrl, "", 5, DateTime.now());
-                            onPressedCreateReview(size, context, newReview, getDateString(lesson.lessonStart, TimeFormat.getDateOnly));
-                          },);
+                            ReviewModel newReview = ReviewModel(
+                                lesson.tutorName,
+                                lesson.tutorAvatarUrl,
+                                "",
+                                5,
+                                DateTime.now());
+                            onPressedCreateReview(
+                                size,
+                                context,
+                                newReview,
+                                getDateString(lesson.lessonStart,
+                                    TimeFormat.getDateOnly));
+                          },
+                          iconButtonCallback: () {},
+                        );
                       })),
             )
           ],

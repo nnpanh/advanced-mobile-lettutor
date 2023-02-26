@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/model/lesson_model.dart';
 import 'package:lettutor/utils/default_style.dart';
 
-import '../../../config/router.dart';
-import '../../../config/router_arguments.dart';
 import '../../../const/export_const.dart';
-import '../../../model/tutor_model.dart';
 import '../../../utils/utils.dart';
-import '../../common_widgets/chip_button.dart';
 
 class LessonCard extends StatefulWidget {
-  const LessonCard({super.key, required this.lessonData, required this.isHistoryCard, required this.leftButton, required this.rightButton, required this.leftButtonCallback, required this.rightButtonCallback});
+  const LessonCard(
+      {super.key,
+      required this.lessonData,
+      required this.isHistoryCard,
+      required this.leftButton,
+      required this.rightButton,
+      required this.leftButtonCallback,
+      required this.rightButtonCallback,
+      required this.iconButtonCallback});
 
   final LessonModel lessonData;
   final bool isHistoryCard;
@@ -19,7 +22,7 @@ class LessonCard extends StatefulWidget {
   final String rightButton;
   final VoidCallback leftButtonCallback;
   final VoidCallback rightButtonCallback;
-
+  final VoidCallback iconButtonCallback;
 
   @override
   State<LessonCard> createState() => LessonCardState();
@@ -74,10 +77,10 @@ class LessonCardState extends State<LessonCard> {
                   child: Expanded(
                     flex:1,
                       child: IconButton(
-                    color: Colors.blue,
-                    icon: const Icon(Icons.edit_note),
-                    onPressed: () {  },
-                  )),
+                        color: Colors.blue,
+                        icon: const Icon(Icons.edit_note),
+                        onPressed: widget.iconButtonCallback,
+                      )),
                 )
               ],
             ),

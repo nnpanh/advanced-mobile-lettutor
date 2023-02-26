@@ -151,19 +151,7 @@ class _BookTutorPageState extends State<BookTutorPage> {
                     child: CustomElevatedButton(
                         title: 'Confirm booking',
                         callback: () {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return ConfirmDialog(
-                                  size: size,
-                                  content: "Book this tutor successfully.",
-                                  onClose: () {
-                                    // Navigator.of(context).pop();
-                                    pushNamedAndRemoveUntilHome(context);
-                                  },
-                                );
-                              });
+                          onPressedConfirm(context, size);
                         },
                         buttonType: ButtonType.filledButton,
                         radius: 15),
@@ -178,15 +166,12 @@ class _BookTutorPageState extends State<BookTutorPage> {
   void onPressedConfirm(BuildContext context, Size size) {
     showDialog(
         context: context,
-        barrierDismissible: false,
         builder: (BuildContext context) {
           return ConfirmDialog(
             size: size,
-            content: "Book this tutor successfully.",
-            onClose: () {
-              Navigator.of(context).pop();
-              // popUntilHomeAndRefresh(context);
-            },
+            content: "Book this tutor successfully.", title: 'Announcement', onLeftButton: () {
+            Navigator.of(context).pop();
+          }, onRightButton: () {  }, leftButton: '', rightButton: 'Confirm', hasLeftButton: false,
           );
         });
   }

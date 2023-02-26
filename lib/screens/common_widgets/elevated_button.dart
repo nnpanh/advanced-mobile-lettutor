@@ -25,9 +25,6 @@ class CustomElevatedButton extends StatelessWidget {
         return filledElevated();
       case ButtonType.outlinedButton:
         return outlinedElevated();
-        case ButtonType.confirmButton:
-        return outlinedElevated();
-
       default:
         return filledElevated();
     }

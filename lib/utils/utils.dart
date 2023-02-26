@@ -28,6 +28,12 @@ double getDescriptionHeight(BuildContext context) {
   return textHeight * ConstValue.descriptionTextScale * 5 + 16 * 2;
 }
 
+double getMaxLineHeightByLines(BuildContext context, int lines) {
+  double textHeight =
+      Theme.of(context).textTheme.bodyLarge?.fontSize?.toDouble() ?? 14;
+  return textHeight * ConstValue.descriptionTextScale * lines + 16 * 2;
+}
+
 String getDateString(DateTime value, String getType) {
   String dayOfWeek = DateFormat('EEEE').format(value);
   String dateNo =  "$dayOfWeek, ${value.day}/${value.month}/${value.year}";

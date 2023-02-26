@@ -95,39 +95,22 @@ class ReportDialogContentState extends State<ReportDialogContent> {
           },
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
-              alignment: Alignment.bottomRight,
-              // margin: EdgeInsets.symmetric(vertical: 8),
-              child: ChipButton(
-                callback: () {
+            Expanded(child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: CustomElevatedButton(callback: (){
                   Navigator.of(context).pop();
-                },
-                title: '  Cancel  ',
-                icon: null,
-                chipType: ButtonType.outlinedButton,
-                hasIcon: false,
-                customPadding: EdgeInsets.fromLTRB(16, 12, 16, 12),
-              ),
-            ),
-            Container(
-              alignment: Alignment.bottomRight,
-              // margin: EdgeInsets.symmetric(vertical: 8),
-              child: ChipButton(
-                callback: () {
+                }, title: 'Cancel', radius: 0, buttonType: ButtonType.outlinedButton,))),
+            Expanded(child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: CustomElevatedButton(callback:  (){
                   Navigator.of(context).pop();
-                },
-                title: 'Send report',
-                icon: null,
-                chipType: ButtonType.confirmButton,
-                hasIcon: false,
-              ),
-            ),
-
+                }, title: 'Send report', radius: 30, buttonType: ButtonType.filledButton,))),
           ],
         )
-      ],
+          ],
+        // )
+      // ],
     );
   }
 

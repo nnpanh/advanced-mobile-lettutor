@@ -1,15 +1,16 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/model/lesson_model.dart';
 import 'package:lettutor/model/review_model.dart';
+import 'package:lettutor/model/user_model.dart';
 
 import '../config/router.dart';
 import '../model/course_model.dart';
 import '../model/tutor_model.dart';
-import '../view/common_widgets/dialogs/base_dialog/widget_dialog.dart';
-import '../view/common_widgets/dialogs/report_dialog.dart';
 
 ThemeMode getDeviceThemeMode() {
   var brightness =
@@ -170,6 +171,33 @@ TutorModel testTutor() {
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       generateCourses());
 }
+
+UserModel testUser() {
+  return UserModel(
+      'Kimetsu no Yaiba',
+      'yuuhizaka194@gmail.com',
+      'Vietnamese',
+      '0988012170',
+      Speciality.toeic.name,
+      null,
+      'https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand',
+  'e196c821-b532-4745-93fe-e9e4cab83c46');
+}
+
+String? hiddenEmail(String? email) {
+  if (email==null || email.isEmpty || email.length<7) {
+    return email;
+  } else {
+    String first = email.substring(0, 3);
+    String last = email.substring(email.length-3, email.length);
+    String toHidden = first;
+    for (var i = email.length-7; i >= 1; i--) {
+      toHidden="$toHidden*";
+    }
+    return "$toHidden$last";
+  }
+}
+
 List<TutorModel> generateTutorList() {
   List<TutorModel> tutorList = [];
   List<CourseModel> courseList = generateCourses();

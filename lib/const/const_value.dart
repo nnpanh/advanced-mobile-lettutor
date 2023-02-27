@@ -11,6 +11,10 @@ class ImagesPath {
 class ConstValue {
   static const descriptionTextScale = 1.5;
   static const courseNameTextScale = 1.75;
+  static const levelList = ["Pre A1 (Beginner)", "A1 (Higher Beginner)", "A2 (Pre-intermediate)",
+    "B1 (Intermediate)", "B2 (Upper-intermediate","C1 (Advanced)","C2 (Proficiency)"];
+  static const specialityList = ["English for kids", "English for Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
+
 }
 
 class ButtonType {
@@ -41,7 +45,7 @@ class TimeFormat {
 enum Speciality {
   forKids, forBusiness, conversational, starters, movers, flyers, ketPet, toeic, ielts, toefl, }
 
-extension ChipExtension on Speciality {
+extension SpecialityExtension on Speciality {
   List<String> get getList {
     return ["English for kids", "English for Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
   }

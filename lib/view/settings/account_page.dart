@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +21,23 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   final _formKey = GlobalKey<FormState>();
+  final _txtCountry = TextEditingController();
+  final _txtBirthday = TextEditingController();
+  String? _txtLevel;
+  final List<DropdownMenuItem<String>> _levelList = [];
   final UserModel userModel = testUser();
+
+  @override
+  void initState() {
+    super.initState();
+    _txtCountry.text = userModel.country??"";
+    if (userModel.birthday != null) {
+      _txtBirthday.text = getDateString(userModel.birthday!, TimeFormat.getDateOnly);
+    }
+    for (var element in ConstValue.levelList) { 
+      _levelList.add(DropdownMenuItem(value: element,child: Text(element),));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +45,7 @@ class _AccountPageState extends State<AccountPage> {
       appBar: appBarDefault(MyRouter.account, context),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.fromLTRB(16,24,16,16),
+          padding: const EdgeInsets.fromLTRB(8,24,8,16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -43,10 +60,10 @@ class _AccountPageState extends State<AccountPage> {
                     alignment: Alignment.bottomCenter,
                     children: [
                       CircleAvatar(
-                        radius: 80,
+                        radius: 64,
                         backgroundColor: Colors.blue,
                         child: CircleAvatar(
-                          radius: 78,
+                          radius: 62,
                           foregroundImage:
                               NetworkImage(userModel.avatarUrl ?? ""),
                         ),
@@ -71,7 +88,7 @@ class _AccountPageState extends State<AccountPage> {
               ),
               Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                 child: Text(
                   '${userModel.name}',
                   style: headLineSmall(context),
@@ -85,34 +102,38 @@ class _AccountPageState extends State<AccountPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.only(left:12, right: 4),
+                        padding: const EdgeInsets.only(left:24, right: 4),
                         child: RichText(
                             text: TextSpan(children: [
                           TextSpan(
-                            text: 'Account id: ',
+                            text: 'ID: ',
                             style:
-                                bodyLarge(context)?.copyWith(color: Colors.grey),
+                                bodyLarge(context)?.copyWith(color: Colors.black, fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
                               text: '${userModel.id}',
                               style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.blue),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Clipboard.setData(
-                                          ClipboardData(text: userModel.id))
-                                      .then((value) {
-                                    //only if ->
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          duration: Duration(seconds: 2),
-                                          backgroundColor: Colors.blue,
-                                            content: Text('Copied to clipboard',style: TextStyle(color: Colors.white),)));
-                                  });
-                                })
+                                  ?.copyWith(color: Colors.grey),
+                          )
                         ])),
                       ),
                     ),
+                    Container(
+                      padding: const EdgeInsets.only(right: 18),
+                      child: IconButton(
+                          onPressed: (){
+                            Clipboard.setData(
+                                ClipboardData(text: userModel.id))
+                                .then((value) {
+                              //only if ->
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      duration: Duration(seconds: 2),
+                                      backgroundColor: Colors.blue,
+                                      content: Text('Copied to clipboard',style: TextStyle(color: Colors.white),)));
+                            });
+                          }, icon: const Icon(Icons.copy, color: Colors.blue,)),
+                    )
                   ]),
               const SizedBox(height: 16,),
               Form(
@@ -159,6 +180,8 @@ class _AccountPageState extends State<AccountPage> {
                             keyboardType: TextInputType.text,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
+                                filled: true,
+                                fillColor: Colors.black12,
                               suffixIcon: Icon(Icons.check,color: Colors.green,)
                             ),
                             readOnly: true,
@@ -169,13 +192,176 @@ class _AccountPageState extends State<AccountPage> {
                               vertical: 0, horizontal: 26),
                           width: double.infinity,
                           child: const RequiredLabel(label: 'Country',)),
-                      //https://stackoverflow.com/questions/49780858/flutter-dropdown-text-field
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24),
+                          child: TextFormField(
+                            controller: _txtCountry,
+                            keyboardType: TextInputType.text,
+                            decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.arrow_drop_down),
+                                border: OutlineInputBorder(),
+                            ),
+                            readOnly: true,
+                            onTap: (){
+                              showCountryPicker(
+                                context: context,
+                                showPhoneCode: false, // optional. Shows phone code before the country name.
+                                onSelect: (Country country) {
+                                  setState(() {
+                                    _txtCountry.text = country.name;
+                                  });
+                                }
+                              );
+                            },
+                          )),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 26),
+                          width: double.infinity,
+                          child: const RequiredLabel(label:'Phone number')),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24),
+                          child: TextFormField(
+                            initialValue: userModel.phone,
+                            keyboardType: TextInputType.text,
+                            decoration: const InputDecoration(
+                              filled: true,
+                                fillColor: Colors.black12,
+                                border: OutlineInputBorder(
+                                ),
+                                suffixIcon: Icon(Icons.check,color: Colors.green,)
+                            ),
+                            readOnly: true,
+                            enabled: false,
+                          )),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 26),
+                          width: double.infinity,
+                          child: const RequiredLabel(label: 'Birthday',)),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24),
+                          child: TextFormField(
+                            controller: _txtBirthday,
+                            keyboardType: TextInputType.text,
+                            decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.calendar_month, size: 18,),
+                              border: OutlineInputBorder(),
+                            ),
+                            readOnly: true,
+                            onTap: (){
+                              Future<DateTime?> birthday = showDatePicker(context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.utc(1900),
+                                  lastDate: DateTime.now(),
+                                builder: (BuildContext context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      dialogTheme: DialogTheme(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16.0), // this is the border radius of the picker
+                                        ),
+                                      ),
+                                    ),
+                                    child: child!,
+                                  );
+                                },
+                              );
+                              birthday.then((value) {
+                                if (value!=null){
+                                  setState(() {
+                                    _txtBirthday.text = getDateString(value, TimeFormat.getDateOnly);
+                                  });
+                                }
+                              });
+                            },
+                          )),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 26),
+                          width: double.infinity,
+                          child: const RequiredLabel(label: 'My level',)),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24),
+                          child: DropdownButtonFormField(items: _levelList,
+                            value: _txtLevel,
+                            decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.blue, width: 2),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            onChanged: (String? value) {
+                            setState(() {
+                              _txtLevel = value;
+                            });
+                            },
+
+                          )
+                      ),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 26),
+                          width: double.infinity,
+                          child: const RequiredLabel(label: 'Want to learn',)),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24),
+                          child: DropdownButtonFormField(items: _levelList,
+                            value: _txtLevel,
+                            decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.blue, width: 2),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                _txtLevel = value;
+                              });
+                            },
+
+                          )
+                      ),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 26),
+                          width: double.infinity,
+                          child: Text(
+                            'Study schedule',
+                            style: bodyLargeBold(context),
+                            textAlign: TextAlign.start,
+                          )),
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24),
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            maxLines: 5,
+                            minLines: 3,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Note the time of week you want to study',
+                            ),
+                          )),
                       SizedBox(
                         width: double.infinity,
                         child: Container(
                           margin: const EdgeInsets.fromLTRB(24, 12, 24, 24),
                           child: CustomElevatedButton(
-                              title: 'Send link',
+                              title: 'Save changes',
                               callback: () {
                                 if (_formKey.currentState!.validate()) {
                                   Navigator.pushNamed(context, MyRouter.login);
@@ -184,24 +370,6 @@ class _AccountPageState extends State<AccountPage> {
                               buttonType: ButtonType.filledButton,
                               radius: 10),
                         ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                        alignment: Alignment.center,
-                        child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                              text: "Don't remember your email?",
-                              style: bodyLarge(context)),
-                          TextSpan(
-                              text: ' Ask for help',
-                              style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.blueAccent),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushNamed(context, MyRouter.login);
-                                })
-                        ])),
                       ),
                     ],
                   ))

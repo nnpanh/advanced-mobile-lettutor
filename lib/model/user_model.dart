@@ -7,6 +7,7 @@ class UserModel {
   final String? studyNote;
   final String? avatarUrl;
   final String? id;
+  final DateTime? birthday;
 
-  UserModel(this.name, this.email, this.country, this.phone, this.speciality, this.studyNote, this.avatarUrl, this.id);
+  UserModel(this.name, this.email, this.country, this.phone, this.speciality, this.studyNote, this.avatarUrl, this.id, this.birthday);
 }

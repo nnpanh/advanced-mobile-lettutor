@@ -45,6 +45,7 @@ dependencies:
   readmore: ^2.2.0
   shimmer: ^2.0.0
   custom_timer: ^0.2.3
+  country_picker: ^2.0.19
 
 dev_dependencies:
   flutter_test:

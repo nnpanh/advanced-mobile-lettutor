@@ -6,6 +6,7 @@ class ImagesPath {
   static const resetPassword = "assets/images/reset_pass.png";
   static const youtube = "assets/images/youtube.jpeg";
   static const error = "assets/images/error_mascot.png";
+  static const thanks = "assets/images/thanks.png";
 }
 
 class ConstValue {

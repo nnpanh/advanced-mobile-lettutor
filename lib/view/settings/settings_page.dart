@@ -114,7 +114,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   MenuWidget(title: 'Account settings', callback: (){}),
                   MenuWidget(title: 'My wallet', callback: (){}),
-                  MenuWidget(title: 'Become a tutor', callback: (){}),
+                  MenuWidget(title: 'Become a tutor', callback: (){
+                    Navigator.of(context).pushNamed(MyRouter.becomeTutor);
+                  }),
                   const SizedBox(height: 16,),
                   Text(
                     "Application",

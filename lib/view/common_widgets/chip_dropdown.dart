@@ -63,8 +63,7 @@ class _ChipDropdownState extends State<ChipDropdown> {
     );
   }
 
-  void onPressedAdd(BuildContext context, Size size) {
-    Widget child =
+  void onPressedAdd(BuildContext context, Size size) {Widget child =
       LimitedBox(
         maxHeight: size.height * 0.4,
         maxWidth: size.width,
@@ -79,7 +78,6 @@ class _ChipDropdownState extends State<ChipDropdown> {
               child: Column(
                 children: [
                   ListTile(title: Text(widget.options[index]),
-                    tileColor: CustomColor.brightBlue,
                     onTap: () {
                       Navigator.of(context).pop();
                       setState(() {
@@ -88,7 +86,7 @@ class _ChipDropdownState extends State<ChipDropdown> {
                         selectedList = newList;
                       });
                     },),
-                  Divider(height: 2, )
+                  const Divider(height: 2, )
                 ],
               ),
             );

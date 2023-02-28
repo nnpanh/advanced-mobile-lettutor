@@ -25,6 +25,8 @@ class CustomElevatedButton extends StatelessWidget {
         return filledElevated();
       case ButtonType.outlinedButton:
         return outlinedElevated();
+      case ButtonType.filledWhiteButton:
+        return filledWhiteElevated();
       default:
         return filledElevated();
     }
@@ -64,11 +66,27 @@ class CustomElevatedButton extends StatelessWidget {
         children: [Text(title), Icon(icon)]);
   }
 
+  ElevatedButton filledWhiteElevated() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+          foregroundColor: Colors.blue,
+          textStyle: const TextStyle(),
+          padding: const EdgeInsets.all(16),
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.blue, width: 1),
+              borderRadius: BorderRadius.circular(radius)),),
+      onPressed: callback,
+      child: Text(title),
+    );
+  }
+
   ElevatedButton filledElevated() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(16),
-          elevation: 3,
+          elevation: 2,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(radius))),
       onPressed: callback,

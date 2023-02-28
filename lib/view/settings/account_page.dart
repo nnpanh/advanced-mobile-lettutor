@@ -7,6 +7,7 @@ import 'package:lettutor/model/user_model.dart';
 import 'package:lettutor/utils/default_style.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/utils/validation_extension.dart';
+import 'package:lettutor/view/common_widgets/chip_dropdown.dart';
 import 'package:lettutor/view/settings/widget/required_label.dart';
 
 import '../../const/const_value.dart';
@@ -41,6 +42,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBarDefault(MyRouter.account, context),
       body: SingleChildScrollView(
@@ -108,7 +110,7 @@ class _AccountPageState extends State<AccountPage> {
                           TextSpan(
                             text: 'ID: ',
                             style:
-                                bodyLarge(context)?.copyWith(color: Colors.black, fontWeight: FontWeight.w500),
+                                bodyLarge(context)?.copyWith(color: Colors.black54, fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
                               text: '${userModel.id}',
@@ -315,25 +317,8 @@ class _AccountPageState extends State<AccountPage> {
                       Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 24),
-                          child: DropdownButtonFormField(items: _levelList,
-                            value: _txtLevel,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.blue, width: 2),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.black, width: 2),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _txtLevel = value;
-                              });
-                            },
+                          child: ChipDropdown(size: size.width-64, options: ConstValue.specialityList,)
 
-                          )
                       ),
                       Container(
                           margin: const EdgeInsets.symmetric(

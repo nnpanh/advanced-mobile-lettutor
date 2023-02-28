@@ -317,7 +317,12 @@ class _AccountPageState extends State<AccountPage> {
                       Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 24),
-                          child: ChipDropdown(size: size.width-64, options: ConstValue.specialityList,)
+                          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          child: ChipDropdown(size: size, options: ConstValue.specialityList,)
 
                       ),
                       Container(
@@ -349,7 +354,7 @@ class _AccountPageState extends State<AccountPage> {
                               title: 'Save changes',
                               callback: () {
                                 if (_formKey.currentState!.validate()) {
-                                  Navigator.pushNamed(context, MyRouter.login);
+                                  Navigator.of(context).pop();
                                 }
                               },
                               buttonType: ButtonType.filledButton,

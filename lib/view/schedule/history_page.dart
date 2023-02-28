@@ -119,15 +119,19 @@ class _HistoryPageState extends State<HistoryPage> {
 
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: ListTile(title: Text(filterOptions[index]),
-              tileColor: CustomColor.brightBlue,
-              trailing: trailing,
-              onTap: () {
-              Navigator.of(context).pop();
-              setState(() {
-                selectedFilter = index;
-              });
-            },),
+            child: Column(
+              children: [
+                ListTile(title: Text(filterOptions[index]),
+                  trailing: trailing,
+                  onTap: () {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    selectedFilter = index;
+                  });
+                },),
+                Divider(height: 2, )
+              ],
+            ),
           );
         },
       ),

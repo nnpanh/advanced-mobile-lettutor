@@ -178,7 +178,7 @@ UserModel testUser() {
       'yuuhizaka194@gmail.com',
       'Vietnamese',
       '0988012170',
-      Speciality.toeic.name,
+      'TOEIC',
       null,
       'https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand',
   'e196c821-b532-4745-93fe-e9e4cab83c46',DateTime.now());

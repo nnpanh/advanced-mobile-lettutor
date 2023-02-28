@@ -13,7 +13,7 @@ class ConstValue {
   static const courseNameTextScale = 1.75;
   static const levelList = ["Pre A1 (Beginner)", "A1 (Higher Beginner)", "A2 (Pre-intermediate)",
     "B1 (Intermediate)", "B2 (Upper-intermediate","C1 (Advanced)","C2 (Proficiency)"];
-  static const specialityList = ["English for kids", "English for Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
+  static const specialityList = ["For kids", "For Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
 
 }
 
@@ -42,18 +42,18 @@ class TimeFormat {
   static const getDateOnly = "getDateOnly";
 }
 
-enum Speciality {
-  forKids, forBusiness, conversational, starters, movers, flyers, ketPet, toeic, ielts, toefl, }
-
-extension SpecialityExtension on Speciality {
-  List<String> get getList {
-    return ["English for kids", "English for Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
-  }
-
-  String get name {
-    return getList[index];
-  }
-}
+// enum Speciality {
+//   forKids, forBusiness, conversational, starters, movers, flyers, ketPet, toeic, ielts, toefl, }
+//
+// extension SpecialityExtension on Speciality {
+//   List<String> get getList {
+//     return ["For kids", "For Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
+//   }
+//
+//   String get name {
+//     return getList[index];
+//   }
+// }
 
 class Nationality {
   static const nationVN = 'Vietnamese';

@@ -12,6 +12,7 @@ void showBottomDialog(BuildContext context, String title, Widget widget) {
     ),
     clipBehavior: Clip.antiAliasWithSaveLayer, builder: (BuildContext context) {
     return Container(
+      color: Colors.white,
       padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisSize: MainAxisSize.min,

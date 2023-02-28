@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/const/custom_color.dart';
 import 'package:lettutor/view/common_widgets/chip_button.dart';
-
 import '../../const/const_value.dart';
+import 'dialogs/base_dialog/bottom_sheet_dialog.dart';
+
 
 class ChipDropdown extends StatefulWidget {
   const ChipDropdown({super.key, required this.options, required this.size});
-
   final List<String> options;
-  final double size; //Screen width
+  final Size size; //Screen width
 
   @override
   State<ChipDropdown> createState() => _ChipDropdownState();
@@ -18,11 +19,7 @@ class _ChipDropdownState extends State<ChipDropdown> {
 
   @override
   void initState() {
-    for (var element in widget.options) {
-      if (element != widget.options.last) {
-        selectedList.add(element);
-      }
-    }
+    selectedList.add('+  Add');
     super.initState();
   }
 
@@ -38,56 +35,67 @@ class _ChipDropdownState extends State<ChipDropdown> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             LimitedBox(
-                maxHeight: widget.size,
-                maxWidth: widget.size,
+                maxWidth: widget.size.width-90,
                 child: Wrap(
                   children: selectedList
                       .map((item) => Container(
-                    padding: const EdgeInsets.only(right: 6),
-                        child: ChipButton(
-                              callback: () {
-                                setState(() {
-                                  selectedList.remove(item);
-                                });
-                              }, title: item, hasIcon: true, chipType: ButtonType.outlinedButton, icon: Icons.remove_circle,
-                            ),
-                      ))
-                      .toList()
-                      .cast<Widget>(),
-                )),
+                              padding: const EdgeInsets.only(right: 6),
+                              child: (item!='+  Add')?
+                                ChipButton(
+                                callback: () {
+                                  setState(() {
+                                    selectedList.remove(item);
+                                  });
+                                },
+                                title: item,
+                                hasIcon: true,
+                                chipType: ButtonType.outlinedButton,
+                                icon: Icons.clear,
+                              ):ChipButton(callback: () {
+                                  onPressedAdd(context, widget.size);
+                              }, title: '+  Add', hasIcon: false, chipType: ButtonType.filledButton),
+                            ))
+                        .toList()
+                        .cast<Widget>())),
           ],
         ),
       ],
     );
   }
 
-  String dropDown() {
-    String returnValue = "";
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: ListView(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    DropdownButton<String>(
-                        items: <String>['A', 'B', 'C', 'D', 'E', 'F', 'G']
-                            .map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          returnValue = value ?? "";
-                        }),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
-    return returnValue;
+  void onPressedAdd(BuildContext context, Size size) {
+    Widget child =
+      LimitedBox(
+        maxHeight: size.height * 0.4,
+        maxWidth: size.width,
+        child: ListView.builder(
+          itemCount: widget.options.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (selectedList.contains(widget.options[index])) {
+              return Container();
+            } else {
+              return Container(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Column(
+                children: [
+                  ListTile(title: Text(widget.options[index]),
+                    tileColor: CustomColor.brightBlue,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      setState(() {
+                        List<String> newList = [widget.options[index]];
+                        newList.addAll(selectedList);
+                        selectedList = newList;
+                      });
+                    },),
+                  Divider(height: 2, )
+                ],
+              ),
+            );
+            }
+          },
+        ),
+      );
+    showBottomDialog(context, 'Select a speciality', child);
   }
 }

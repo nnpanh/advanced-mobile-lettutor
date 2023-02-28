@@ -49,7 +49,7 @@ class _TutorsPageState extends State<TutorsPage> {
   @override
   void initState() {
     specialities = ['All categories'];
-    specialities.addAll(Speciality.forKids.getList);
+    specialities.addAll(ConstValue.specialityList);
     super.initState();
   }
 

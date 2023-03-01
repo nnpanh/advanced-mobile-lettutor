@@ -5,6 +5,7 @@ import 'package:lettutor/utils/default_style.dart';
 import 'package:lettutor/view/common_widgets/elevated_button.dart';
 import 'package:lettutor/view/settings/widget/first_step.dart';
 import 'package:lettutor/view/settings/widget/second_step.dart';
+import 'package:lettutor/view/settings/widget/third_step.dart';
 
 class BecomeTutorPage extends StatefulWidget {
   const BecomeTutorPage({super.key});
@@ -45,11 +46,11 @@ class _BecomeTutorPageState extends State<BecomeTutorPage> {
           return Container(
               margin: const EdgeInsets.fromLTRB(0, 24, 0, 12),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     ConstrainedBox(
-                      constraints: const BoxConstraints(minWidth: 100),
+                      constraints: const BoxConstraints(minWidth: 120),
                       child: CustomElevatedButton(
                         callback: details.onStepContinue ?? () {},
                         title: isLastStep ? 'Return' : 'Next',
@@ -63,7 +64,7 @@ class _BecomeTutorPageState extends State<BecomeTutorPage> {
                       ),
                     if (_index == 1)
                       ConstrainedBox(
-                        constraints: const BoxConstraints(minWidth: 100),
+                        constraints: const BoxConstraints(minWidth: 120),
                         child: CustomElevatedButton(
                           callback: details.onStepCancel ?? () {},
                           title: 'Back',
@@ -86,29 +87,7 @@ class _BecomeTutorPageState extends State<BecomeTutorPage> {
               isActive: _index >= 1),
           Step(
               title: const Text('Step 3: Approval'),
-              content: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 24),
-                    child: Image.asset(
-                      ImagesPath.thanks,
-                      fit: BoxFit.contain,
-                      height: 200,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    "Thank you for joining LetTutor team. Please kindly wait for our approval process. The final result "
-                    "shall be sent through your email.",
-                    style: bodyLarge(context)?.copyWith(
-                        height: ConstValue.courseNameTextScale,
-                        color: Colors.black45),
-                    textAlign: TextAlign.start,
-                  ),
-                ],
-              ),
+              content: const ThirdStep(),
               isActive: _index >= 2),
         ],
       ),

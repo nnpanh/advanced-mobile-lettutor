@@ -193,7 +193,7 @@ class _AccountPageState extends State<AccountPage> {
                           margin: const EdgeInsets.symmetric(
                               vertical: 0, horizontal: 26),
                           width: double.infinity,
-                          child: const RequiredLabel(label: 'Country',)),
+                          child: const RequiredLabel(label: 'Nationality',)),
                       Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 24),
@@ -285,7 +285,7 @@ class _AccountPageState extends State<AccountPage> {
                           margin: const EdgeInsets.symmetric(
                               vertical: 0, horizontal: 26),
                           width: double.infinity,
-                          child: const RequiredLabel(label: 'My level',)),
+                          child: const RequiredLabel(label: "My level",)),
                       Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 24),

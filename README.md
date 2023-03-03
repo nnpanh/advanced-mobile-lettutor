@@ -1,16 +1,13 @@
-# lettutor
+# LetTutor
 
-A new Flutter project.
+Advanced Mobile Development - Software Engineering (2019)
 
-## Getting Started
+## Milestone 1
 
-This project is a starting point for a Flutter application.
+Design your application structure and draw main screens widget tree. After that, implement all your basic UI in code with navigation.
 
-A few resources to get you started if this is your first Flutter project:
+Requirement 1: Draw your widget tree on [Draw.io](https://docs.google.com/drawings/d/1sAh_xklAv2g5aXhYe-cc5mPINT038yQmgh67tMJhUtQ/edit?usp=sharing)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Requirement 2 & 3: Implement in code (branch "milestone-1-mockup-ui")
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/utils/default_style.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 
 class ChapterCard extends StatelessWidget {
-  const ChapterCard({super.key, required this.title, required this.clickAction});
+  const ChapterCard(
+      {super.key, required this.title, required this.clickAction});
   final VoidCallback clickAction;
   final String title;
 
@@ -16,6 +17,11 @@ class ChapterCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        child: ListTile(title: Text(title, style: bodyLarge(context),), onTap: clickAction));
+        child: ListTile(
+            title: Text(
+              title,
+              style: bodyLarge(context),
+            ),
+            onTap: clickAction));
   }
 }

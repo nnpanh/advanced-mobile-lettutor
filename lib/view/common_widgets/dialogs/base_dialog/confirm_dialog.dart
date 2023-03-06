@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/view/common_widgets/elevated_button.dart';
 import 'package:lettutor/utils/utils.dart';
+import 'package:lettutor/view/common_widgets/elevated_button.dart';
 
 import '../../../../const/const_value.dart';
-import '../../../../utils/default_style.dart';
+import '../../default_style.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final String title;
@@ -51,7 +51,7 @@ class ConfirmDialog extends StatelessWidget {
         ],
       ),
       content: SizedBox(
-        width: size.width*0.8,
+        width: size.width * 0.8,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,14 +91,19 @@ class ConfirmDialog extends StatelessWidget {
                 )),
                 Expanded(
                     child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                    child: CustomElevatedButton(callback: onRightButton, title: rightButton, radius: 30, buttonType: ButtonType.filledButton,))),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 8),
+                        child: CustomElevatedButton(
+                          callback: onRightButton,
+                          title: rightButton,
+                          radius: 30,
+                          buttonType: ButtonType.filledButton,
+                        ))),
               ],
             )
           ],
         ),
       ),
-
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
   }

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
-import '../../utils/default_style.dart';
 import '../../utils/validation_extension.dart';
+import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
 
 class ForgotPasswordPage extends StatefulWidget {

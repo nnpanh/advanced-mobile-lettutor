@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../const/const_value.dart';
-import '../utils/default_style.dart';
+import '../view/common_widgets/default_style.dart';
 
 class ErrorPage extends StatefulWidget {
   const ErrorPage({super.key, required this.screenName});

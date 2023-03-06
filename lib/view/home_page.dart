@@ -1,8 +1,8 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
-import 'package:lettutor/utils/default_style.dart';
 
 import '../const/export_const.dart';
 import '../model/tutor_model.dart';
@@ -169,7 +169,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.homePage, context: context,),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: NavigationIndex.homePage,
+        context: context,
+      ),
     );
   }
 

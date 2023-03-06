@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/config/router_arguments.dart';
-import 'package:lettutor/utils/default_style.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../../config/router.dart';
 import '../../../const/export_const.dart';
@@ -28,8 +28,9 @@ class CourseCardState extends State<CourseCard> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: InkWell(
-        onTap: (){
-          Navigator.of(context).pushNamed(MyRouter.courseDetail, arguments: CourseDetailArguments(courseModel: widget.courseData));
+        onTap: () {
+          Navigator.of(context).pushNamed(MyRouter.courseDetail,
+              arguments: CourseDetailArguments(courseModel: widget.courseData));
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -56,8 +57,8 @@ class CourseCardState extends State<CourseCard> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
                 "${widget.courseData.description}",
-                style: bodyLarge(context)?.copyWith(
-                    color: CustomColor.greyTextColor),
+                style: bodyLarge(context)
+                    ?.copyWith(color: CustomColor.greyTextColor),
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 10,

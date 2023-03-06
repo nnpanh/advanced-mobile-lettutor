@@ -5,8 +5,8 @@ import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
-import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
+import '../common_widgets/default_style.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -49,8 +49,10 @@ class _SchedulePageState extends State<SchedulePage> {
                           Expanded(
                             flex: 2,
                             child: Text(
-                              getDateString(DateTime.now(), TimeFormat.getDateAndTime),
-                              style: bodyLarge(context)?.copyWith(color: Colors.white),
+                              getDateString(
+                                  DateTime.now(), TimeFormat.getDateAndTime),
+                              style: bodyLarge(context)
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ),
                           Expanded(
@@ -84,17 +86,19 @@ class _SchedulePageState extends State<SchedulePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex:7,
-                    child: Text('My schedule', style: headLineMedium(context)?.copyWith(
-                      fontSize: 30,
-                    )),
+                    flex: 7,
+                    child: Text('My schedule',
+                        style: headLineMedium(context)?.copyWith(
+                          fontSize: 30,
+                        )),
                   ),
-                  Expanded(flex:3,
+                  Expanded(
+                    flex: 3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.pushNamed(context, MyRouter.analysis);
                           },
                           icon: const Icon(Icons.bar_chart),
@@ -102,8 +106,9 @@ class _SchedulePageState extends State<SchedulePage> {
                           iconSize: 30,
                         ),
                         IconButton(
-                          onPressed: (){
-                            Navigator.pushNamed(context, MyRouter.learningHistory);
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, MyRouter.learningHistory);
                           },
                           icon: const Icon(Icons.history),
                           color: Colors.blue,

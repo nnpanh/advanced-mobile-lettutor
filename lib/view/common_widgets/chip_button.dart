@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../const/export_const.dart';
-import '../../utils/default_style.dart';
+import 'default_style.dart';
 
 class ChipButton extends StatelessWidget {
   final String chipType;
@@ -17,7 +17,8 @@ class ChipButton extends StatelessWidget {
       required this.title,
       this.icon,
       required this.hasIcon,
-      required this.chipType, this.customPadding});
+      required this.chipType,
+      this.customPadding});
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +36,13 @@ class ChipButton extends StatelessWidget {
 
   ActionChip filledWhiteChip(BuildContext context) {
     return ActionChip(
-      padding: customPadding??const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      padding: customPadding ?? const EdgeInsets.fromLTRB(8, 4, 8, 4),
       avatar: hasIcon
           ? Icon(
-        icon,
-        size: 18,
-        color: Colors.blue,
-      )
+              icon,
+              size: 18,
+              color: Colors.blue,
+            )
           : null,
       label: Text(title),
       labelStyle: bodyLarge(context)?.copyWith(color: Colors.blue),
@@ -53,7 +54,7 @@ class ChipButton extends StatelessWidget {
 
   ActionChip filledChip(BuildContext context) {
     return ActionChip(
-      padding: customPadding??const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      padding: customPadding ?? const EdgeInsets.fromLTRB(8, 4, 8, 4),
       avatar: hasIcon
           ? Icon(
               icon,
@@ -71,7 +72,7 @@ class ChipButton extends StatelessWidget {
 
   ActionChip outlinedChip(BuildContext context) {
     return ActionChip(
-      padding: customPadding??const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      padding: customPadding ?? const EdgeInsets.fromLTRB(8, 4, 8, 4),
       shape: const StadiumBorder(
           side: BorderSide(
         width: 1,

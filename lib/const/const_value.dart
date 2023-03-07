@@ -8,6 +8,7 @@ class ImagesPath {
   static const error = "assets/images/error_mascot.png";
   static const thanks = "assets/images/thanks.png";
   static const video = "assets/images/video.jpg";
+  static const calendar = "assets/images/calendar.png";
 }
 
 class ConstValue {

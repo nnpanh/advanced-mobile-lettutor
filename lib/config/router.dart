@@ -3,7 +3,7 @@ import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/view/authentication/forgot_pass_page.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
 import 'package:lettutor/view/authentication/sign_up_page.dart';
-import 'package:lettutor/view/schedule/history_page.dart';
+import 'package:lettutor/view/schedule/learning_history_page.dart';
 import 'package:lettutor/view/settings/account_page.dart';
 import 'package:lettutor/view/settings/become_tutor_page.dart';
 import 'package:lettutor/view/settings/settings_page.dart';
@@ -99,7 +99,7 @@ class MyRouter {
       case schedule:
         return successRoute(const SchedulePage(), settings);
       case learningHistory:
-        return successRoute(const HistoryPage(), settings);
+        return successRoute(const LearningHistoryPage(), settings);
       // case analysis:
       //   return successRoute(const AnalysisPage(), settings);
       //Settings

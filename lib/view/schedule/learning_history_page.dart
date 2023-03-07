@@ -12,14 +12,14 @@ import '../../utils/utils.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 import '../common_widgets/dialogs/report_dialog.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key});
+class LearningHistoryPage extends StatefulWidget {
+  const LearningHistoryPage({super.key});
 
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<LearningHistoryPage> createState() => _LearningHistoryPageState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _LearningHistoryPageState extends State<LearningHistoryPage> {
   late List<LessonModel> lessonList;
   late int selectedFilter = 0;
   List<String> filterOptions = ['Last 1 month','Last 3 months', 'Last 6 months'];

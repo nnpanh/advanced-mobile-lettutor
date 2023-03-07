@@ -144,9 +144,9 @@ class LessonCardState extends State<LessonCard> {
   String displayNote(){
     String? notes = widget.lessonData.lessonNotes;
     if (notes==null) {
-      return "This lesson has no notes.";
+      return "This lesson has no review from tutor.";
     } else {
-      return "Notes: $notes";
+      return "Review from tutor: $notes";
     }
   }
 }

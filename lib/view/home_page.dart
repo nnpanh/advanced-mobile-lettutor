@@ -1,6 +1,7 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lettutor/view/common_widgets/chip_button.dart';
 import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
 import 'package:lettutor/utils/default_style.dart';
 
@@ -46,28 +47,54 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-                padding: const EdgeInsets.fromLTRB(24, 60, 24, 36),
+                padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
                 width: double.infinity,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [CustomColor.shadowBlue, CustomColor.darkBlue],
-                        begin: Alignment.topLeft,
-                        end: const Alignment(0.75, 1))),
+                color: Colors.blue,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'You have no upcoming lesson.',
+                      'Upcoming Lesson',
                       style: bodyLargeBold(context)
                           ?.copyWith(color: Colors.white, fontSize: 18),
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 8,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              getDateString(DateTime.now(), TimeFormat.getDateAndTime),
+                              style: bodyLarge(context)?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                // alignment: Alignment.centerLeft,
+                                child: ChipButton(
+                                  callback: () {},
+                                  title: '  Join  ',
+                                  hasIcon: false,
+                                  chipType: ButtonType.filledWhiteButton,
+                                ),
+                              ))
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
                     ),
                     Text(
-                      'Welcome to LetTutor!',
+                      'Total learning hours left: 4 hours',
                       style: bodyLarge(context)?.copyWith(color: Colors.white),
-                    )
+                    ),
                   ],
                 )),
             Container(

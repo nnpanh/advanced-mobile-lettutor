@@ -6,9 +6,8 @@ import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
-import '../../const/custom_color.dart';
-import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
+import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 import '../common_widgets/dialogs/report_dialog.dart';
 
@@ -22,7 +21,11 @@ class LearningHistoryPage extends StatefulWidget {
 class _LearningHistoryPageState extends State<LearningHistoryPage> {
   late List<LessonModel> lessonList;
   late int selectedFilter = 0;
-  List<String> filterOptions = ['Last 1 month','Last 3 months', 'Last 6 months'];
+  List<String> filterOptions = [
+    'Last 1 month',
+    'Last 3 months',
+    'Last 6 months'
+  ];
 
   @override
   void initState() {
@@ -57,8 +60,8 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(filterOptions[selectedFilter], style: headLineSmall(context)?.copyWith(
-                  )),
+                  Text(filterOptions[selectedFilter],
+                      style: headLineSmall(context)?.copyWith()),
                 ],
               ),
             ),
@@ -107,7 +110,7 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
   }
 
   void onPressedFilter(BuildContext context, Size size) {
-    Widget child =  LimitedBox(
+    Widget child = LimitedBox(
       maxHeight: size.height * 0.5, // Change as per your requirement
       maxWidth: size.width, // Change as per your requirement
       child: ListView.builder(
@@ -115,21 +118,29 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
         itemCount: filterOptions.length,
         itemBuilder: (BuildContext context, int index) {
           Widget? trailing;
-          if (index == selectedFilter) trailing = const Icon(Icons.check, color: Colors.blue,);
+          if (index == selectedFilter)
+            trailing = const Icon(
+              Icons.check,
+              color: Colors.blue,
+            );
 
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Column(
               children: [
-                ListTile(title: Text(filterOptions[index]),
+                ListTile(
+                  title: Text(filterOptions[index]),
                   trailing: trailing,
                   onTap: () {
-                  Navigator.of(context).pop();
-                  setState(() {
-                    selectedFilter = index;
-                  });
-                },),
-                Divider(height: 2, )
+                    Navigator.of(context).pop();
+                    setState(() {
+                      selectedFilter = index;
+                    });
+                  },
+                ),
+                Divider(
+                  height: 2,
+                )
               ],
             ),
           );

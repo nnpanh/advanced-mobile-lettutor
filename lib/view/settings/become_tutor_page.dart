@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/config/router.dart';
 import 'package:lettutor/const/const_value.dart';
-import 'package:lettutor/utils/default_style.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/elevated_button.dart';
 import 'package:lettutor/view/settings/widget/first_step.dart';
 import 'package:lettutor/view/settings/widget/second_step.dart';

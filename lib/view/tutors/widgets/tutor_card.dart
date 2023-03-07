@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:lettutor/utils/default_style.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../../config/router.dart';
 import '../../../config/router_arguments.dart';
@@ -111,8 +111,8 @@ class TutorCardState extends State<TutorCard> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: Text(
                 "${widget.tutorData.description}",
-                style: bodyLarge(context)?.copyWith(
-                    color: CustomColor.greyTextColor),
+                style: bodyLarge(context)
+                    ?.copyWith(color: CustomColor.greyTextColor),
                 textAlign: TextAlign.justify,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,

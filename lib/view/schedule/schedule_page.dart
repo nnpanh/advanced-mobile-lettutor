@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/view/common_widgets/chip_button.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
-import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
 
 class SchedulePage extends StatefulWidget {

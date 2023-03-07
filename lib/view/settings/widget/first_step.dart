@@ -1,14 +1,13 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lettutor/utils/validation_extension.dart';
 import 'package:lettutor/view/settings/widget/required_label.dart';
 
 import '../../../const/const_value.dart';
 import '../../../model/user_model.dart';
-import '../../../utils/default_style.dart';
 import '../../../utils/utils.dart';
 import '../../common_widgets/chip_dropdown.dart';
+import '../../common_widgets/default_style.dart';
 import '../../common_widgets/elevated_button.dart';
 
 class FirstStep extends StatefulWidget {
@@ -95,15 +94,15 @@ class _FirstStepState extends State<FirstStep> {
               child: Column(
                 children: [
                   Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 0),
+                      margin: const EdgeInsets.symmetric(vertical: 0),
                       width: double.infinity,
                       child: const RequiredLabel(
                         label: 'Tutoring name',
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 12,),
+                        vertical: 12,
+                      ),
                       child: TextFormField(
                         initialValue: userModel.name,
                         keyboardType: TextInputType.name,
@@ -121,14 +120,16 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: const RequiredLabel(
                         label: 'Nationality',
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 12,),
+                        vertical: 12,
+                      ),
                       child: TextFormField(
                         controller: _txtCountry,
                         keyboardType: TextInputType.text,
@@ -151,14 +152,16 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: const RequiredLabel(
                         label: 'Birthday',
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 12,),
+                        vertical: 12,
+                      ),
                       child: TextFormField(
                         controller: _txtBirthday,
                         keyboardType: TextInputType.text,
@@ -202,14 +205,16 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: const RequiredLabel(
                         label: 'Teaching level',
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 12,),
+                        vertical: 12,
+                      ),
                       child: DropdownButtonFormField(
                         items: _levelList,
                         value: _txtLevel,
@@ -233,14 +238,16 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: const RequiredLabel(
                         label: 'My speciality',
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 12,),
+                        vertical: 12,
+                      ),
                       padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
@@ -252,26 +259,30 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: const RequiredLabel(
                         label: 'Introduction',
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                          vertical: 12, ),
+                        vertical: 12,
+                      ),
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,
                         minLines: 3,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: 'What the student will see first when they see your profile',
+                          hintText:
+                              'What the student will see first when they see your profile',
                         ),
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: const RequiredLabel(
                         label: 'Certificates',
@@ -282,23 +293,29 @@ class _FirstStepState extends State<FirstStep> {
                         children: [
                           Container(
                               alignment: Alignment.center,
-                              decoration: ShapeDecoration(shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                              ),
-                                  color: Colors.grey.shade200
-
-                              ),
+                              decoration: ShapeDecoration(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                  ),
+                                  color: Colors.grey.shade200),
                               padding: const EdgeInsets.all(12),
                               margin: const EdgeInsets.symmetric(vertical: 16),
                               child: Row(
                                 children: [
-                                  Text(
-                                      'File_name.mp4',
+                                  Text('File_name.mp4',
                                       style: bodyLarge(context)?.copyWith(
-                                          height: ConstValue.courseNameTextScale,
+                                          height:
+                                              ConstValue.courseNameTextScale,
                                           color: Colors.black)),
-                                  const SizedBox(width: 8,),
-                                  const Icon(Icons.clear, color: Colors.black,size: 18,)
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  const Icon(
+                                    Icons.clear,
+                                    color: Colors.black,
+                                    size: 18,
+                                  )
                                 ],
                               )),
                         ],
@@ -307,11 +324,16 @@ class _FirstStepState extends State<FirstStep> {
                         padding: EdgeInsets.only(bottom: 16),
                         child: Row(
                           children: [
-                            Expanded(child: CustomElevatedButton(callback: (){
-                              setState(() {
-                                hasUploaded = !hasUploaded;
-                              });
-                            }, title: 'Upload', radius: 15, buttonType: ButtonType.outlinedButton)),
+                            Expanded(
+                                child: CustomElevatedButton(
+                                    callback: () {
+                                      setState(() {
+                                        hasUploaded = !hasUploaded;
+                                      });
+                                    },
+                                    title: 'Upload',
+                                    radius: 15,
+                                    buttonType: ButtonType.outlinedButton)),
                           ],
                         ),
                       ),
@@ -319,7 +341,8 @@ class _FirstStepState extends State<FirstStep> {
                   ),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: Text(
                         'Interests',
@@ -328,19 +351,22 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 12,),
+                        vertical: 12,
+                      ),
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,
                         minLines: 3,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: 'Write about your side-hobby like reading or traveling.',
+                          hintText:
+                              'Write about your side-hobby like reading or traveling.',
                         ),
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: Text(
                         'Education',
@@ -349,19 +375,22 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 12, ),
+                        vertical: 12,
+                      ),
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,
                         minLines: 3,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: 'Write about your achievements and education level.',
+                          hintText:
+                              'Write about your achievements and education level.',
                         ),
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: Text(
                         'Experience',
@@ -370,7 +399,8 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 12, ),
+                        vertical: 12,
+                      ),
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,
@@ -381,7 +411,8 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 0,),
+                        vertical: 0,
+                      ),
                       width: double.infinity,
                       child: Text(
                         'Current/Previous Profession',
@@ -390,7 +421,8 @@ class _FirstStepState extends State<FirstStep> {
                       )),
                   Container(
                       margin: const EdgeInsets.symmetric(
-                        vertical: 12, ),
+                        vertical: 12,
+                      ),
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,

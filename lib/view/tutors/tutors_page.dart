@@ -1,8 +1,8 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
-import 'package:lettutor/utils/default_style.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
@@ -80,7 +80,6 @@ class _TutorsPageState extends State<TutorsPage> {
                       Icons.search,
                       color: Colors.black12,
                     ),
-
                     contentPadding: EdgeInsets.all(18),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(50.0)),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/model/lesson_model.dart';
-import 'package:lettutor/utils/default_style.dart';
-
+import 'package:lettutor/view/common_widgets/default_style.dart';
 import '../../../const/export_const.dart';
 import '../../../utils/utils.dart';
 

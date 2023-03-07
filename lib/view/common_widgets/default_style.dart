@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/const/const_value.dart';
-import 'package:lettutor/view/courses/courses_page.dart';
 import 'package:lettutor/utils/utils.dart';
 
-import '../config/router.dart';
-import '../view/courses/select_page.dart';
+import '../../config/router.dart';
 
 class DefaultColor {
   late Color fontColor = Colors.black;
@@ -21,7 +19,8 @@ class DefaultColor {
   }
 }
 
-AppBar appBarWithCustomAction(String title, BuildContext context, Widget action) {
+AppBar appBarWithCustomAction(
+    String title, BuildContext context, Widget action) {
   return AppBar(
     centerTitle: true,
     backgroundColor: Theme.of(context).primaryColor,
@@ -35,45 +34,47 @@ AppBar appBarWithCustomAction(String title, BuildContext context, Widget action)
       ),
       textAlign: TextAlign.start,
     ),
-    actions: <Widget>[
-      action
-    ],
+    actions: <Widget>[action],
   );
 }
 
 AppBar appBarDefault(String title, BuildContext context) {
-  return appBarWithCustomAction(title, context, IconButton(
-    icon: const Icon(
-      Icons.home,
-      color: Colors.white,
-    ),
-    onPressed: () {
-      pushNamedAndRemoveUntilHome(context);
-    },
-  ));
+  return appBarWithCustomAction(
+      title,
+      context,
+      IconButton(
+        icon: const Icon(
+          Icons.home,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          pushNamedAndRemoveUntilHome(context);
+        },
+      ));
 }
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({super.key, required this.selectedIndex, required this.context});
+  const CustomBottomNavigationBar(
+      {super.key, required this.selectedIndex, required this.context});
   final int selectedIndex;
   final BuildContext context;
 
-
   void _onItemTapped(int index) {
-      switch(index){
-        case NavigationIndex.schedulePage:
-          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.schedule);
-          break;
-        case NavigationIndex.homePage:
-          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.home);
-          break;
-        case NavigationIndex.settingsPage:
-          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.setting);
-          break;
-        case NavigationIndex.studyPage:
-          pushNamedAndRemoveUntilHome(context,newRoute: MyRouter.selectTutorOrCourse);
-          break;
-      }
+    switch (index) {
+      case NavigationIndex.schedulePage:
+        pushNamedAndRemoveUntilHome(context, newRoute: MyRouter.schedule);
+        break;
+      case NavigationIndex.homePage:
+        pushNamedAndRemoveUntilHome(context, newRoute: MyRouter.home);
+        break;
+      case NavigationIndex.settingsPage:
+        pushNamedAndRemoveUntilHome(context, newRoute: MyRouter.setting);
+        break;
+      case NavigationIndex.studyPage:
+        pushNamedAndRemoveUntilHome(context,
+            newRoute: MyRouter.selectTutorOrCourse);
+        break;
+    }
   }
 
   @override
@@ -87,38 +88,36 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ],
         ),
         child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(25.0),
-    topRight: Radius.circular(25.0),
-    ),
-    child:
-    BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.timer_sharp),
-            label: 'Schedule',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'Study',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: selectedIndex,
-        unselectedItemColor: Colors.black54,
-        selectedItemColor: Colors.blue,
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
-    ))
-      );
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(25.0),
+              topRight: Radius.circular(25.0),
+            ),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.timer_sharp),
+                  label: 'Schedule',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.school),
+                  label: 'Study',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                ),
+              ],
+              currentIndex: selectedIndex,
+              unselectedItemColor: Colors.black54,
+              selectedItemColor: Colors.blue,
+              showUnselectedLabels: true,
+              onTap: _onItemTapped,
+            )));
   }
 }
 

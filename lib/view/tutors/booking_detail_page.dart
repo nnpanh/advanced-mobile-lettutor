@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../model/tutor_model.dart';
-import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
+import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 
@@ -62,13 +62,15 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                             context: context,
                             initialDate: date,
                             firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(const Duration(days: 14)),
+                            lastDate:
+                                DateTime.now().add(const Duration(days: 14)),
                             builder: (BuildContext context, child) {
                               return Theme(
                                 data: Theme.of(context).copyWith(
                                   dialogTheme: DialogTheme(
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.0), // this is the border radius of the picker
+                                      borderRadius: BorderRadius.circular(
+                                          16.0), // this is the border radius of the picker
                                     ),
                                   ),
                                 ),
@@ -77,7 +79,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                             },
                           );
                           dateTime.then((value) {
-                            if (value!=null){
+                            if (value != null) {
                               setState(() {
                                 date = value;
                               });

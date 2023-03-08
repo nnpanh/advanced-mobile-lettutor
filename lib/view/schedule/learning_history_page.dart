@@ -118,11 +118,12 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
         itemCount: filterOptions.length,
         itemBuilder: (BuildContext context, int index) {
           Widget? trailing;
-          if (index == selectedFilter)
+          if (index == selectedFilter) {
             trailing = const Icon(
               Icons.check,
               color: Colors.blue,
             );
+          }
 
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -138,7 +139,7 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
                     });
                   },
                 ),
-                Divider(
+                const Divider(
                   height: 2,
                 )
               ],

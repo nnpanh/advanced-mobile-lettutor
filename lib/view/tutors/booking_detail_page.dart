@@ -6,6 +6,7 @@ import '../../const/const_value.dart';
 import '../../model/tutor_model.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/default_style.dart';
+import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 
@@ -98,7 +99,9 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: CustomElevatedButton(
                         title: time,
-                        callback: () {},
+                        callback: () {
+                          onPressedTime(context, size);
+                        },
                         buttonType: ButtonType.outlinedButton,
                         radius: 15,
                         icon: Icons.timer_outlined),
@@ -181,5 +184,52 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
             hasLeftButton: false,
           );
         });
+  }
+
+  void onPressedTime(BuildContext context, Size size) {
+    List<String> options = [];
+    for (var i = 0; i<9; i++) {
+      options.add('0${i}:30-0${i+1}:30');
+    }
+
+    Widget child = LimitedBox(
+      maxHeight: size.height * 0.4, // Change as per your requirement
+      maxWidth: size.width, // Change as per your requirement
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: options.length,
+        itemBuilder: (BuildContext context, int index) {
+          Widget? trailing;
+          if (options[index] == time) {
+            trailing = const Icon(
+              Icons.check,
+              color: Colors.blue,
+            );
+          }
+
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text(options[index]),
+                  trailing: trailing,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      time = options[index];
+                    });
+                  },
+                ),
+                const Divider(
+                  height: 2,
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+    showBottomDialog(context, 'Select a filter', child);
   }
 }

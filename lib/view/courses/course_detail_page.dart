@@ -13,20 +13,8 @@ import '../common_widgets/elevated_button.dart';
 
 class CourseDetailPage extends StatelessWidget {
   const CourseDetailPage({super.key, required this.courseModel});
-  // final CourseModel courseModel;
-//
-//   @override
-//   State<CourseDetailPage> createState() => _CourseDetailPageState();
-// }
-//
-// class _CourseDetailPageState extends State<CourseDetailPage> {
-  final CourseModel courseModel;
 
-  // @override
-  // void initState() {
-  //   courseData = widget.courseModel;
-  //   super.initState();
-  // }
+  final CourseModel courseModel;
 
   @override
   Widget build(BuildContext context) {

@@ -82,7 +82,6 @@ class _SchedulePageState extends State<SchedulePage> {
                 ],
               ),
             ),
-
             Container(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
               child: LimitedBox(

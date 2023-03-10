@@ -65,7 +65,7 @@ class _ChipDropdownState extends State<ChipDropdown> {
 
   void onPressedAdd(BuildContext context, Size size) {Widget child =
       LimitedBox(
-        maxHeight: size.height * 0.4,
+        maxHeight: size.height * 0.8,
         maxWidth: size.width,
         child: ListView.builder(
           itemCount: widget.options.length,

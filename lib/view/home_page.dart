@@ -5,6 +5,7 @@ import 'package:lettutor/view/common_widgets/chip_button.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
 
+import '../config/router.dart';
 import '../const/export_const.dart';
 import '../model/tutor_model.dart';
 import '../utils/utils.dart';
@@ -79,7 +80,9 @@ class _HomePageState extends State<HomePage> {
                               child: Container(
                                 // alignment: Alignment.centerLeft,
                                 child: ChipButton(
-                                  callback: () {},
+                                  callback: () {
+                                    Navigator.of(context).pushNamed(MyRouter.joinMeeting);
+                                  },
                                   title: '  Join  ',
                                   hasIcon: false,
                                   chipType: ButtonType.filledWhiteButton,

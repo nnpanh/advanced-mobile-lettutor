@@ -4,6 +4,7 @@ import 'package:lettutor/view/authentication/forgot_pass_page.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
 import 'package:lettutor/view/authentication/sign_up_page.dart';
 import 'package:lettutor/view/courses/lesson_detail_page.dart';
+import 'package:lettutor/view/schedule/join_meeting_page.dart';
 import 'package:lettutor/view/schedule/learning_history_page.dart';
 import 'package:lettutor/view/settings/account_page.dart';
 import 'package:lettutor/view/settings/become_tutor_page.dart';
@@ -44,6 +45,7 @@ class MyRouter {
   static const String schedule = 'Schedule';
   static const String learningHistory = 'Learning History';
   static const String analysis = 'Analysis';
+  static const String joinMeeting = 'Join Meeting';
 
   //Settings
   static const String setting = 'Settings';
@@ -109,6 +111,8 @@ class MyRouter {
       //Schedule
       case schedule:
         return successRoute(const SchedulePage(), settings);
+      case joinMeeting:
+        return successRoute(const JoinMeetingPage(), settings);
       case learningHistory:
         return successRoute(const LearningHistoryPage(), settings);
       // case analysis:

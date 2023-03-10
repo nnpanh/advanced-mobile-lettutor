@@ -111,7 +111,7 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
 
   void onPressedFilter(BuildContext context, Size size) {
     Widget child = LimitedBox(
-      maxHeight: size.height * 0.5, // Change as per your requirement
+      maxHeight: size.height * 0.8, // Change as per your requirement
       maxWidth: size.width, // Change as per your requirement
       child: ListView.builder(
         shrinkWrap: true,

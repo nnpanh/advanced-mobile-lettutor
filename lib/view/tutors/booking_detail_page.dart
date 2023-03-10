@@ -193,7 +193,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
     }
 
     Widget child = LimitedBox(
-      maxHeight: size.height * 0.4, // Change as per your requirement
+      maxHeight: size.height * 0.8, // Change as per your requirement
       maxWidth: size.width, // Change as per your requirement
       child: ListView.builder(
         shrinkWrap: true,

@@ -5,6 +5,7 @@ void showBottomDialog(BuildContext context, String title, Widget widget) {
   showModalBottomSheet(
     backgroundColor: Colors.white,
     context: context,
+    isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(25),

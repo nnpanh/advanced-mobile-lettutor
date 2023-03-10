@@ -46,6 +46,7 @@ dependencies:
   shimmer: ^2.0.0
   custom_timer: ^0.2.3
   country_picker: ^2.0.19
+  syncfusion_flutter_pdfviewer: ^20.4.53
 
 dev_dependencies:
   flutter_test:

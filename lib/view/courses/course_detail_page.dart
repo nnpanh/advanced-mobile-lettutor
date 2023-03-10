@@ -217,7 +217,13 @@ class CourseDetailPage extends StatelessWidget {
                                 "${index + 1}. ${courseModel.chapterTitles[index]}";
                             return ChapterCard(
                               title: title,
-                              clickAction: () {},
+                              clickAction: () {
+                                Navigator.pushNamed(
+                                    context, MyRouter.lessonDetail,
+                                    arguments: LessonDetailArguments(
+                                        title: courseModel.title??"No title",
+                                        pdfUrl: 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
+                              },
                             );
                           })),
                 ),

@@ -3,6 +3,7 @@ import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/view/authentication/forgot_pass_page.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
 import 'package:lettutor/view/authentication/sign_up_page.dart';
+import 'package:lettutor/view/courses/lesson_detail_page.dart';
 import 'package:lettutor/view/schedule/learning_history_page.dart';
 import 'package:lettutor/view/settings/account_page.dart';
 import 'package:lettutor/view/settings/become_tutor_page.dart';
@@ -24,6 +25,7 @@ class MyRouter {
   //Courses
   static const String courses = 'Online Courses';
   static const String courseDetail = 'Course Details';
+  static const String lessonDetail = 'Lesson Details';
 
   //Authentication
   static const String forgotPassword = 'Forgot Password';
@@ -60,6 +62,15 @@ class MyRouter {
         if (args is CourseDetailArguments) {
           return successRoute(
               CourseDetailPage(courseModel: args.courseModel), settings);
+        } else {
+          return errorRoute(
+              'Input for Tutor detail page is not TutorDetailArguments',
+              settings);
+        }
+      case lessonDetail:
+        if (args is LessonDetailArguments) {
+          return successRoute(
+              LessonDetailPage(title: args.title, url: args.pdfUrl), settings);
         } else {
           return errorRoute(
               'Input for Tutor detail page is not TutorDetailArguments',

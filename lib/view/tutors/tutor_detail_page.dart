@@ -98,6 +98,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                               allowHalfRating: true,
                               itemCount: 5,
                               glow: false,
+                              ignoreGestures: true,
                               itemPadding:
                                   const EdgeInsets.symmetric(horizontal: 1),
                               itemSize: 24,

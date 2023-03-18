@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/utils/default_style.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({super.key, required this.title, required this.callback});
@@ -26,7 +26,9 @@ class MenuWidget extends StatelessWidget {
           height: 1,
           thickness: 1,
         ),
-        const SizedBox(height: 4,)
+        const SizedBox(
+          height: 4,
+        )
       ],
     );
   }

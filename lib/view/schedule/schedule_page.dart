@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/view/common_widgets/chip_button.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
-import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -24,61 +24,28 @@ class _SchedulePageState extends State<SchedulePage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-                padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
-                width: double.infinity,
-                color: Colors.blue,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                padding: const EdgeInsets.fromLTRB(24, 48, 24, 8),
+                child: Row(
                   children: [
-                    Text(
-                      'Upcoming Lesson',
-                      style: bodyLargeBold(context)
-                          ?.copyWith(color: Colors.white, fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              getDateString(DateTime.now(), TimeFormat.getDateAndTime),
-                              style: bodyLarge(context)?.copyWith(color: Colors.white),
-                            ),
-                          ),
-                          Expanded(
-                              flex: 1,
-                              child: Container(
-                                // alignment: Alignment.centerLeft,
-                                child: ChipButton(
-                                  callback: () {},
-                                  title: '  Join  ',
-                                  hasIcon: false,
-                                  chipType: ButtonType.filledWhiteButton,
-                                ),
-                              ))
-                        ],
+                    Expanded(flex: 2, child: Image.asset(ImagesPath.calendar, fit: BoxFit.contain)),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                          "Here is a list of booked lessons. You can track when will the lesson starts, join the meeting or cancel before 2 hours",
+                          style: bodyLarge(context)?.copyWith(
+                            color: Colors.black45
+                          )
+                        // ?.copyWith(color: Colors.white, fontSize: 18),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      'Total learning hours left: 4 hours',
-                      style: bodyLarge(context)?.copyWith(color: Colors.white),
                     ),
                   ],
                 )),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,

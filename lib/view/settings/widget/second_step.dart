@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/const/const_value.dart';
-import 'package:lettutor/utils/default_style.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/elevated_button.dart';
 
 class SecondStep extends StatefulWidget {
@@ -28,17 +28,16 @@ class _SecondStepState extends State<SecondStep> {
           Expanded(child: Image.asset(ImagesPath.video, fit: BoxFit.contain)),
         ]),
         Visibility(
-          visible: hasUploaded? false:true,
+          visible: hasUploaded ? false : true,
           child: Container(
               alignment: Alignment.centerLeft,
-              child: Text(
-                'Tips:',
+              child: Text('Tips:',
                   style: bodyLargeBold(context)?.copyWith(
                       height: ConstValue.courseNameTextScale,
                       color: Colors.blue))),
         ),
         Visibility(
-          visible: hasUploaded? false:true,
+          visible: hasUploaded ? false : true,
           child: Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(bottom: 16),
@@ -49,29 +48,33 @@ class _SecondStepState extends State<SecondStep> {
                       color: Colors.blue))),
         ),
         Visibility(
-          visible: hasUploaded? false:true,
+          visible: hasUploaded ? false : true,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                   alignment: Alignment.center,
-                  decoration: ShapeDecoration(shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                  ),
-                    color: Colors.grey.shade200
-
-                  ),
+                  decoration: ShapeDecoration(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      color: Colors.grey.shade200),
                   padding: const EdgeInsets.all(12),
                   margin: const EdgeInsets.only(bottom: 16),
                   child: Row(
                     children: [
-                      Text(
-                        'File_name.mp4',
+                      Text('File_name.mp4',
                           style: bodyLarge(context)?.copyWith(
                               height: ConstValue.courseNameTextScale,
                               color: Colors.black)),
-                      const SizedBox(width: 8,),
-                      const Icon(Icons.clear, color: Colors.black,size: 18,)
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Icon(
+                        Icons.clear,
+                        color: Colors.black,
+                        size: 18,
+                      )
                     ],
                   )),
             ],
@@ -79,14 +82,18 @@ class _SecondStepState extends State<SecondStep> {
         ),
         Row(
           children: [
-            Expanded(child: CustomElevatedButton(callback: (){
-              setState(() {
-                hasUploaded = !hasUploaded;
-              });
-            }, title: 'Upload', radius: 15, buttonType: ButtonType.outlinedButton)),
+            Expanded(
+                child: CustomElevatedButton(
+                    callback: () {
+                      setState(() {
+                        hasUploaded = !hasUploaded;
+                      });
+                    },
+                    title: 'Upload',
+                    radius: 15,
+                    buttonType: ButtonType.outlinedButton)),
           ],
         ),
-
       ],
     );
   }

@@ -99,7 +99,7 @@ void pushUntilLogin(BuildContext context) {
 
 List<LessonModel> generateLessons() {
   List<LessonModel> lessons = [];
-  var sampleLesson = LessonModel('Kimetsu no Yaiba','Shuumatsu no Valkyrie', DateTime.now(), DateTime.now().add(const Duration(hours:1)), "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand", "I will leave before the lessson ends about 5mins");
+  var sampleLesson = LessonModel('Kimetsu no Yaiba','Shuumatsu no Valkyrie', DateTime.now(), DateTime.now().add(const Duration(hours:1)), "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand", "Good");
   var sampleLesson2 = LessonModel('Shuumatsu no Valkyrie: Ragnarok War of God and Humans','Kain', DateTime.now(),DateTime.now().add(const Duration(hours:1)), "https://www.linkpicture.com/q/306931717_180342937860292_6628553018679771531_n.jpg",null);
   for (var i = 5; i >= 1; i--) {
     lessons.add(sampleLesson);

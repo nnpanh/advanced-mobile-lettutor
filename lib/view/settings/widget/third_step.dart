@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../const/const_value.dart';
-import '../../../utils/default_style.dart';
+import '../../common_widgets/default_style.dart';
 
 class ThirdStep extends StatefulWidget {
   const ThirdStep({super.key});
@@ -28,10 +28,9 @@ class _ThirdStepState extends State<ThirdStep> {
         const SizedBox(height: 16),
         Text(
           "Thank you for joining LetTutor team. Please kindly wait for our approval process. The final result "
-              "shall be sent through your email.",
+          "shall be sent through your email.",
           style: bodyLarge(context)?.copyWith(
-              height: ConstValue.courseNameTextScale,
-              color: Colors.black54),
+              height: ConstValue.courseNameTextScale, color: Colors.black54),
           textAlign: TextAlign.center,
         ),
       ],

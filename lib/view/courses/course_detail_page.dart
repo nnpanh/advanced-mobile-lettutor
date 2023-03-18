@@ -7,27 +7,14 @@ import 'package:readmore/readmore.dart';
 import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../model/course_model.dart';
-import '../../utils/default_style.dart';
 import '../../utils/utils.dart';
+import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
-
 
 class CourseDetailPage extends StatelessWidget {
   const CourseDetailPage({super.key, required this.courseModel});
-  // final CourseModel courseModel;
-//
-//   @override
-//   State<CourseDetailPage> createState() => _CourseDetailPageState();
-// }
-//
-// class _CourseDetailPageState extends State<CourseDetailPage> {
-  final CourseModel courseModel;
 
-  // @override
-  // void initState() {
-  //   courseData = widget.courseModel;
-  //   super.initState();
-  // }
+  final CourseModel courseModel;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +38,12 @@ class CourseDetailPage extends StatelessWidget {
                       "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: Text(
                     "${courseModel.title}",
-                    style: headLineSmall(context)?.copyWith(
-                        height: ConstValue.courseNameTextScale),
+                    style: headLineSmall(context)
+                        ?.copyWith(height: ConstValue.courseNameTextScale),
                     textAlign: TextAlign.start,
                     softWrap: true,
                   ),
@@ -78,7 +66,7 @@ class CourseDetailPage extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: Container(
-                    margin: const EdgeInsets.fromLTRB(24,16,24,16),
+                    margin: const EdgeInsets.fromLTRB(24, 16, 24, 16),
                     child: CustomElevatedButton(
                         title: 'Discover',
                         buttonType: ButtonType.filledButton,
@@ -92,33 +80,37 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child:
-                  Text('Overview', style: headLineSmall(context)?.copyWith(
-                      fontSize: 20
-                  )),
+                  child: Text('Overview',
+                      style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      const Icon(Icons.question_mark_rounded, color: Colors.blue,),
-                      const SizedBox(width: 12,),
+                      const Icon(
+                        Icons.question_mark_rounded,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
                       Text("Why take this course",
                           style: bodyLargeBold(context)?.copyWith(
-                              height: ConstValue.courseNameTextScale)
-                      )
+                              height: ConstValue.courseNameTextScale))
                     ],
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Expanded(
-                        child: Text(CourseOverView.takenReason,
-                            style: bodyLarge(context),
+                        child: Text(
+                          CourseOverView.takenReason,
+                          style: bodyLarge(context),
                           textAlign: TextAlign.justify,
                         ),
                       )
@@ -130,22 +122,28 @@ class CourseDetailPage extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      const Icon(Icons.question_mark_rounded, color: Colors.blue,),
-                      const SizedBox(width: 12,),
+                      const Icon(
+                        Icons.question_mark_rounded,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
                       Text("What will you be able to do",
                           style: bodyLargeBold(context)?.copyWith(
-                              height: ConstValue.courseNameTextScale)
-                      )
+                              height: ConstValue.courseNameTextScale))
                     ],
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Expanded(
-                        child: Text(CourseOverView.achievement,
+                        child: Text(
+                          CourseOverView.achievement,
                           style: bodyLarge(context),
                           textAlign: TextAlign.justify,
                         ),
@@ -155,51 +153,54 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child:
-                      Text('Experience Level', style: headLineSmall(context)?.copyWith(
-                        fontSize: 20
-                      )),
+                  child: Text('Experience Level',
+                      style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      const Icon(Icons.group_add, color: Colors.blue,),
-                      const SizedBox(width: 12,),
+                      const Icon(
+                        Icons.group_add,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
                       Text("${courseModel.level}",
-                      style: bodyLargeBold(context)?.copyWith(
-                          height: ConstValue.courseNameTextScale)
-                      )
+                          style: bodyLargeBold(context)?.copyWith(
+                              height: ConstValue.courseNameTextScale))
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Course Length', style: headLineSmall(context)?.copyWith(
-                    fontSize: 20
-                  )),
+                  child: Text('Course Length',
+                      style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      const Icon(Icons.topic, color: Colors.blue,),
-                      const SizedBox(width: 12,),
+                      const Icon(
+                        Icons.topic,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
                       Text("${courseModel.chapterTitles.length} Topics",
                           style: bodyLargeBold(context)?.copyWith(
-                              height: ConstValue.courseNameTextScale)
-                      )
+                              height: ConstValue.courseNameTextScale))
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
                   child: Text('List of Topic',
-                      style: headLineSmall(context)?.copyWith(
-                        fontSize: 20
-                      )),
+                      style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
@@ -212,18 +213,24 @@ class CourseDetailPage extends StatelessWidget {
                           scrollDirection: Axis.vertical,
                           itemCount: courseModel.chapterTitles.length,
                           itemBuilder: (BuildContext context, int index) {
-                            String title = "${index+1}. ${courseModel.chapterTitles[index]}";
-                            return ChapterCard(title: title,clickAction: (){
-
-                            },);
+                            String title =
+                                "${index + 1}. ${courseModel.chapterTitles[index]}";
+                            return ChapterCard(
+                              title: title,
+                              clickAction: () {
+                                Navigator.pushNamed(
+                                    context, MyRouter.lessonDetail,
+                                    arguments: LessonDetailArguments(
+                                        title: courseModel.title??"No title",
+                                        pdfUrl: 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
+                              },
+                            );
                           })),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
                   child: Text('Suggested Tutors',
-                      style: headLineSmall(context)?.copyWith(
-                          fontSize: 20
-                      )),
+                      style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
@@ -242,34 +249,33 @@ class CourseDetailPage extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
                             child: RichText(
                                 text: TextSpan(children: [
-                                  TextSpan(
-                                    text: "•  $course   ",
-                                    style: bodyLarge(context)?.copyWith(
-                                        fontSize: 16,
-                                        height: ConstValue.courseNameTextScale),
-                                  ),
-                                  TextSpan(
-                                      text: 'More info',
-                                      style: bodyLarge(context)
-                                          ?.copyWith(color: Colors.blueAccent),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-
-                                          Navigator.pushNamed(
-                                              context, MyRouter.tutorDetail, arguments: TutorDetailArguments(tutorModel: testTutor()));
-                                        })
-                                ])),
+                              TextSpan(
+                                text: "•  $course   ",
+                                style: bodyLarge(context)?.copyWith(
+                                    fontSize: 16,
+                                    height: ConstValue.courseNameTextScale),
+                              ),
+                              TextSpan(
+                                  text: 'More info',
+                                  style: bodyLarge(context)
+                                      ?.copyWith(color: Colors.blueAccent),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushNamed(
+                                          context, MyRouter.tutorDetail,
+                                          arguments: TutorDetailArguments(
+                                              tutorModel: testTutor()));
+                                    })
+                            ])),
                           ),
                         );
                       },
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
         ));
   }
-
 }

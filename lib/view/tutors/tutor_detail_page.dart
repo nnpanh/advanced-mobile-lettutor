@@ -8,7 +8,7 @@ import '../../config/router.dart';
 import '../../config/router_arguments.dart';
 import '../../const/export_const.dart';
 import '../../model/tutor_model.dart';
-import '../../utils/default_style.dart';
+import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/show_reviews_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 import '../common_widgets/title_and_chips.dart';
@@ -74,8 +74,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                             child: Text(
                               "${tutorData.name}",
                               style: bodyLargeBold(context)?.copyWith(
-                                  fontSize: 18,
-                                  ),
+                                fontSize: 18,
+                              ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
@@ -98,6 +98,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                               allowHalfRating: true,
                               itemCount: 5,
                               glow: false,
+                              ignoreGestures: true,
                               itemPadding:
                                   const EdgeInsets.symmetric(horizontal: 1),
                               itemSize: 24,
@@ -166,7 +167,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            onPressedReport(size, tutorData.name,context);
+                            onPressedReport(size, tutorData.name, context);
                           },
                           icon: const Icon(
                             Icons.report_outlined,
@@ -244,7 +245,9 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.pushNamed(
-                                          context, MyRouter.courseDetail, arguments: CourseDetailArguments(courseModel: course));
+                                          context, MyRouter.courseDetail,
+                                          arguments: CourseDetailArguments(
+                                              courseModel: course));
                                     })
                             ])),
                           ),
@@ -312,8 +315,4 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
           ),
         ));
   }
-
-
-
-
 }

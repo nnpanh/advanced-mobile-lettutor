@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/view/courses/widgets/course_tab.dart';
 
-import '../../const/const_value.dart';
-import '../../utils/default_style.dart';
-
 class CoursesPage extends StatefulWidget {
   const CoursesPage({super.key});
 

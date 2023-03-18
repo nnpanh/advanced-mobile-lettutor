@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/view/common_widgets/chip_button.dart';
+import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/elevated_button.dart';
-import 'package:lettutor/utils/default_style.dart';
 
 import '../../../const/export_const.dart';
 import 'base_dialog/widget_dialog.dart';
@@ -96,20 +95,34 @@ class ReportDialogContentState extends State<ReportDialogContent> {
         ),
         Row(
           children: [
-            Expanded(child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: CustomElevatedButton(callback: (){
-                  Navigator.of(context).pop();
-                }, title: 'Cancel', radius: 0, buttonType: ButtonType.outlinedButton,))),
-            Expanded(child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: CustomElevatedButton(callback:  (){
-                  Navigator.of(context).pop();
-                }, title: 'Send report', radius: 30, buttonType: ButtonType.filledButton,))),
+            Expanded(
+                child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: CustomElevatedButton(
+                      callback: () {
+                        Navigator.of(context).pop();
+                      },
+                      title: 'Cancel',
+                      radius: 0,
+                      buttonType: ButtonType.outlinedButton,
+                    ))),
+            Expanded(
+                child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: CustomElevatedButton(
+                      callback: () {
+                        Navigator.of(context).pop();
+                      },
+                      title: 'Send report',
+                      radius: 30,
+                      buttonType: ButtonType.filledButton,
+                    ))),
           ],
         )
-          ],
-        // )
+      ],
+      // )
       // ],
     );
   }
@@ -130,7 +143,9 @@ class ReportCheckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
-      title: Text(report.content,),
+      title: Text(
+        report.content,
+      ),
       contentPadding: EdgeInsets.zero,
       value: report.isChecked,
       onChanged: (bool? value) {

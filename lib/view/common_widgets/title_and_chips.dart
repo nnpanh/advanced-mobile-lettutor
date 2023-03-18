@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../const/const_value.dart';
-import '../../utils/default_style.dart';
 import 'chip_button.dart';
+import 'default_style.dart';
 
 class TitleAndChips extends StatelessWidget {
   const TitleAndChips({super.key, required this.options, required this.title});

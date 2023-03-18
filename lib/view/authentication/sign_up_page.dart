@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
-import '../../utils/default_style.dart';
 import '../../utils/validation_extension.dart';
+import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
 
 class SignUpPage extends StatefulWidget {

@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/config/router.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
-
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
-import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
+
 
 class JoinMeetingPage extends StatefulWidget {
   const JoinMeetingPage({super.key});
@@ -26,8 +25,8 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
       ),
       floatingActionButton:
       FloatingActionButton(onPressed: () { onPressedTime(context, size); },
-        child: Icon(Icons.message, color: Colors.white,),
         backgroundColor: Colors.blue,
+        child: const Icon(Icons.message, color: Colors.white,),
       ),
     );
   }
@@ -51,8 +50,8 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: BubbleSpecialThree(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: const BubbleSpecialThree(
                         text: 'Help me translate what the tutor just said.',
                         color: Color(0xFF1B97F3),
                         tail: false,
@@ -63,8 +62,8 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
                       ),
                     ),
                      Container(
-                       padding: EdgeInsets.symmetric(vertical: 8),
-                       child: BubbleSpecialThree(
+                       padding: const EdgeInsets.symmetric(vertical: 8),
+                       child: const BubbleSpecialThree(
                         text: "我要睡觉!",
                         color: Color(0xFFE8E8EE),
                         tail: false,
@@ -77,7 +76,7 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
             },
           ),
         ),
-        Divider(height: 1,),
+        const Divider(height: 1,),
         MessageBar(
           onSend: (_) => print(_),
         ),

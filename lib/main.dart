@@ -1,8 +1,8 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/const/const_value.dart';
+import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:page_transition/page_transition.dart';
@@ -52,10 +52,10 @@ class MyAppState extends State<MyApp> {
           FocusManager.instance.primaryFocus?.unfocus();
         }
       },
-      child: MultiRepositoryProvider(
+      child: MultiProvider(
           providers: [
-            RepositoryProvider (create: (ctx) => AuthRepository(widget.baseUrl),),
-
+          ChangeNotifierProvider(create: (_) => AuthProvider(),
+          ),
           ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,

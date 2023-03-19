@@ -9,9 +9,9 @@ class AuthRepository extends BaseRepository {
   // static const String prefix = "auth/";
   static const String prefix = "";
 
-  AuthRepository(String apiBaseUrl) : super(apiBaseUrl, prefix);
+  AuthRepository() : super(prefix);
 
-  Future<ResponseLoginByMail?> loginByMail({required InputLoginByMail input}) async {
+  Future<ResponseLoginByMail> loginByMail({required InputLoginByMail input}) async {
     final response = await provider.post(
       url: "",
       // url: "login",

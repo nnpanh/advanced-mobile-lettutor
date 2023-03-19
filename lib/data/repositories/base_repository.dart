@@ -5,7 +5,9 @@ abstract class BaseRepository {
   late CancelToken cancelToken;
   late ApiProvider provider;
 
-  BaseRepository(String apiBaseUrl, String prefix) {
+  BaseRepository(String prefix) {
+    String apiBaseUrl = "https://www.google.com/";
+
     provider = ApiProvider("$apiBaseUrl$prefix");
     cancelToken = CancelToken();
   }

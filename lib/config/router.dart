@@ -10,6 +10,7 @@ import 'package:lettutor/view/settings/account_page.dart';
 import 'package:lettutor/view/settings/become_tutor_page.dart';
 import 'package:lettutor/view/settings/settings_page.dart';
 
+import '../view/common_widgets/loading_overlay.dart';
 import '../view/courses/course_detail_page.dart';
 import '../view/courses/courses_page.dart';
 import '../view/courses/select_page.dart';
@@ -82,7 +83,7 @@ class MyRouter {
       case forgotPassword:
         return successRoute(const ForgotPasswordPage(), settings);
       case login:
-        return successRoute(const LoginPage(), settings);
+        return successRoute(LoadingOverlay( child: const LoginPage(),) , settings);
       case signUp:
         return successRoute(const SignUpPage(), settings);
       //Selector

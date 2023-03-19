@@ -31,4 +31,26 @@ class ApiProvider {
         print(err.toString());
       }
     }
+
+  Future<dynamic> get(
+      {required String url,
+        Map<String, dynamic>? headers,
+        String? contentType,
+        Map<String, dynamic>? data,
+        CancelToken? cancelToken}) async {
+    try {
+      final response = await api.get(url,
+          options: Options(headers: headers, contentType: contentType),
+          data: data,
+          cancelToken: cancelToken);
+      switch (response.statusCode) {
+        case 200:
+          return response.data;
+        case 201:
+          return response.data;
+      }
+    } on DioError catch (err) {
+      print(err.toString());
+    }
+  }
 }

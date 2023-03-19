@@ -6,7 +6,7 @@ abstract class BaseRepository {
   late ApiProvider provider;
 
   BaseRepository(String prefix) {
-    String apiBaseUrl = "https://www.google.com/";
+    String apiBaseUrl = "https://reqres.in/api";
 
     provider = ApiProvider("$apiBaseUrl$prefix");
     cancelToken = CancelToken();

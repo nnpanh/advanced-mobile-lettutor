@@ -12,17 +12,17 @@ class AuthRepository extends BaseRepository {
   AuthRepository() : super(prefix);
 
   Future<ResponseLoginByMail> loginByMail({required InputLoginByMail input}) async {
-    final response = await provider.post(
-      url: "",
+    final response = await provider.get(
+      url: "/unknown/2",
       // url: "login",
       // headers: {
       //   "Access-Token": "123"
       // },
-      data: input.toJson(),
+      // data: input.toJson(),
     );
 
-    ResponseLoginByMail test = ResponseLoginByMail.fromJson(response);
+    // ResponseLoginByMail test = ResponseLoginByMail.fromJson(response);
 
-    return test;
+    return ResponseLoginByMail(isSuccess: true);
   }
 }

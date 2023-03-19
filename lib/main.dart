@@ -1,22 +1,29 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 import 'config/router.dart';
 import 'const/themes.dart';
+import 'data/repositories/auth_repository.dart';
 
 void main() {
   MyApp.initSystemDefault();
 
-  runApp(const MyApp());
+  runApp(MyApp(
+    baseUrl: "https://www.google.com/"
+  ));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+   String baseUrl;
+
+   MyApp({super.key, required this.baseUrl});
 
   // This widget is the root of your application.
   @override
@@ -45,23 +52,29 @@ class MyAppState extends State<MyApp> {
           FocusManager.instance.primaryFocus?.unfocus();
         }
       },
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'LetTutor',
-          theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
-          darkTheme: ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
-          themeMode: getDeviceThemeMode(),
-          onGenerateRoute: MyRouter.generateRoute,
-          home: AnimatedSplashScreen(
-              duration: 2000,
-              splash: const Image(image: AssetImage(ImagesPath.logo)),
-              nextScreen: const LoginPage(),
-              // nextScreen: const LoginPage(),
-              splashTransition: SplashTransition.fadeTransition,
-              pageTransitionType: PageTransitionType.bottomToTop,
-              backgroundColor: Colors.white)
-          // initialRoute: MyRouter.splash,
-          ),
+      child: MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider (create: (ctx) => AuthRepository(widget.baseUrl),),
+
+          ],
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'LetTutor',
+            theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
+            darkTheme: ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
+            themeMode: getDeviceThemeMode(),
+            onGenerateRoute: MyRouter.generateRoute,
+            home: AnimatedSplashScreen(
+                duration: 2000,
+                splash: const Image(image: AssetImage(ImagesPath.logo)),
+                nextScreen: const LoginPage(),
+                // nextScreen: const LoginPage(),
+                splashTransition: SplashTransition.fadeTransition,
+                pageTransitionType: PageTransitionType.bottomToTop,
+                backgroundColor: Colors.white)
+            // initialRoute: MyRouter.splash,
+            ),
+      ),
     );
   }
 }

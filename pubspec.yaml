@@ -48,6 +48,11 @@ dependencies:
   country_picker: ^2.0.19
   syncfusion_flutter_pdfviewer: ^20.4.53
   chat_bubbles: ^1.4.1
+  dio: ^5.0.3
+  shared_preferences: ^2.0.18
+  json_serializable: ^6.6.1
+  json_annotation: ^4.8.0
+  build_runner: ^2.3.3
 
 dev_dependencies:
   flutter_test:

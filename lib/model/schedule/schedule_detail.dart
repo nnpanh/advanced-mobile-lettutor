@@ -1,6 +1,11 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'booking_info.dart';
 import 'schedule.dart';
 
+part 'schedule_detail.g.dart';
+
+@JsonSerializable()
 class ScheduleDetail {
   int? startPeriodTimestamp;
   int? endPeriodTimestamp;
@@ -27,43 +32,7 @@ class ScheduleDetail {
     this.isBooked,
     this.scheduleInfo,
   });
-
-  ScheduleDetail.fromJson(Map<String, dynamic> json) {
-    startPeriodTimestamp = json['startPeriodTimestamp'];
-    endPeriodTimestamp = json['endPeriodTimestamp'];
-    id = json['id'];
-    scheduleId = json['scheduleId'];
-    startPeriod = json['startPeriod'];
-    endPeriod = json['endPeriod'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    if (json['bookingInfo'] != null) {
-      bookingInfo = <BookingInfo>[];
-      json['bookingInfo'].forEach((v) {
-        bookingInfo!.add(BookingInfo.fromJson(v));
-      });
-    }
-    isBooked = json['isBooked'];
-    scheduleInfo = json['scheduleInfo'] != null ? Schedule.fromJson(json['scheduleInfo']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['startPeriodTimestamp'] = startPeriodTimestamp;
-    data['endPeriodTimestamp'] = endPeriodTimestamp;
-    data['id'] = id;
-    data['scheduleId'] = scheduleId;
-    data['startPeriod'] = startPeriod;
-    data['endPeriod'] = endPeriod;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
-    if (bookingInfo != null) {
-      data['bookingInfo'] = bookingInfo!.map((v) => v.toJson()).toList();
-    }
-    data['isBooked'] = isBooked;
-    if (scheduleInfo != null) {
-      data['scheduleInfo'] = scheduleInfo!.toJson();
-    }
-    return data;
-  }
+  factory ScheduleDetail.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleDetailFromJson(json);
+  Map<String, dynamic> toJson() => _$ScheduleDetailToJson(this);
 }

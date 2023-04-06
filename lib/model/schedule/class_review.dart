@@ -1,3 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:lettutor/model/schedule/lesson_status.dart';
+
+part 'class_review.g.dart';
+
+@JsonSerializable()
 class ClassReview {
   final String? bookingId;
   final int? lessonStatusId;
@@ -39,73 +45,7 @@ class ClassReview {
     this.lessonStatus,
   });
 
-  factory ClassReview.fromJson(Map<String, dynamic> json) => ClassReview(
-        bookingId: json['bookingId'],
-        lessonStatusId: json['lessonStatusId'],
-        book: json['book'],
-        unit: json['unit'],
-        lesson: json['lesson'],
-        page: json['page'],
-        lessonProgress: json['lessonProgress'],
-        behaviorRating: json['behaviorRating'],
-        behaviorComment: json['behaviorComment'],
-        listeningRating: json['listeningRating'],
-        listeningComment: json['listeningComment'],
-        speakingRating: json['speakingRating'],
-        speakingComment: json['speakingComment'],
-        vocabularyRating: json['vocabularyRating'],
-        vocabularyComment: json['vocabularyComment'],
-        homeworkComment: json['homeworkComment'],
-        overallComment: json['overallComment'],
-        lessonStatus: LessonStatus.fromJson(json['lessonStatus']),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'bookingId': bookingId,
-        'lessonStatusId': lessonStatusId,
-        'book': book,
-        'unit': unit,
-        'lesson': lesson,
-        'page': page,
-        'lessonProgress': lessonProgress,
-        'behaviorRating': behaviorRating,
-        'behaviorComment': behaviorComment,
-        'listeningRating': listeningRating,
-        'listeningComment': listeningComment,
-        'speakingRating': speakingRating,
-        'speakingComment': speakingComment,
-        'vocabularyRating': vocabularyRating,
-        'vocabularyComment': vocabularyComment,
-        'homeworkComment': homeworkComment,
-        'overallComment': overallComment,
-        'lessonStatus': lessonStatus!.toJson(),
-      };
-}
-
-class LessonStatus {
-  final int? id;
-  final String? status;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
-  LessonStatus({
-    this.id,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  factory LessonStatus.fromJson(Map<String, dynamic> json) => LessonStatus(
-        id: json['id'],
-        status: json['status'],
-        createdAt: DateTime.parse(json['createdAt']),
-        updatedAt: DateTime.parse(json['updatedAt']),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'status': status,
-        'createdAt': createdAt?.toIso8601String(),
-        'updatedAt': updatedAt?.toIso8601String(),
-      };
+  factory ClassReview.fromJson(Map<String, dynamic> json) =>
+      _$ClassReviewFromJson(json);
+  Map<String, dynamic> toJson() => _$ClassReviewToJson(this);
 }

@@ -1,6 +1,11 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'course_category.dart';
 import 'course_topic.dart';
 
+part 'course.g.dart';
+
+@JsonSerializable()
 class Course {
   String? id;
   String? name;
@@ -35,4 +40,7 @@ class Course {
     this.topics,
     this.categories,
   });
+
+  factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
+  Map<String, dynamic> toJson() => _$CourseToJson(this);
 }

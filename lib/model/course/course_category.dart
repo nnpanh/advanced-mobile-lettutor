@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'course_category.g.dart';
+
+@JsonSerializable()
 class CourseCategory {
   String? id;
   String? title;
@@ -14,4 +19,8 @@ class CourseCategory {
     this.createdAt,
     this.updatedAt,
   });
+
+  factory CourseCategory.fromJson(Map<String, dynamic> json) =>
+      _$CourseCategoryFromJson(json);
+  Map<String, dynamic> toJson() => _$CourseCategoryToJson(this);
 }

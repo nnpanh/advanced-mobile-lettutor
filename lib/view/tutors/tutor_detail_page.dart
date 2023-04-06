@@ -1,13 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
 import 'package:lettutor/view/common_widgets/dialogs/report_dialog.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
 import '../../config/router_arguments.dart';
 import '../../const/export_const.dart';
-import '../../model/tutor_model.dart';
+import '../../model/course_model.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/show_reviews_dialog.dart';
 import '../common_widgets/elevated_button.dart';
@@ -58,7 +59,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                           radius: 50,
                           backgroundColor: Colors.black54,
                           foregroundColor: Colors.transparent,
-                          foregroundImage: NetworkImage(tutorData.avatarUrl ??
+                          foregroundImage: NetworkImage(tutorData.avatar ??
                               "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
                         ),
                       ),
@@ -83,7 +84,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
-                              "${tutorData.nationality}",
+                              // "${tutorData.nationality}",
+                              "${tutorData.country}",
                               style: bodyLarge(context)
                                   ?.copyWith(color: Colors.black38),
                             ),
@@ -121,7 +123,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: ReadMoreText(
-                    "${tutorData.description}",
+                    // "${tutorData.description}",
+                    "${tutorData.bio}",
                     trimLines: 4,
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
@@ -143,10 +146,12 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              tutorData.isFavorite = !tutorData.isFavorite;
+                              // tutorData.isFavorite = !tutorData.isFavorite;
+                              //TODO: FAVORITE
                             });
                           },
-                          icon: tutorData.isFavorite
+                          icon: true
+                              // icon: tutorData.isFavorite
                               ? const Icon(
                                   Icons.favorite_border,
                                   color: Colors.blue,
@@ -207,9 +212,10 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         image: AssetImage(ImagesPath.youtube),
                         fit: BoxFit.fitWidth)),
                 TitleAndChips(
-                    options: tutorData.specialities, title: 'Languages'),
-                TitleAndChips(
-                    options: tutorData.specialities, title: 'Specialities'),
+                    // options: tutorData.specialities, title: 'Languages'),
+                    options: [],
+                    title: 'Languages'),
+                TitleAndChips(options: [], title: 'Specialities'),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                   child:
@@ -222,9 +228,11 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: tutorData.suggestedCourses.length,
+                      itemCount: 0,
+                      // itemCount: tutorData.suggestedCourses.length,
                       itemBuilder: (BuildContext context, int index) {
-                        var course = tutorData.suggestedCourses[index];
+                        var course =
+                            CourseModel(null, null, null, null, null, null);
                         return LimitedBox(
                           maxWidth: double.maxFinite,
                           maxHeight: double.maxFinite,
@@ -283,7 +291,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                   child: ReadMoreText(
-                    "${tutorData.teachingExperience}",
+                    "${tutorData.experience}",
+                    // "${tutorData.teachingExperience}",
                     trimLines: 20,
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(

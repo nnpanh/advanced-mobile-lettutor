@@ -2,7 +2,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lettutor/config/router.dart';
-import 'package:lettutor/model/user_model.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/utils/validation_extension.dart';
 import 'package:lettutor/view/common_widgets/chip_dropdown.dart';
@@ -10,6 +9,7 @@ import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/settings/widget/required_label.dart';
 
 import '../../const/const_value.dart';
+import '../../model/user/user_model.dart';
 import '../common_widgets/elevated_button.dart';
 
 class AccountPage extends StatefulWidget {
@@ -32,8 +32,7 @@ class _AccountPageState extends State<AccountPage> {
     super.initState();
     _txtCountry.text = userModel.country ?? "";
     if (userModel.birthday != null) {
-      _txtBirthday.text =
-          getDateString(userModel.birthday!, TimeFormat.getDateOnly);
+      _txtBirthday.text = userModel.birthday!;
     }
     for (var element in ConstValue.levelList) {
       _levelList.add(DropdownMenuItem(
@@ -69,8 +68,7 @@ class _AccountPageState extends State<AccountPage> {
                         backgroundColor: Colors.blue,
                         child: CircleAvatar(
                           radius: 62,
-                          foregroundImage:
-                              NetworkImage(userModel.avatarUrl ?? ""),
+                          foregroundImage: NetworkImage(userModel.avatar ?? ""),
                         ),
                       ),
                       Container(

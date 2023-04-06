@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/config/router_arguments.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
 import 'package:lettutor/view/courses/widgets/chapter_card.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../model/course_model.dart';
-import '../../utils/utils.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
 
@@ -191,7 +191,7 @@ class CourseDetailPage extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Text("${courseModel.chapterTitles.length} Topics",
+                      Text("${courseModel.chapterTitles?.length} Topics",
                           style: bodyLargeBold(context)?.copyWith(
                               height: ConstValue.courseNameTextScale))
                     ],
@@ -211,18 +211,19 @@ class CourseDetailPage extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.vertical,
-                          itemCount: courseModel.chapterTitles.length,
+                          itemCount: courseModel.chapterTitles?.length,
                           itemBuilder: (BuildContext context, int index) {
                             String title =
-                                "${index + 1}. ${courseModel.chapterTitles[index]}";
+                                "${index + 1}. ${courseModel.chapterTitles?[index]}";
                             return ChapterCard(
                               title: title,
                               clickAction: () {
                                 Navigator.pushNamed(
                                     context, MyRouter.lessonDetail,
                                     arguments: LessonDetailArguments(
-                                        title: courseModel.title??"No title",
-                                        pdfUrl: 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
+                                        title: courseModel.title ?? "No title",
+                                        pdfUrl:
+                                            'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
                               },
                             );
                           })),
@@ -239,9 +240,9 @@ class CourseDetailPage extends StatelessWidget {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: courseModel.suggestedTutor.length,
+                      itemCount: courseModel.suggestedTutor?.length,
                       itemBuilder: (BuildContext context, int index) {
-                        var course = courseModel.suggestedTutor[index];
+                        var course = courseModel.suggestedTutor?[index];
                         return LimitedBox(
                           maxWidth: double.maxFinite,
                           maxHeight: double.maxFinite,
@@ -264,7 +265,7 @@ class CourseDetailPage extends StatelessWidget {
                                       Navigator.pushNamed(
                                           context, MyRouter.tutorDetail,
                                           arguments: TutorDetailArguments(
-                                              tutorModel: testTutor()));
+                                              tutorModel: TutorModel()));
                                     })
                             ])),
                           ),

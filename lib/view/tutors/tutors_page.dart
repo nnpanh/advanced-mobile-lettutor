@@ -6,8 +6,7 @@ import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
-import '../../model/tutor_model.dart';
-import '../../utils/utils.dart';
+import '../../model/tutor/tutor_model.dart';
 
 class TutorsPage extends StatefulWidget {
   const TutorsPage({super.key});
@@ -44,7 +43,7 @@ class _TutorsPageState extends State<TutorsPage> {
     'Foreign speaker',
   ];
 
-  List<TutorModel> tutorList = generateTutorList();
+  List<TutorModel> tutorList = [];
 
   @override
   void initState() {

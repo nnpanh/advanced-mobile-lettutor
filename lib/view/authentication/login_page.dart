@@ -1,8 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lettutor/data/dto/auth/input_login_by_mail.dart';
-import 'package:lettutor/data/repositories/auth_repository.dart';
 import 'package:lettutor/view/common_widgets/loading_overlay.dart';
 
 import '../../config/router.dart';
@@ -153,11 +151,8 @@ class _LoginPageState extends State<LoginPage> {
                             title: 'Login',
                             callback: () {
                               if (_formKey.currentState!.validate()) {
-                                _handleOnPressedLogin(
-                                    _emailController.text,
-                                    _passwordController.text,
-                                  context
-                                );
+                                _handleOnPressedLogin(_emailController.text,
+                                    _passwordController.text, context);
                               }
                             },
                             buttonType: ButtonType.filledButton,
@@ -245,23 +240,23 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _handleOnPressedLogin(String email, String password, BuildContext context) {
+  void _handleOnPressedLogin(
+      String email, String password, BuildContext context) {
     LoadingOverlay.of(context).show();
-    InputLoginByMail input = InputLoginByMail(email: email, password: password);
-
-    AuthRepository().loginByMail(input: input).then((value) =>
-    {
-      if (value.isSuccess == true) {
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) => false,);})
-      }
-      else {
-        ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Error Login:')),
-        )
-      },
-    LoadingOverlay.of(context).hide()
-    });
-
+    // InputLoginByMail input = InputLoginByMail(email: email, password: password);
+    //
+    // AuthRepository().loginByMail(input: input).then((value) =>
+    // {
+    //   if (value.isSuccess == true) {
+    //     Future.delayed(const Duration(seconds: 1), () {
+    //       Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) => false,);})
+    //   }
+    //   else {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //   const SnackBar(content: Text('Error Login:')),
+    //     )
+    //   },
+    // LoadingOverlay.of(context).hide()
+    // });
   }
 }

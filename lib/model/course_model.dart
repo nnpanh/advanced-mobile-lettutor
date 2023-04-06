@@ -1,10 +1,10 @@
 class CourseModel {
-  final String? title;
-  final String? description;
-  final String? level;
-  final List<String> chapterTitles;
-  final String? illustrateUrl;
-  final List<String> suggestedTutor;
+  String? title;
+  String? description;
+  String? level;
+  List<String>? chapterTitles;
+  String? illustrateUrl;
+  List<String>? suggestedTutor;
 
   CourseModel(this.title, this.description, this.level, this.chapterTitles,
       this.illustrateUrl, this.suggestedTutor);

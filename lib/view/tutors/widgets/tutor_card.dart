@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../../config/router.dart';
 import '../../../config/router_arguments.dart';
 import '../../../const/export_const.dart';
-import '../../../model/tutor_model.dart';
 import '../../../utils/utils.dart';
 import '../../common_widgets/chip_button.dart';
 
@@ -42,7 +42,8 @@ class TutorCardState extends State<TutorCard> {
                     radius: 50,
                     backgroundColor: Colors.black54,
                     foregroundColor: Colors.transparent,
-                    foregroundImage: NetworkImage(widget.tutorData.avatarUrl ??
+                    foregroundImage: NetworkImage(widget.tutorData.avatar ??
+                        // foregroundImage: NetworkImage(widget.tutorData.avatarUrl ??
                         "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
                   ),
                 ),
@@ -65,7 +66,8 @@ class TutorCardState extends State<TutorCard> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          "${widget.tutorData.nationality}",
+                          "${widget.tutorData.country}",
+                          // "${widget.tutorData.nationality}",
                           style: bodyLarge(context)
                               ?.copyWith(color: CustomColor.greyTextColor),
                         ),
@@ -97,7 +99,8 @@ class TutorCardState extends State<TutorCard> {
                   ),
                 ),
                 IconButton(
-                  icon: widget.tutorData.isFavorite
+                  icon: true
+                      // icon: widget.tutorData.isFavorite
                       ? const Icon(Icons.favorite_outline, color: Colors.blue)
                       : const Icon(Icons.favorite, color: Colors.redAccent),
                   onPressed: () {
@@ -110,7 +113,8 @@ class TutorCardState extends State<TutorCard> {
               height: getDescriptionHeight(context),
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: Text(
-                "${widget.tutorData.description}",
+                "${widget.tutorData.bio}",
+                // "${widget.tutorData.description}",
                 style: bodyLarge(context)
                     ?.copyWith(color: CustomColor.greyTextColor),
                 textAlign: TextAlign.justify,

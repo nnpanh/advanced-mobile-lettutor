@@ -68,7 +68,7 @@ class CourseCardState extends State<CourseCard> {
             Container(
               padding: const EdgeInsets.all(24),
               child: Text(
-                "${widget.courseData.level}  •  ${widget.courseData.chapterTitles.length} Lessons",
+                "${widget.courseData.level}  •  ${widget.courseData.chapterTitles?.length} Lessons",
                 style: bodyLarge(context),
                 textAlign: TextAlign.start,
                 softWrap: true,

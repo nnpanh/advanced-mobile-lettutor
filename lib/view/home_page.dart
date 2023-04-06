@@ -7,7 +7,7 @@ import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
 
 import '../config/router.dart';
 import '../const/export_const.dart';
-import '../model/tutor_model.dart';
+import '../model/tutor/tutor_model.dart';
 import '../utils/utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,8 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   int tag = 0;
   final _txtController = TextEditingController();
 
@@ -38,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     'TOEFL',
   ];
 
-  List<TutorModel> tutorList = generateTutorList();
+  List<TutorModel> tutorList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +71,10 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             flex: 2,
                             child: Text(
-                              getDateString(DateTime.now(), TimeFormat.getDateAndTime),
-                              style: bodyLarge(context)?.copyWith(color: Colors.white),
+                              getDateString(
+                                  DateTime.now(), TimeFormat.getDateAndTime),
+                              style: bodyLarge(context)
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ),
                           Expanded(
@@ -83,7 +83,8 @@ class _HomePageState extends State<HomePage> {
                                 // alignment: Alignment.centerLeft,
                                 child: ChipButton(
                                   callback: () {
-                                    Navigator.of(context).pushNamed(MyRouter.joinMeeting);
+                                    Navigator.of(context)
+                                        .pushNamed(MyRouter.joinMeeting);
                                   },
                                   title: '  Join  ',
                                   hasIcon: false,
@@ -201,7 +202,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: NavigationIndex.homePage, context: context,),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: NavigationIndex.homePage,
+        context: context,
+      ),
     );
   }
 

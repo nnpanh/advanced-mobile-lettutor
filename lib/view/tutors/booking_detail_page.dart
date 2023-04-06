@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
-import '../../model/tutor_model.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
@@ -188,8 +188,8 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
 
   void onPressedTime(BuildContext context, Size size) {
     List<String> options = [];
-    for (var i = 0; i<9; i++) {
-      options.add('0${i}:30-0${i+1}:30');
+    for (var i = 0; i < 9; i++) {
+      options.add('0${i}:30-0${i + 1}:30');
     }
 
     Widget child = LimitedBox(

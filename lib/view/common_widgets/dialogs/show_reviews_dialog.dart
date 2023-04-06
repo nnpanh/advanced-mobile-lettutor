@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../model/review_model.dart';
-import '../../../utils/utils.dart';
 import '../default_style.dart';
 import 'base_dialog/widget_dialog.dart';
 
@@ -18,7 +17,8 @@ void onPressedShowReviews(Size size, BuildContext context) {
 class ReviewDialogContent extends StatelessWidget {
   ReviewDialogContent({super.key, required this.size});
   final Size size;
-  final List<ReviewModel> listReview = generateReviewList();
+  final List<ReviewModel> listReview = [];
+  // final List<ReviewModel> listReview = generateReviewList();
 
   @override
   Widget build(BuildContext context) {

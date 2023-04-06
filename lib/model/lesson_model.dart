@@ -6,5 +6,6 @@ class LessonModel {
   final String? tutorAvatarUrl;
   final String? lessonNotes;
 
-  LessonModel(this.tutorName, this.learnerName, this.lessonStart, this.lessonEnd, this.tutorAvatarUrl, this.lessonNotes);
+  LessonModel(this.tutorName, this.learnerName, this.lessonStart,
+      this.lessonEnd, this.tutorAvatarUrl, this.lessonNotes);
 }

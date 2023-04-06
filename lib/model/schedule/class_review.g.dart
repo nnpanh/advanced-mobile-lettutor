@@ -24,7 +24,9 @@ ClassReview _$ClassReviewFromJson(Map<String, dynamic> json) => ClassReview(
       vocabularyComment: json['vocabularyComment'] as String?,
       homeworkComment: json['homeworkComment'] as String?,
       overallComment: json['overallComment'] as String?,
-      lessonStatus: json['lessonStatus'],
+      lessonStatus: json['lessonStatus'] == null
+          ? null
+          : LessonStatus.fromJson(json['lessonStatus'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ClassReviewToJson(ClassReview instance) =>

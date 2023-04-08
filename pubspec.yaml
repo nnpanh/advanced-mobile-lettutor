@@ -43,7 +43,6 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   cached_network_image: ^3.2.3
   readmore: ^2.2.0
-  shimmer: ^2.0.0
   custom_timer: ^0.2.3
   country_picker: ^2.0.19
   syncfusion_flutter_pdfviewer: ^20.4.53
@@ -51,7 +50,7 @@ dependencies:
 
   # API
   dio: ^5.0.3
-  shared_preferences: ^2.0.18
+  shared_preferences: ^2.1.0
   json_serializable: ^6.6.1
   json_annotation: ^4.8.0
   build_runner: ^2.3.3

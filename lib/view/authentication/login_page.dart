@@ -2,9 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/view/common_widgets/loading_overlay.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
+import '../../providers/auth_provider.dart';
 import '../../utils/validation_extension.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
@@ -17,23 +20,40 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //FORM VALIDATION
   final _formKey = GlobalKey<FormState>();
   late bool _passwordVisible;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  //UI STATE
+  bool _hasAuthenticated = false;
+
   @override
   void initState() {
-    _passwordVisible = false;
     super.initState();
+    _passwordVisible = false;
+
+    // restorePreviousSection();
+    // if (_hasAuthenticated) {
+    //   Future.delayed(const Duration(seconds: 1), () {
+    //     Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) => false);
+    //   });
+    // }
+  }
+
+  void restorePreviousSection() {
+
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: _hasAuthenticated? const SizedBox():
+      SingleChildScrollView(
         child: Column(
           children: <Widget>[
             SizedBox(height: size.height * 0.06),
@@ -123,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           validator: (input) {
                             if (input != null && !input.isValidPassword) {
-                              return 'Password must have at least 8 characters (A-z), 1 special character and 1 number';
+                              return 'Password must have at least 6 characters';
                             } else {
                               return null;
                             }
@@ -151,8 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                             title: 'Login',
                             callback: () {
                               if (_formKey.currentState!.validate()) {
-                                _handleOnPressedLogin(_emailController.text,
-                                    _passwordController.text, context);
+                                _handleLogin(authProvider);
                               }
                             },
                             buttonType: ButtonType.filledButton,
@@ -240,23 +259,36 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _handleOnPressedLogin(
-      String email, String password, BuildContext context) {
+  void _handleLogin(AuthProvider authProvider) async {
     LoadingOverlay.of(context).show();
-    // InputLoginByMail input = InputLoginByMail(email: email, password: password);
-    //
-    // AuthRepository().loginByMail(input: input).then((value) =>
-    // {
-    //   if (value.isSuccess == true) {
-    //     Future.delayed(const Duration(seconds: 1), () {
-    //       Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) => false,);})
-    //   }
-    //   else {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //   const SnackBar(content: Text('Error Login:')),
-    //     )
-    //   },
-    // LoadingOverlay.of(context).hide()
-    // });
+    try {
+      await authProvider.authRepository.loginByMail(
+        email: _emailController.text,
+        password: _passwordController.text,
+        onSuccess: (user, token) async {
+          LoadingOverlay.of(context).hide();
+          authProvider.saveLoginInfo(user, token);
+
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString(
+            'refresh_token',
+            authProvider.token?.refresh?.token??"",
+          );
+
+          setState(() {
+            _hasAuthenticated = true;
+          });
+          Future.delayed(const Duration(seconds: 1), () {
+            Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) => false);
+          });
+        },
+      );
+    } catch (e) {
+      LoadingOverlay.of(context).hide();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    }
+
   }
 }

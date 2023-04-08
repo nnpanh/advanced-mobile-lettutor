@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:lettutor/data/services/api_provider.dart';
+import 'package:lettutor/data/services/api_service.dart';
 
 abstract class BaseRepository {
   late CancelToken cancelToken;
-  late ApiProvider provider;
+  late ApiService service;
 
   BaseRepository(String prefix) {
-    String apiBaseUrl = "https://reqres.in/api";
+    String apiBaseUrl = "https://sandbox.api.lettutor.com/";
 
-    provider = ApiProvider("$apiBaseUrl$prefix");
+    service = ApiService("$apiBaseUrl$prefix");
     cancelToken = CancelToken();
   }
 }

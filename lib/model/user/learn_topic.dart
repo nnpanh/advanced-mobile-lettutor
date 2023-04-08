@@ -7,6 +7,8 @@ class LearnTopic {
   int? id;
   String? key;
   String? name;
+  String? createdAt;
+  String? updatedAt;
 
   LearnTopic({this.id, this.key, this.name});
   factory LearnTopic.fromJson(Map<String, dynamic> json) =>

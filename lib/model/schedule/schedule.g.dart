@@ -8,6 +8,7 @@ part of 'schedule.dart';
 
 Schedule _$ScheduleFromJson(Map<String, dynamic> json) => Schedule(
       id: json['id'] as String?,
+      date: json['date'] as String?,
       tutorId: json['tutorId'] as String?,
       startTime: json['startTime'] as String?,
       endTime: json['endTime'] as String?,
@@ -15,6 +16,7 @@ Schedule _$ScheduleFromJson(Map<String, dynamic> json) => Schedule(
       endTimestamp: json['endTimestamp'] as int?,
       createdAt: json['createdAt'] as String?,
       isBooked: json['isBooked'] as bool?,
+      isDeleted: json['isDeleted'] as bool?,
       scheduleDetails: (json['scheduleDetails'] as List<dynamic>?)
           ?.map((e) => ScheduleDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25,6 +27,7 @@ Schedule _$ScheduleFromJson(Map<String, dynamic> json) => Schedule(
 
 Map<String, dynamic> _$ScheduleToJson(Schedule instance) => <String, dynamic>{
       'id': instance.id,
+      'date': instance.date,
       'tutorId': instance.tutorId,
       'startTime': instance.startTime,
       'endTime': instance.endTime,
@@ -32,6 +35,7 @@ Map<String, dynamic> _$ScheduleToJson(Schedule instance) => <String, dynamic>{
       'endTimestamp': instance.endTimestamp,
       'createdAt': instance.createdAt,
       'isBooked': instance.isBooked,
+      'isDeleted': instance.isDeleted,
       'scheduleDetails': instance.scheduleDetails,
       'tutorInfo': instance.tutorInfo,
     };

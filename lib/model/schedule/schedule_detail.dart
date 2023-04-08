@@ -18,7 +18,6 @@ class ScheduleDetail {
   List<BookingInfo>? bookingInfo;
   bool? isBooked;
   Schedule? scheduleInfo;
-
   ScheduleDetail({
     this.startPeriodTimestamp,
     this.endPeriodTimestamp,

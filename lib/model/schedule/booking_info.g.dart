@@ -28,6 +28,17 @@ BookingInfo _$BookingInfoFromJson(Map<String, dynamic> json) => BookingInfo(
       classReview: json['classReview'] == null
           ? null
           : ClassReview.fromJson(json['classReview'] as Map<String, dynamic>),
+      cancelReasonId: json['cancelReasonId'] as String?,
+      lessonPlanId: json['lessonPlanId'] as String?,
+      cancelNote: json['cancelNote'] as String?,
+      calendarId: json['calendarId'] as String?,
+      showRecordUrl: json['showRecordUrl'] as bool?,
+      studentMaterials: (json['studentMaterials'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      feedbacks: (json['feedbacks'] as List<dynamic>?)
+          ?.map((e) => TutorFeedback.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$BookingInfoToJson(BookingInfo instance) =>
@@ -48,4 +59,11 @@ Map<String, dynamic> _$BookingInfoToJson(BookingInfo instance) =>
       'isDeleted': instance.isDeleted,
       'scheduleDetailInfo': instance.scheduleDetailInfo,
       'classReview': instance.classReview,
+      'cancelReasonId': instance.cancelReasonId,
+      'lessonPlanId': instance.lessonPlanId,
+      'cancelNote': instance.cancelNote,
+      'calendarId': instance.calendarId,
+      'showRecordUrl': instance.showRecordUrl,
+      'studentMaterials': instance.studentMaterials,
+      'feedbacks': instance.feedbacks,
     };

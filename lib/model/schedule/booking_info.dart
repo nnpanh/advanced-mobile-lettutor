@@ -1,10 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lettutor/model/tutor/tutor_feedback.dart';
 
 import 'class_review.dart';
 import 'schedule_detail.dart';
 
 part 'booking_info.g.dart';
 
+//get-booked-course
 @JsonSerializable()
 class BookingInfo {
   int? createdAtTimeStamp;
@@ -20,14 +22,17 @@ class BookingInfo {
   String? createdAt;
   String? updatedAt;
   String? recordUrl;
-
-  // String? cancelReasonId;
-  // String? lessonPlanId;
-  // String? cancelNote;
-  // String? calendarId;
   bool? isDeleted;
   ScheduleDetail? scheduleDetailInfo;
   ClassReview? classReview;
+  //new
+  String? cancelReasonId;
+  String? lessonPlanId;
+  String? cancelNote;
+  String? calendarId;
+  bool? showRecordUrl;
+  List<String>? studentMaterials;
+  List<TutorFeedback>? feedbacks;
 
   BookingInfo({
     this.createdAtTimeStamp,
@@ -43,13 +48,16 @@ class BookingInfo {
     this.createdAt,
     this.updatedAt,
     this.recordUrl,
-    // this.cancelReasonId,
-    // this.lessonPlanId,
-    // this.cancelNote,
-    // this.calendarId,
     this.isDeleted,
     this.scheduleDetailInfo,
     this.classReview,
+    this.cancelReasonId,
+    this.lessonPlanId,
+    this.cancelNote,
+    this.calendarId,
+    this.showRecordUrl,
+    this.studentMaterials,
+    this.feedbacks,
   });
 
   factory BookingInfo.fromJson(Map<String, dynamic> json) =>

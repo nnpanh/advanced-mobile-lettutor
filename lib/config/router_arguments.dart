@@ -1,3 +1,6 @@
+import 'package:lettutor/model/course/course_model.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
+
 import '../model/course_model.dart';
 import '../model/tutor_model.dart';
 

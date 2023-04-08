@@ -7,6 +7,7 @@ import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
+import '../../model/course/course_model.dart';
 import '../../model/course_model.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
@@ -34,14 +35,14 @@ class CourseDetailPage extends StatelessWidget {
                   width: double.maxFinite,
                   height: size.width * .75 - 32,
                   fit: BoxFit.fill,
-                  image: NetworkImage(courseModel.illustrateUrl ??
+                  image: NetworkImage(courseModel.imageUrl ??
                       "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
                 ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: Text(
-                    "${courseModel.title}",
+                    "${courseModel.name}",
                     style: headLineSmall(context)
                         ?.copyWith(height: ConstValue.courseNameTextScale),
                     textAlign: TextAlign.start,
@@ -191,7 +192,7 @@ class CourseDetailPage extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Text("${courseModel.chapterTitles?.length} Topics",
+                      Text("${courseModel.topics?.length} Topics",
                           style: bodyLargeBold(context)?.copyWith(
                               height: ConstValue.courseNameTextScale))
                     ],
@@ -211,17 +212,17 @@ class CourseDetailPage extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.vertical,
-                          itemCount: courseModel.chapterTitles?.length,
+                          itemCount: courseModel.topics?.length,
                           itemBuilder: (BuildContext context, int index) {
                             String title =
-                                "${index + 1}. ${courseModel.chapterTitles?[index]}";
+                                "${index + 1}. ${courseModel.topics?[index].name}";
                             return ChapterCard(
                               title: title,
                               clickAction: () {
                                 Navigator.pushNamed(
                                     context, MyRouter.lessonDetail,
                                     arguments: LessonDetailArguments(
-                                        title: courseModel.title ?? "No title",
+                                        title: courseModel.name ?? "No title",
                                         pdfUrl:
                                             'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
                               },
@@ -240,9 +241,11 @@ class CourseDetailPage extends StatelessWidget {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: courseModel.suggestedTutor?.length,
+                      itemCount: 0,
+                      // itemCount: courseModel.suggestedTutor?.length,
                       itemBuilder: (BuildContext context, int index) {
-                        var course = courseModel.suggestedTutor?[index];
+                        var course = "";
+                        // var course = courseModel.suggestedTutor?[index];
                         return LimitedBox(
                           maxWidth: double.maxFinite,
                           maxHeight: double.maxFinite,

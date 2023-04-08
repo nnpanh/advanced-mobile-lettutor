@@ -29,6 +29,9 @@ double getMaxLineHeightByLines(BuildContext context, int lines) {
   return textHeight * ConstValue.descriptionTextScale * lines + 16 * 2;
 }
 
+DateTime getDateTimeFromInt(int value) {
+  return DateTime.fromMicrosecondsSinceEpoch(value);
+}
 String getDateString(DateTime value, String getType) {
   String dayOfWeek = DateFormat('EEEE').format(value);
   String dateNo = "$dayOfWeek, ${value.day}/${value.month}/${value.year}";

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/utils/utils.dart';
+import 'package:lettutor/model/course/course_model.dart';
 
-import '../../../model/course_model.dart';
 import 'course_card.dart';
 
 class CourseTab extends StatefulWidget {
@@ -13,7 +12,7 @@ class CourseTab extends StatefulWidget {
 }
 
 class _CourseTabState extends State<CourseTab> {
-  List<CourseModel> courseList = generateCourses();
+  List<CourseModel> courseList = [];
 
   @override
   Widget build(BuildContext context) {

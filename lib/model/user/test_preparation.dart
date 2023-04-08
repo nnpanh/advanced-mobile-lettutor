@@ -7,6 +7,8 @@ class TestPreparation {
   int? id;
   String? key;
   String? name;
+  String? createdAt;
+  String? updatedAt;
 
   TestPreparation({this.id, this.key, this.name});
   factory TestPreparation.fromJson(Map<String, dynamic> json) =>

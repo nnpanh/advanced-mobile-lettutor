@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/model/lesson_model.dart';
+import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import '../../../const/export_const.dart';
-import '../../../utils/utils.dart';
 
 class LessonCard extends StatefulWidget {
   const LessonCard(
@@ -15,7 +14,7 @@ class LessonCard extends StatefulWidget {
       required this.rightButtonCallback,
       required this.iconButtonCallback});
 
-  final LessonModel lessonData;
+  final BookingInfo lessonData;
   final bool isHistoryCard;
   final String leftButton;
   final String rightButton;
@@ -53,7 +52,7 @@ class LessonCardState extends State<LessonCard> {
                     radius: 30,
                     backgroundColor: Colors.black54,
                     foregroundColor: Colors.transparent,
-                    foregroundImage: NetworkImage(widget.lessonData.tutorAvatarUrl ??
+                    foregroundImage: NetworkImage(widget.lessonData.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.avatar ??
                         "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
                   ),
                 ),
@@ -62,7 +61,7 @@ class LessonCardState extends State<LessonCard> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      "${widget.lessonData.tutorName}",
+                      "${widget.lessonData.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.name}",
                       style: bodyLargeBold(context)?.copyWith(
                           fontSize:20),
                       overflow: TextOverflow.ellipsis,
@@ -100,7 +99,7 @@ class LessonCardState extends State<LessonCard> {
             Container(
               padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
               child: RichText(text: TextSpan(children: [TextSpan(text: "Lesson date:  ",style: bodyLargeBold(context)),
-                TextSpan(text: getDateString(widget.lessonData.lessonStart, TimeFormat.getDateNo),
+                TextSpan(text: widget.lessonData.scheduleDetailInfo?.scheduleInfo?.date,
                     style: bodyLarge(context))],
               ),
               ),
@@ -108,7 +107,7 @@ class LessonCardState extends State<LessonCard> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: RichText(text: TextSpan(children: [TextSpan(text: "Start time:  ",style: bodyLargeBold(context)),
-                TextSpan(text: getDateString(widget.lessonData.lessonStart, TimeFormat.getTime),
+                TextSpan(text: widget.lessonData.scheduleDetailInfo?.scheduleInfo?.startTime,
                     style: bodyLarge(context))],
               ),
             ),
@@ -116,7 +115,7 @@ class LessonCardState extends State<LessonCard> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: RichText(text: TextSpan(children: [TextSpan(text: "End time:  ",style: bodyLargeBold(context)),
-                TextSpan(text: getDateString(widget.lessonData.lessonEnd, TimeFormat.getTime),
+                TextSpan(text: widget.lessonData.scheduleDetailInfo?.scheduleInfo?.endTime,
                     style: bodyLarge(context))],
               ),
               ),
@@ -141,11 +140,11 @@ class LessonCardState extends State<LessonCard> {
   }
 
   String displayNote(){
-    String? notes = widget.lessonData.lessonNotes;
-    if (notes==null) {
+    // String? notes = widget.lessonData.lessonNotes;
+    // if (notes==null) {
       return "This lesson has no review from tutor.";
-    } else {
-      return "Review from tutor: $notes";
-    }
+    // } else {
+      // return "Review from tutor: $notes";
+    // }
   }
 }

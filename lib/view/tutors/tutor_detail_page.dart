@@ -8,6 +8,7 @@ import 'package:readmore/readmore.dart';
 import '../../config/router.dart';
 import '../../config/router_arguments.dart';
 import '../../const/export_const.dart';
+import '../../model/course/course_model.dart';
 import '../../model/course_model.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/show_reviews_dialog.dart';
@@ -232,7 +233,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       // itemCount: tutorData.suggestedCourses.length,
                       itemBuilder: (BuildContext context, int index) {
                         var course =
-                            CourseModel(null, null, null, null, null, null);
+                            CourseModel();
                         return LimitedBox(
                           maxWidth: double.maxFinite,
                           maxHeight: double.maxFinite,
@@ -241,7 +242,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                             child: RichText(
                                 text: TextSpan(children: [
                               TextSpan(
-                                text: "•  ${course.title}   ",
+                                text: "•  ${course.name}   ",
                                 style: bodyLarge(context)?.copyWith(
                                     fontSize: 16,
                                     height: ConstValue.courseNameTextScale),

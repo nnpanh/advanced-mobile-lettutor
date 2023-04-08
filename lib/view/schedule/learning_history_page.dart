@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/model/lesson_model.dart';
 import 'package:lettutor/model/review_model.dart';
+import 'package:lettutor/model/schedule/booking_info.dart';
+import 'package:lettutor/model/tutor/tutor_feedback.dart';
 import 'package:lettutor/view/common_widgets/dialogs/create_review_dialog.dart';
 import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
+import '../../model/tutor/first_info.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
@@ -19,7 +22,7 @@ class LearningHistoryPage extends StatefulWidget {
 }
 
 class _LearningHistoryPageState extends State<LearningHistoryPage> {
-  late List<LessonModel> lessonList;
+  late List<BookingInfo> lessonList;
   late int selectedFilter = 0;
   List<String> filterOptions = [
     'Last 1 month',
@@ -29,7 +32,7 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
 
   @override
   void initState() {
-    lessonList = generateLessons();
+    lessonList = [];
     super.initState();
   }
 
@@ -76,28 +79,26 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
                       scrollDirection: Axis.vertical,
                       itemCount: lessonList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        LessonModel lesson = lessonList[index];
+                        BookingInfo lesson = lessonList[index];
                         return LessonCard(
                           lessonData: lesson,
                           isHistoryCard: true,
                           leftButton: 'Report',
                           rightButton: 'Add a review',
                           leftButtonCallback: () {
-                            onPressedReport(size, lesson.tutorName, context);
+                            onPressedReport(size, lesson.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.name, context);
                           },
                           rightButtonCallback: () {
-                            ReviewModel newReview = ReviewModel(
-                                lesson.tutorName,
-                                lesson.tutorAvatarUrl,
-                                "",
-                                5,
-                                DateTime.now());
+                            CreateReviewArguments reviewArguments =
+                            CreateReviewArguments(lesson.id, lesson.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.id, 5, "");
+
                             onPressedCreateReview(
                                 size,
                                 context,
-                                newReview,
-                                getDateString(lesson.lessonStart,
-                                    TimeFormat.getDateOnly));
+                                reviewArguments,
+                                lesson.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.name,
+                              lesson.scheduleDetailInfo?.scheduleInfo?.date
+                            );
                           },
                           iconButtonCallback: () {},
                         );

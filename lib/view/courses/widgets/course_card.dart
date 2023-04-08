@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/config/router_arguments.dart';
+import 'package:lettutor/model/course/course_model.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../../config/router.dart';
@@ -40,13 +41,13 @@ class CourseCardState extends State<CourseCard> {
               width: double.maxFinite,
               height: size.width * .75 - 32,
               fit: BoxFit.fill,
-              image: NetworkImage(widget.courseData.illustrateUrl ??
+              image: NetworkImage(widget.courseData.imageUrl ??
                   "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Text(
-                "${widget.courseData.title}",
+                "${widget.courseData.name}",
                 style: headLineSmall(context)?.copyWith(
                     height: ConstValue.courseNameTextScale, fontSize: 20),
                 textAlign: TextAlign.start,
@@ -68,7 +69,7 @@ class CourseCardState extends State<CourseCard> {
             Container(
               padding: const EdgeInsets.all(24),
               child: Text(
-                "${widget.courseData.level}  •  ${widget.courseData.chapterTitles?.length} Lessons",
+                "${widget.courseData.level}  •  ${widget.courseData.topics?.length} Lessons",
                 style: bodyLarge(context),
                 textAlign: TextAlign.start,
                 softWrap: true,

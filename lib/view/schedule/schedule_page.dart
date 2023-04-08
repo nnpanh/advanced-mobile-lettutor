@@ -16,7 +16,7 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  final lessonList = generateLessons();
+  final lessonList = [];
 
   @override
   Widget build(BuildContext context) {

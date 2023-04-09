@@ -1,12 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lettutor/view/common_widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
+import '../../model/user/user_model.dart';
+import '../../model/user/user_token.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/validation_extension.dart';
 import '../common_widgets/default_style.dart';
@@ -22,7 +25,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //FORM VALIDATION
   final _formKey = GlobalKey<FormState>();
-  late bool _passwordVisible;
+  bool _passwordVisible = false;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -30,37 +33,25 @@ class _LoginPageState extends State<LoginPage> {
   bool _hasAuthenticated = false;
 
   @override
-  void initState() {
-    super.initState();
-    _passwordVisible = false;
-
-    // restorePreviousSection();
-    // if (_hasAuthenticated) {
-    //   Future.delayed(const Duration(seconds: 1), () {
-    //     Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) => false);
-    //   });
-    // }
-  }
-
-  void restorePreviousSection() {
-
-  }
-
-  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final authProvider = Provider.of<AuthProvider>(context);
 
+    if (!_hasAuthenticated) {
+      restorePreviousSession(Provider.of<AuthProvider>(context));
+    }
+
     return Scaffold(
-      body: _hasAuthenticated? const SizedBox():
-      SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: size.height * 0.06),
-            Container(
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                child: Image.asset(
-                  ImagesPath.intro,
+      body: _hasAuthenticated
+          ? const SizedBox()
+          : SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: size.height * 0.06),
+                  Container(
+                      margin: const EdgeInsets.symmetric(vertical: 12),
+                      child: Image.asset(
+                        ImagesPath.intro,
                   fit: BoxFit.contain,
                 )),
             Container(
@@ -171,8 +162,8 @@ class _LoginPageState extends State<LoginPage> {
                             title: 'Login',
                             callback: () {
                               if (_formKey.currentState!.validate()) {
-                                _handleLogin(authProvider);
-                              }
+                                _handleLoginByEmail(authProvider);
+                                    }
                             },
                             buttonType: ButtonType.filledButton,
                             radius: 10),
@@ -200,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 iconSize: 36,
                                 onPressed: () {
-                                  Navigator.pushNamed(context, MyRouter.home);
+                                  _handleLoginByGoogle(authProvider);
                                 },
                               ),
                             ),
@@ -259,36 +250,95 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _handleLogin(AuthProvider authProvider) async {
+  void _handleLoginByEmail(AuthProvider authProvider) async {
     LoadingOverlay.of(context).show();
     try {
       await authProvider.authRepository.loginByMail(
         email: _emailController.text,
         password: _passwordController.text,
         onSuccess: (user, token) async {
-          LoadingOverlay.of(context).hide();
-          authProvider.saveLoginInfo(user, token);
-
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString(
-            'refresh_token',
-            authProvider.token?.refresh?.token??"",
-          );
-
-          setState(() {
-            _hasAuthenticated = true;
-          });
-          Future.delayed(const Duration(seconds: 1), () {
-            Navigator.pushNamedAndRemoveUntil(context, MyRouter.home, (route) => false);
-          });
+          _onLoginSuccess(user, token, authProvider);
         },
       );
     } catch (e) {
-      LoadingOverlay.of(context).hide();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      _onLoginFailed(e);
     }
+  }
 
+  void _handleLoginByGoogle(AuthProvider authProvider) async {
+    LoadingOverlay.of(context).show();
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final String? accessToken = googleAuth?.accessToken;
+
+      if (accessToken != null) {
+        await authProvider.authRepository.loginByGoogle(
+          accessToken: accessToken,
+          onSuccess: (user, token) async {
+            _onLoginSuccess(user, token, authProvider);},
+          );
+      } else {
+        throw Exception("Null access token");
+      }
+    } catch (e) {
+      _onLoginFailed(e);
+    }
+  }
+
+  Future<void> _onLoginSuccess(
+      UserModel user, UserToken token, AuthProvider authProvider) async {
+    LoadingOverlay.of(context).hide();
+    authProvider.saveLoginInfo(user, token);
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      'refresh_token',
+      authProvider.token?.refresh?.token ?? "",
+    );
+
+    setState(() {
+      _hasAuthenticated = true;
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushNamedAndRemoveUntil(
+          context, MyRouter.home, (route) => false);
+    });
+  }
+
+  Future<void> _onLoginFailed(Object error) async {
+    LoadingOverlay.of(context).hide();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: ${error.toString()}')),
+    );
+  }
+
+  Future<void> restorePreviousSession(AuthProvider authProvider) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final refreshToken = prefs.getString('refresh_token') ?? '';
+
+    await authProvider.authRepository.refreshToken(
+      refreshToken: refreshToken,
+      onSuccess: (user, token) async {
+        authProvider.saveLoginInfo(user, token);
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+          'refresh_token',
+          authProvider.token!.refresh!.token!,
+        );
+
+        setState(() {
+          _hasAuthenticated = true;
+        });
+
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.pushNamedAndRemoveUntil(
+              context, MyRouter.home, (route) => false);
+        });
+      },
+    );
   }
 }

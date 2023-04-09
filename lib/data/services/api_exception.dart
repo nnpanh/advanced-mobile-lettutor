@@ -1,3 +1,6 @@
+import '../../config/router.dart';
+import 'package:flutter/material.dart';
+
 class APIException implements Exception {
   final String? _message;
   final String? _prefix;
@@ -15,7 +18,7 @@ class NoHaveDataException extends APIException {
 }
 
 class UnauthorizedException extends APIException {
-  UnauthorizedException([message]) : super(message, "Unauthorized: ");
+  UnauthorizedException([message]) : super(message, "Unauthorized: Access token denied");
 }
 
 class AccessTokenExpiredException extends APIException {

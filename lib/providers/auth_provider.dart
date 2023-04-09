@@ -7,7 +7,7 @@ import '../data/repositories/auth_repository.dart';
 class AuthProvider extends ChangeNotifier {
   late AuthRepository authRepository;
 
-  late UserModel currentUser;
+  UserModel? currentUser;
   UserToken? token;
 
   AuthProvider() {
@@ -17,6 +17,12 @@ class AuthProvider extends ChangeNotifier {
   void saveLoginInfo(UserModel currentUser, UserToken? token) {
     this.token = token;
     this.currentUser = currentUser;
+    notifyListeners();
+  }
+
+  void clearUserInfo() {
+    token = null;
+    currentUser = null;
     notifyListeners();
   }
 }

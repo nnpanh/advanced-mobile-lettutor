@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/settings/widget/menu_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
+import '../../providers/auth_provider.dart';
 import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -176,6 +179,7 @@ class _SettingsPageState extends State<SettingsPage> {
             content: "Do you want to log out?",
             title: 'Logout',
             onRightButton: () {
+              _logOut(Provider.of<AuthProvider>(context));
               pushUntilLogin(context);
             },
             onLeftButton: () {
@@ -186,5 +190,11 @@ class _SettingsPageState extends State<SettingsPage> {
             hasLeftButton: true,
           );
         });
+  }
+
+  Future<void> _logOut(AuthProvider authProvider) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    authProvider.clearUserInfo();
   }
 }

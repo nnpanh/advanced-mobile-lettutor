@@ -117,17 +117,15 @@ class AuthRepository extends BaseRepository {
     await onSuccess(user, token);
   }
 
-  //TODO: RESPONSE UNKNOWN
   Future<void> refreshToken({
     required String refreshToken,
-    required int timezone,
     required Function(UserModel, UserToken) onSuccess,
   }) async {
     final response = await service.post(
         url: "refresh-token",
         data: {
           "refreshToken": refreshToken,
-          "timezone": timezone
+          "timezone": 7
         }
     );
 

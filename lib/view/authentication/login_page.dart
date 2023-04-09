@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
     final authProvider = Provider.of<AuthProvider>(context);
 
     if (!_hasAuthenticated) {
-      restorePreviousSession(Provider.of<AuthProvider>(context));
+      restorePreviousSession(authProvider);
     }
 
     return Scaffold(
@@ -268,11 +268,17 @@ class _LoginPageState extends State<LoginPage> {
   void _handleLoginByGoogle(AuthProvider authProvider) async {
     LoadingOverlay.of(context).show();
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(
+        scopes: [
+          'email',
+          'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+      ).signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
 
       final String? accessToken = googleAuth?.accessToken;
+      print("GOOGLE ATOKEN: $accessToken");
 
       if (accessToken != null) {
         await authProvider.authRepository.loginByGoogle(
@@ -317,28 +323,30 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> restorePreviousSession(AuthProvider authProvider) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final refreshToken = prefs.getString('refresh_token') ?? '';
+    final refreshToken = prefs.getString('refresh_token') ?? "";
 
-    await authProvider.authRepository.refreshToken(
-      refreshToken: refreshToken,
-      onSuccess: (user, token) async {
-        authProvider.saveLoginInfo(user, token);
+    if (refreshToken.isNotEmpty) {
+      await authProvider.authRepository.refreshToken(
+        refreshToken: refreshToken,
+        onSuccess: (user, token) async {
+          authProvider.saveLoginInfo(user, token);
 
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString(
-          'refresh_token',
-          authProvider.token!.refresh!.token!,
-        );
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString(
+            'refresh_token',
+            authProvider.token!.refresh!.token!,
+          );
 
-        setState(() {
-          _hasAuthenticated = true;
-        });
+          setState(() {
+            _hasAuthenticated = true;
+          });
 
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pushNamedAndRemoveUntil(
-              context, MyRouter.home, (route) => false);
-        });
-      },
-    );
+          Future.delayed(const Duration(seconds: 1), () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, MyRouter.home, (route) => false);
+          });
+        },
+      );
+    }
   }
 }

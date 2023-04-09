@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'config/router.dart';
 import 'const/themes.dart';
 import 'data/repositories/auth_repository.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() {
   MyApp.initSystemDefault();
@@ -30,12 +32,17 @@ class MyApp extends StatefulWidget {
   @override
   MyAppState createState() => MyAppState();
 
-  static void   initSystemDefault() {
+  static Future<void>   initSystemDefault() async {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.blue),
     );
 
     WidgetsFlutterBinding.ensureInitialized();
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
   }
 }
 

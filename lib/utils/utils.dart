@@ -93,6 +93,7 @@ void pushNamedAndRemoveUntilHome(BuildContext context, {String? newRoute}) {
 
 void pushUntilLogin(BuildContext context) {
   Navigator.pushNamedAndRemoveUntil(context, MyRouter.login, (route) => false);
+  Navigator.pushNamed(context, MyRouter.login);
 }
 
 // List<LessonModel> generateLessons() {

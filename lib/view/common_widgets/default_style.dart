@@ -60,6 +60,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final BuildContext context;
 
   void _onItemTapped(int index) {
+    if (index == selectedIndex) return;
     switch (index) {
       case NavigationIndex.schedulePage:
         pushNamedAndRemoveUntilHome(context, newRoute: MyRouter.schedule);

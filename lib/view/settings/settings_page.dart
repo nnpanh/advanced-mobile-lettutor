@@ -21,6 +21,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -103,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             size: 24,
                           )),
                       onTap: () {
-                        onPressedLogOut(context, size);
+                        onPressedLogOut(context, size, authProvider);
                       },
                     ),
                   ],
@@ -170,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  void onPressedLogOut(BuildContext context, Size size) {
+  void onPressedLogOut(BuildContext context, Size size, AuthProvider authProvider) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -179,7 +181,7 @@ class _SettingsPageState extends State<SettingsPage> {
             content: "Do you want to log out?",
             title: 'Logout',
             onRightButton: () {
-              _logOut(Provider.of<AuthProvider>(context));
+              _logOut(authProvider);
               pushUntilLogin(context);
             },
             onLeftButton: () {

@@ -43,4 +43,17 @@ class UserRepository extends BaseRepository {
 
     await onSuccess();
   }
+
+  Future<void> resetPassword({
+    required String email,
+    required Function() onSuccess,
+}) async {
+    await service.post(
+      url: "forgotPassword",
+      data: {
+        "email": email
+      }
+    );
+    await onSuccess();
+}
 }

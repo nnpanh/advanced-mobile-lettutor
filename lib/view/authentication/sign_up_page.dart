@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/providers/auth_provider.dart';
+import 'package:lettutor/view/common_widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
@@ -20,6 +21,8 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   late bool _passwordVisible;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -37,31 +40,16 @@ class _SignUpPageState extends State<SignUpPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: size.height * 0.06),
-          // Container(
-          //     margin: const EdgeInsets.symmetric(vertical: 12),
-          //     child: Image.asset(
-          //       ImagesPath.intro,
-          //       fit: BoxFit.contain,
-          //     )),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 24),
             child: Text(
               'Sign Up',
-              // 'Say hello to your English tutors',
               style: headLineMedium(context)?.copyWith(
                 color: CustomColor.originalBlue,
               ),
               textAlign: TextAlign.center,
             ),
           ),
-          // Container(
-          //   margin: const EdgeInsets.fromLTRB(36, 6, 36, 18),
-          //   child: Text(
-          //     'Become fluent faster through one one one video chat lessons tailored to your goals.',
-          //     style: bodyLarge(context),
-          //     textAlign: TextAlign.center,
-          //   ),
-          // ),
           Form(
               key: _formKey,
               child: Column(
@@ -79,6 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       margin: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 24),
                       child: TextFormField(
+                        controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -104,6 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       margin: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 24),
                       child: TextFormField(
+                        controller: _passwordController,
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
                           errorMaxLines: 4,
@@ -122,7 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         validator: (input) {
                           if (input != null && !input.isValidPassword) {
-                            return 'Password must have at least 8 characters (A-z) and 1 number (0-9)';
+                            return 'Password must have at least 6 characters';
                           } else {
                             return null;
                           }
@@ -136,75 +126,20 @@ class _SignUpPageState extends State<SignUpPage> {
                           title: 'Create account',
                           callback: () {
                             if (_formKey.currentState!.validate()) {
-                              Navigator.pushNamed(context, MyRouter.home);
+                              _handleCreateAccount(authProvider);
                             }
                           },
                           buttonType: ButtonType.filledButton,
                           radius: 10),
                     ),
                   ),
-                  // Container(
-                  //     margin: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                  //     alignment: Alignment.center,
-                  //     child: Text(
-                  //       'Or continue with',
-                  //       style: bodyLarge(context),
-                  //     )),
-                  // Container(
-                  //   padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
-                  //   child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //         Container(
-                  //           padding:
-                  //               const EdgeInsets.symmetric(horizontal: 8),
-                  //           child: IconButton(
-                  //             icon: Image.asset(
-                  //               ImagesPath.google,
-                  //               fit: BoxFit.contain,
-                  //             ),
-                  //             iconSize: 36,
-                  //             onPressed: () {
-                  //               Navigator.pushNamed(context, MyRouter.home);
-                  //             },
-                  //           ),
-                  //         ),
-                  //         Container(
-                  //           padding:
-                  //               const EdgeInsets.symmetric(horizontal: 8),
-                  //           child: IconButton(
-                  //             icon: Image.asset(
-                  //               ImagesPath.facebook,
-                  //               fit: BoxFit.contain,
-                  //             ),
-                  //             iconSize: 36,
-                  //             onPressed: () {
-                  //               Navigator.pushNamed(context, MyRouter.home);
-                  //             },
-                  //           ),
-                  //         ),
-                  //         Container(
-                  //             padding:
-                  //                 const EdgeInsets.symmetric(horizontal: 8),
-                  //             child: IconButton(
-                  //               icon: const Icon(
-                  //                 FontAwesomeIcons.mobileScreen,
-                  //               ),
-                  //               iconSize: 36,
-                  //               onPressed: () {
-                  //                 Navigator.pushNamed(context, MyRouter.home);
-                  //               },
-                  //             )),
-                  //       ]),
-                  // ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(24, 24, 24, 24),
                     alignment: Alignment.center,
                     child: RichText(
                         text: TextSpan(children: [
                       TextSpan(
-                          text: 'Already a member?',
-                          style: bodyLarge(context)),
+                          text: 'Already a member?', style: bodyLarge(context)),
                       TextSpan(
                           text: ' Login',
                           style: bodyLarge(context)
@@ -221,5 +156,35 @@ class _SignUpPageState extends State<SignUpPage> {
         ],
       ),
     );
+  }
+
+  void _handleCreateAccount(AuthProvider authProvider) async {
+    LoadingOverlay.of(context).show();
+    try {
+      await authProvider.authRepository.signUpByMail(
+          email: _emailController.text,
+          password: _passwordController.text,
+          onSuccess: (user, token) async {
+            authProvider.saveLoginInfo(user, token);
+
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString(
+              'refresh_token',
+              authProvider.token?.refresh?.token ?? "",
+            );
+
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, MyRouter.home, (route) => false);
+            });
+          },
+          onFail: (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${e.toString()}')),
+            );
+          });
+    } finally {
+      LoadingOverlay.of(context).hide();
+    }
   }
 }

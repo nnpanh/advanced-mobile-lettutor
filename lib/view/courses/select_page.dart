@@ -7,14 +7,14 @@ import '../../const/themes.dart';
 
 final ThemeManager _themeManager = ThemeManager();
 
-class TestPage extends StatefulWidget {
-  const TestPage({super.key});
+class SelectPage extends StatefulWidget {
+  const SelectPage({super.key});
 
   @override
-  State<TestPage> createState() => _TestPageState();
+  State<SelectPage> createState() => _SelectPageState();
 }
 
-class _TestPageState extends State<TestPage> {
+class _SelectPageState extends State<SelectPage> {
   @override
   void initState() {
     _themeManager.addListener(themeListener);

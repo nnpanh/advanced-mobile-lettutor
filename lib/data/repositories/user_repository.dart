@@ -1,9 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
-
-import '../../model/user/user_model.dart';
-import '../../model/user/user_token.dart';
 import 'base_repository.dart';
 
 class UserRepository extends BaseRepository {
@@ -16,7 +10,7 @@ class UserRepository extends BaseRepository {
     required Function() onSuccess,
   }) async {
     final response = await service.get(
-        url: "info",
+      url: "info",
     );
 
     await onSuccess();
@@ -27,7 +21,7 @@ class UserRepository extends BaseRepository {
     required Function() onSuccess,
   }) async {
     final response = await service.post(
-        url: "info",
+      url: "info",
     );
 
     await onSuccess();
@@ -38,7 +32,7 @@ class UserRepository extends BaseRepository {
     required Function() onSuccess,
   }) async {
     final response = await service.post(
-        url: "referrals",
+      url: "referrals",
     );
 
     await onSuccess();
@@ -47,13 +41,9 @@ class UserRepository extends BaseRepository {
   Future<void> resetPassword({
     required String email,
     required Function() onSuccess,
-}) async {
-    await service.post(
-      url: "forgotPassword",
-      data: {
-        "email": email
-      }
-    );
+  }) async {
+    var response =
+        await service.post(url: "forgotPassword", data: {"email": email});
     await onSuccess();
-}
+  }
 }

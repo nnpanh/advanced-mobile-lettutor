@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:lettutor/data/services/api_service.dart';
 
 import '../../model/user/user_model.dart';
 import '../../model/user/user_token.dart';
@@ -15,14 +14,12 @@ class AuthRepository extends BaseRepository {
     required String email,
     required String password,
     required Function(UserModel, UserToken) onSuccess,
-}) async {
-    final response = await service.post(
-        url: 'login',
-        data: {
-          "email": email,
-          "password": password,
-        }
-    );
+    required Function(String) onFail,
+  }) async {
+    final response = await service.post(url: 'login', data: {
+      "email": email,
+      "password": password,
+    });
 
     final user = UserModel.fromJson(response['user']);
     final token = UserToken.fromJson(response['tokens']);
@@ -34,13 +31,10 @@ class AuthRepository extends BaseRepository {
     required String password,
     required Function(UserModel, UserToken) onSuccess,
   }) async {
-    final response = await service.post(
-        url: 'phone-login',
-        data: {
-          "phone": phone,
-          "password": password,
-        }
-    );
+    final response = await service.post(url: 'phone-login', data: {
+      "phone": phone,
+      "password": password,
+    });
 
     final user = UserModel.fromJson(response['user']);
     final token = UserToken.fromJson(response['tokens']);
@@ -51,12 +45,9 @@ class AuthRepository extends BaseRepository {
     required String accessToken,
     required Function(UserModel, UserToken) onSuccess,
   }) async {
-    final response = await service.post(
-        url: 'google',
-        data: {
-          "access_token": accessToken,
-        }
-    );
+    final response = await service.post(url: 'google', data: {
+      "access_token": accessToken,
+    });
 
     final user = UserModel.fromJson(response['user']);
     final token = UserToken.fromJson(response['tokens']);
@@ -67,12 +58,9 @@ class AuthRepository extends BaseRepository {
     required String accessToken,
     required Function(UserModel, UserToken) onSuccess,
   }) async {
-    final response = await service.post(
-        url: 'facebook',
-        data: {
-          "access_token": accessToken,
-        }
-    );
+    final response = await service.post(url: 'facebook', data: {
+      "access_token": accessToken,
+    });
 
     final user = UserModel.fromJson(response['user']);
     final token = UserToken.fromJson(response['tokens']);
@@ -83,38 +71,43 @@ class AuthRepository extends BaseRepository {
     required String email,
     required String password,
     required Function(UserModel, UserToken) onSuccess,
+    required Function(String) onFail,
   }) async {
     final response = await service.postFormData(
-      url: "register",
-      data: FormData.fromMap({
-        "email":email,
-        "password":password,
-        "source":null
-      })
-    );
+            url: "register",
+            data: {"email": email, "password": password, "source": null})
+        as BoundResource;
 
-    final user = UserModel.fromJson(response['user']);
-    final token = UserToken.fromJson(response['tokens']);
-    await onSuccess(user, token);
+    // var responseJson = response as BoundResource;
+    switch (response.statusCode) {
+      case 200 | 201:
+        final user = UserModel.fromJson(response.response['user']);
+        final token = UserToken.fromJson(response.response['tokens']);
+        await onSuccess(user, token);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
 
   Future<void> signUpByPhone({
     required String phone,
     required String password,
     required Function(UserModel, UserToken) onSuccess,
+    required Function() onFail,
   }) async {
     final response = await service.postFormData(
         url: "register",
-        data: FormData.fromMap({
-          "phone":phone,
-          "password":password,
-          "source":null
-        })
-    );
+        data: {"phone": phone, "password": password, "source": null});
 
-    final user = UserModel.fromJson(response['user']);
-    final token = UserToken.fromJson(response['tokens']);
-    await onSuccess(user, token);
+    if (!response is DioError) {
+      final user = UserModel.fromJson(response['user']);
+      final token = UserToken.fromJson(response['tokens']);
+      await onSuccess(user, token);
+    } else {
+      onFail();
+    }
   }
 
   Future<void> refreshToken({
@@ -123,11 +116,7 @@ class AuthRepository extends BaseRepository {
   }) async {
     final response = await service.post(
         url: "refresh-token",
-        data: {
-          "refreshToken": refreshToken,
-          "timezone": 7
-        }
-    );
+        data: {"refreshToken": refreshToken, "timezone": 7});
 
     final user = UserModel.fromJson(response['user']);
     final token = UserToken.fromJson(response['tokens']);
@@ -142,11 +131,7 @@ class AuthRepository extends BaseRepository {
   }) async {
     final response = await service.post(
         url: "change-password",
-        data: {
-          "password": password,
-          "newPassword": newPassword
-        }
-    );
+        data: {"password": password, "newPassword": newPassword});
 
     await onSuccess();
   }

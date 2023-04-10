@@ -121,7 +121,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 
-  Future<void> _handleResetPassword() async {
+  void _handleResetPassword() async {
     LoadingOverlay.of(context).show();
     try {
       final userRepository = UserRepository();
@@ -129,15 +129,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         email: _emailController.text,
         onSuccess: () async {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Password resent! Please check your email")),
+            const SnackBar(content: Text("Email send success!")),
           );
         },
       );
     } catch (e) {
-      LoadingOverlay.of(context).hide();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),
       );
+    } finally {
+      LoadingOverlay.of(context).hide();
     }
   }
 }

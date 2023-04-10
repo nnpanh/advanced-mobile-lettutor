@@ -1,5 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:lettutor/data/services/api_exception.dart';
+
+class BoundResource {
+  final dynamic response;
+  final int statusCode;
+  final String? errorMsg;
+
+  BoundResource({this.response, required this.statusCode, this.errorMsg});
+}
 
 class ApiService {
   Dio api = Dio();
@@ -10,115 +17,74 @@ class ApiService {
 
   Future<dynamic> post(
       {required String url,
-        Map<String, dynamic>? headers,
-        Map<String, dynamic>? data,
-        CancelToken? cancelToken,
-        Function()? onFailedAuthentication}) async {
+      Map<String, dynamic>? headers,
+      Map<String, dynamic>? data,
+      CancelToken? cancelToken}) async {
     try {
       final response = await api.post("$baseUrl$url",
-          options: Options(headers: headers, contentType: Headers.jsonContentType, method: 'POST'),
+          options: Options(
+              headers: headers,
+              contentType: Headers.jsonContentType,
+              method: 'POST'),
           data: data,
           cancelToken: cancelToken);
-      switch(response.statusCode) {
+      switch (response.statusCode) {
         case 200:
           return response.data;
         case 201:
           return response.data;
-        case 401:
-          {
-            onFailedAuthentication?.call();
-            throw UnauthorizedException(response.statusMessage);
-          }
-        case 419:
-          {
-            onFailedAuthentication?.call();
-            throw AccessTokenExpiredException(response.statusMessage);
-          }
-        case 500:
-          throw FailedException(response.statusMessage);
       }
-    } on DioError catch(err) {
-      switch(err.type) {
-        case DioErrorType.cancel:
-          throw FailedException("Request is cancelled");
-        default:
-          throw FailedException("Failed");
-      }
+    } on DioError catch (err) {
+      return BoundResource(
+          errorMsg: err.response?.data['message'] ?? err.message,
+          statusCode: err.response?.statusCode ?? 500);
     }
   }
 
   Future<dynamic> get(
       {required String url,
-        Map<String, dynamic>? headers,
-        CancelToken? cancelToken,
-        Function()? onFailedAuthentication }) async {
+      Map<String, dynamic>? headers,
+      CancelToken? cancelToken}) async {
     try {
       final response = await api.get("$baseUrl$url",
-          options: Options(headers: headers,  contentType: Headers.jsonContentType),
+          options:
+              Options(headers: headers, contentType: Headers.jsonContentType),
           cancelToken: cancelToken);
-      switch(response.statusCode) {
+      switch (response.statusCode) {
         case 200:
           return response.data;
         case 201:
           return response.data;
-        case 401:
-          {
-            onFailedAuthentication?.call();
-            throw UnauthorizedException(response.statusMessage);
-          }
-        case 419:
-          {
-            onFailedAuthentication?.call();
-            throw AccessTokenExpiredException(response.statusMessage);
-          }
-        case 500:
-          throw FailedException(response.statusMessage);
       }
-    } on DioError catch(err) {
-      switch(err.type) {
-        case DioErrorType.cancel:
-          throw FailedException("Request is cancelled");
-        default:
-          throw FailedException("Failed");
-      }
+    } on DioError catch (err) {
+      return BoundResource(
+          errorMsg: err.response?.data['message'] ?? err.message,
+          statusCode: err.response?.statusCode ?? 500);
     }
   }
-
+  // }
 
   Future<dynamic> postFormData(
       {required String url,
-        Map<String, dynamic>? headers,
-        required FormData data,
-        CancelToken? cancelToken,
-        Function()? onFailedAuthentication}) async {
+      Map<String, dynamic>? headers,
+      required Map<String, dynamic>? data,
+      CancelToken? cancelToken}) async {
     try {
-      final response = await api.post("$baseUrl$url", options: Options(headers: headers, contentType: Headers.formUrlEncodedContentType), data: data, cancelToken: cancelToken);
-      switch(response.statusCode) {
+      final response = await api.post("$baseUrl$url",
+          options: Options(
+              headers: headers, contentType: Headers.formUrlEncodedContentType),
+          data: data,
+          cancelToken: cancelToken);
+      switch (response.statusCode) {
         case 200:
-          return response.data;
+          return BoundResource(response: response.data, statusCode: 200);
         case 201:
-          return response.data;
-        case 401:
-          {
-            onFailedAuthentication?.call();
-            throw UnauthorizedException(response.statusMessage);
-          }
-        case 419:
-          {
-            onFailedAuthentication?.call();
-            throw AccessTokenExpiredException(response.statusMessage);
-          }
-        case 500:
-          throw FailedException(response.statusMessage);
+          return BoundResource(response: response.data, statusCode: 201);
       }
-    } on DioError catch(err) {
-      switch(err.type) {
-        case DioErrorType.cancel:
-          throw FailedException("Request is cancelled");
-        default:
-          throw FailedException("Failed");
-      }
+    } on DioError catch (err) {
+      return BoundResource(
+          errorMsg: err.response?.data['message'] ?? err.message,
+          statusCode: err.response?.statusCode ?? 500);
     }
   }
-
 }

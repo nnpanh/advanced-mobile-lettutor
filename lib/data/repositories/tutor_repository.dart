@@ -1,9 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
-
-import '../../model/user/user_model.dart';
-import '../../model/user/user_token.dart';
 import 'base_repository.dart';
 
 class TutorRepository extends BaseRepository {
@@ -16,10 +10,8 @@ class TutorRepository extends BaseRepository {
     required Function() onSuccess,
   }) async {
     final response = await service.postFormData(
-        url: "register",
-      data: FormData.fromMap({
-
-      }),
+      url: "register",
+      data: {},
     );
 
     await onSuccess();
@@ -33,7 +25,7 @@ class TutorRepository extends BaseRepository {
     required Function() onSuccess,
   }) async {
     final response = await service.get(
-        url: "more?perPage=9&page=1",
+      url: "more?perPage=9&page=1",
     );
 
     await onSuccess();
@@ -44,7 +36,7 @@ class TutorRepository extends BaseRepository {
     required Function() onSuccess,
   }) async {
     final response = await service.post(
-        url: "feedbackTutor",
+      url: "feedbackTutor",
     );
 
     await onSuccess();

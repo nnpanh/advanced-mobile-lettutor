@@ -57,14 +57,17 @@ class MyRouter {
     var args = settings.arguments;
     switch (settings.name) {
       case home:
-        return successRoute(const HomePage(), settings);
+        return successRoute(LoadingOverlay(child: const HomePage()), settings);
       //Courses
       case courses:
-        return successRoute(const CoursesPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const CoursesPage()), settings);
       case courseDetail:
         if (args is CourseDetailArguments) {
           return successRoute(
-              CourseDetailPage(courseModel: args.courseModel), settings);
+              LoadingOverlay(
+                  child: CourseDetailPage(courseModel: args.courseModel)),
+              settings);
         } else {
           return errorRoute(
               'Input for Tutor detail page is not TutorDetailArguments',
@@ -73,7 +76,9 @@ class MyRouter {
       case lessonDetail:
         if (args is LessonDetailArguments) {
           return successRoute(
-              LessonDetailPage(title: args.title, url: args.pdfUrl), settings);
+              LoadingOverlay(
+                  child: LessonDetailPage(title: args.title, url: args.pdfUrl)),
+              settings);
         } else {
           return errorRoute(
               'Input for Tutor detail page is not TutorDetailArguments',
@@ -81,21 +86,27 @@ class MyRouter {
         }
       //Authentication
       case forgotPassword:
-        return successRoute(const ForgotPasswordPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const ForgotPasswordPage()), settings);
       case login:
-        return successRoute(LoadingOverlay( child: const LoginPage(),) , settings);
+        return successRoute(LoadingOverlay(child: const LoginPage()), settings);
       case signUp:
-        return successRoute(const SignUpPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const SignUpPage()), settings);
       //Selector
       case selectTutorOrCourse:
-        return successRoute(const TestPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const SelectPage()), settings);
       //Tutors
       case tutors:
-        return successRoute(const TutorsPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const TutorsPage()), settings);
       case tutorDetail:
         if (args is TutorDetailArguments) {
           return successRoute(
-              TutorDetailPage(tutorModel: args.tutorModel), settings);
+              LoadingOverlay(
+                  child: TutorDetailPage(tutorModel: args.tutorModel)),
+              settings);
         } else {
           return errorRoute(
               'Input for Tutor detail page is not TutorDetailArguments',
@@ -104,27 +115,35 @@ class MyRouter {
       case bookingDetail:
         if (args is TutorDetailArguments) {
           return successRoute(
-              BookingDetailPage(tutorModel: args.tutorModel), settings);
+              LoadingOverlay(
+                  child: BookingDetailPage(tutorModel: args.tutorModel)),
+              settings);
         } else {
           return errorRoute(
               'Input for Book t page is not TutorDetailArguments', settings);
         }
       //Schedule
       case schedule:
-        return successRoute(const SchedulePage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const SchedulePage()), settings);
       case joinMeeting:
-        return successRoute(const JoinMeetingPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const JoinMeetingPage()), settings);
       case learningHistory:
-        return successRoute(const LearningHistoryPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const LearningHistoryPage()), settings);
       // case analysis:
       //   return successRoute(const AnalysisPage(), settings);
       //Settings
       case setting:
-        return successRoute(const SettingsPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const SettingsPage()), settings);
       case becomeTutor:
-        return successRoute(const BecomeTutorPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const BecomeTutorPage()), settings);
       case account:
-        return successRoute(const AccountPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const AccountPage()), settings);
 
       default:
         return errorRoute("No route-name founded", settings);

@@ -10,9 +10,10 @@ import '../../../utils/utils.dart';
 import '../../common_widgets/chip_button.dart';
 
 class TutorCard extends StatefulWidget {
-  const TutorCard({super.key, required this.tutorData});
+  TutorCard({super.key, required this.tutorData, required this.isFavor});
 
   final TutorModel tutorData;
+  bool isFavor;
 
   @override
   State<TutorCard> createState() => TutorCardState();
@@ -97,8 +98,7 @@ class TutorCardState extends State<TutorCard> {
                   ),
                 ),
                 IconButton(
-                  icon: true
-                      // icon: widget.tutorData.isFavorite
+                  icon: widget.isFavor
                       ? const Icon(Icons.favorite_outline, color: Colors.blue)
                       : const Icon(Icons.favorite, color: Colors.redAccent),
                   onPressed: () {

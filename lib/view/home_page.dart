@@ -207,8 +207,10 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.vertical,
                       itemCount: _tutorList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return TutorCard(tutorData: _tutorList[index]);
-                      })),
+                        return TutorCard(tutorData: _tutorList[index],
+                            isFavor: checkIfTutorIsFavored(_tutorList[index]));
+                      })
+              )
             )
           ],
         ),
@@ -263,5 +265,12 @@ class _HomePageState extends State<HomePage> {
       }
     });
       _tutorList.addAll(response.tutors?.rows??[]);
+  }
+
+  bool checkIfTutorIsFavored(TutorModel tutor) {
+    for (var element in _favTutor) {
+      if (element == tutor.id) return true;
+    }
+    return false;
   }
 }

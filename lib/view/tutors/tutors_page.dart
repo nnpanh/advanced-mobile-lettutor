@@ -193,7 +193,7 @@ class _TutorsPageState extends State<TutorsPage> {
                       scrollDirection: Axis.vertical,
                       itemCount: tutorList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return TutorCard(tutorData: tutorList[index]);
+                        return TutorCard(tutorData: tutorList[index], isFavor: true);
                       })),
             )
             // Container(

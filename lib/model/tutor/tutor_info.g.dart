@@ -7,6 +7,8 @@ part of 'tutor_info.dart';
 // **************************************************************************
 
 TutorInfo _$TutorInfoFromJson(Map<String, dynamic> json) => TutorInfo(
+      id: json['id'] as String?,
+      userId: json['userId'] as String?,
       video: json['video'] as String?,
       bio: json['bio'] as String?,
       education: json['education'] as String?,
@@ -28,6 +30,8 @@ TutorInfo _$TutorInfoFromJson(Map<String, dynamic> json) => TutorInfo(
     );
 
 Map<String, dynamic> _$TutorInfoToJson(TutorInfo instance) => <String, dynamic>{
+      'id': instance.id,
+      'userId': instance.userId,
       'video': instance.video,
       'bio': instance.bio,
       'education': instance.education,

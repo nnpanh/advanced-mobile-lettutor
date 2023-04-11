@@ -5,6 +5,8 @@ part 'tutor_info.g.dart';
 
 @JsonSerializable()
 class TutorInfo {
+  String? id;
+  String? userId;
   String? video;
   String? bio;
   String? education;
@@ -23,6 +25,8 @@ class TutorInfo {
   int? totalFeedback;
 
   TutorInfo({
+    this.id,
+    this.userId,
     this.video,
     this.bio,
     this.education,

@@ -8,7 +8,6 @@ import 'package:readmore/readmore.dart';
 import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../model/course/course_model.dart';
-import '../../model/course_model.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
 

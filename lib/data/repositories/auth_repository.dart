@@ -19,11 +19,19 @@ class AuthRepository extends BaseRepository {
     final response = await service.post(url: 'login', data: {
       "email": email,
       "password": password,
-    });
+    }) as BoundResource;
 
-    final user = UserModel.fromJson(response['user']);
-    final token = UserToken.fromJson(response['tokens']);
-    await onSuccess(user, token);
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        final user = UserModel.fromJson(response.response['user']);
+        final token = UserToken.fromJson(response.response['tokens']);
+        await onSuccess(user, token);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
 
   Future<void> loginByPhone({
@@ -78,9 +86,9 @@ class AuthRepository extends BaseRepository {
             data: {"email": email, "password": password, "source": null})
         as BoundResource;
 
-    // var responseJson = response as BoundResource;
     switch (response.statusCode) {
-      case 200 | 201:
+      case 200:
+      case 201:
         final user = UserModel.fromJson(response.response['user']);
         final token = UserToken.fromJson(response.response['tokens']);
         await onSuccess(user, token);
@@ -116,11 +124,18 @@ class AuthRepository extends BaseRepository {
   }) async {
     final response = await service.post(
         url: "refresh-token",
-        data: {"refreshToken": refreshToken, "timezone": 7});
+        data: {"refreshToken": refreshToken, "timezone": 7})  as BoundResource;
 
-    final user = UserModel.fromJson(response['user']);
-    final token = UserToken.fromJson(response['tokens']);
-    await onSuccess(user, token);
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        final user = UserModel.fromJson(response.response['user']);
+        final token = UserToken.fromJson(response.response['tokens']);
+        await onSuccess(user, token);
+        break;
+      default:
+        break;
+    }
   }
 
   //TODO: RESPONSE UNKNOWN

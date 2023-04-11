@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/model/lesson_model.dart';
-import 'package:lettutor/model/review_model.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/model/tutor/tutor_feedback.dart';
 import 'package:lettutor/view/common_widgets/dialogs/create_review_dialog.dart';
@@ -8,7 +6,7 @@ import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
-import '../../model/tutor/first_info.dart';
+import '../../model/tutor/tutor_extracted_info.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';

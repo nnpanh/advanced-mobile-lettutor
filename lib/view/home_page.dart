@@ -1,9 +1,13 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lettutor/data/repositories/tutor_repository.dart';
+import 'package:lettutor/data/responses/response_get_list_tutor.dart';
+import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/chip_button.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
+import 'package:provider/provider.dart';
 
 import '../config/router.dart';
 import '../const/export_const.dart';
@@ -20,6 +24,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int tag = 0;
   final _txtController = TextEditingController();
+  List<TutorModel> _tutorList = [];
+  List<String> _favTutor = [];
+  bool _hasFetched = false;
 
   // list of string options
   List<String> options = [
@@ -36,11 +43,18 @@ class _HomePageState extends State<HomePage> {
     'TOEFL',
   ];
 
-  List<TutorModel> tutorList = [];
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    if (!_hasFetched) {
+      callAPIGetTutorList(1, TutorRepository(), Provider.of<AuthProvider>(context));
+    }
+
+    return !_hasFetched?  Container(
+      color: Colors.white,
+        constraints: const BoxConstraints.expand(),
+        child: const Center(child: CircularProgressIndicator())
+    ):
+    Scaffold(
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -79,17 +93,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Expanded(
                               flex: 1,
-                              child: Container(
-                                // alignment: Alignment.centerLeft,
-                                child: ChipButton(
-                                  callback: () {
-                                    Navigator.of(context)
-                                        .pushNamed(MyRouter.joinMeeting);
-                                  },
-                                  title: '  Join  ',
-                                  hasIcon: false,
-                                  chipType: ButtonType.filledWhiteButton,
-                                ),
+                              child: ChipButton(
+                                callback: () {
+                                  Navigator.of(context)
+                                      .pushNamed(MyRouter.joinMeeting);
+                                },
+                                title: '  Join  ',
+                                hasIcon: false,
+                                chipType: ButtonType.filledWhiteButton,
                               ))
                         ],
                       ),
@@ -127,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                     hintText: 'Enter tutor name',
                     hintStyle: TextStyle(color: Colors.black12)),
                 onChanged: (value) {
-                  onSearch("$value");
+                  onSearch(value);
                 },
               ),
             ),
@@ -183,7 +194,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-              child: Text('Recommed tutors', style: headLineMedium(context)),
+              child: Text('Recommend tutors', style: headLineMedium(context)),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
@@ -194,9 +205,9 @@ class _HomePageState extends State<HomePage> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
-                      itemCount: tutorList.length,
+                      itemCount: _tutorList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return TutorCard(tutorData: tutorList[index]);
+                        return TutorCard(tutorData: _tutorList[index]);
                       })),
             )
           ],
@@ -223,4 +234,34 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onClickFavorite() {}
+
+  Future<void> callAPIGetTutorList(int page, TutorRepository tutorRepository, AuthProvider authProvider) async {
+    try {
+      await tutorRepository.getListTutor(
+        accessToken: authProvider.token?.access?.token??"",
+        page: page,
+          perPage: 10,
+          onSuccess: (response) async {
+          _handleTutorListDataFromAPI(response);
+          setState(() {
+            _hasFetched = true;
+          });
+          },
+          onFail: (error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${error.toString()}')),
+            );
+          });
+    } finally {
+    }
+  }
+
+  void _handleTutorListDataFromAPI(ResponseGetListTutor response) {
+    response.favoriteTutor?.forEach((element) {
+      if (element.secondId != null) {
+        _favTutor.add(element.secondId!);
+      }
+    });
+      _tutorList.addAll(response.tutors?.rows??[]);
+  }
 }

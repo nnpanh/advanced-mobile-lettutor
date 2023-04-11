@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lettutor/model/tutor/tutor_info.dart';
 
 import 'tutor_feedback.dart';
 
@@ -50,6 +51,7 @@ class TutorModel {
   bool? isNative;
   int? price;
   bool? isOnline;
+  TutorInfo? tutorInfo;
 
   TutorModel({
     this.level,
@@ -96,6 +98,7 @@ class TutorModel {
     this.isNative,
     this.price,
     this.isOnline,
+    this.tutorInfo
   });
   factory TutorModel.fromJson(Map<String, dynamic> json) =>
       _$TutorModelFromJson(json);

@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
 
-import 'first_info.dart';
+import 'tutor_extracted_info.dart';
 
 part 'tutor_feedback.g.dart';
 
@@ -14,7 +15,7 @@ class TutorFeedback {
   String? content;
   String? createdAt;
   String? updatedAt;
-  FirstInfo? firstInfo;
+  TutorExtractedInfo? firstInfo;
 
   TutorFeedback({
     this.id,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/model/tutor/tutor_feedback.dart';
 
-import '../../../model/review_model.dart';
 import '../default_style.dart';
 import 'base_dialog/widget_dialog.dart';
 

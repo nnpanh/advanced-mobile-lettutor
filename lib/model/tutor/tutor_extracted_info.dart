@@ -1,9 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lettutor/model/tutor/tutor_info.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
 
-part 'first_info.g.dart';
+part 'tutor_extracted_info.g.dart';
 
 @JsonSerializable()
-class FirstInfo {
+class TutorExtractedInfo {
   String? level;
   String? email;
   String? google;
@@ -30,8 +32,9 @@ class FirstInfo {
   String? updatedAt;
   String? deletedAt;
   String? studentGroupId;
+  TutorInfo? tutorInfo;
 
-  FirstInfo({
+  TutorExtractedInfo({
     this.level,
     this.email,
     this.google,
@@ -58,8 +61,9 @@ class FirstInfo {
     this.updatedAt,
     this.deletedAt,
     this.studentGroupId,
+    this.tutorInfo
   });
-  factory FirstInfo.fromJson(Map<String, dynamic> json) =>
-      _$FirstInfoFromJson(json);
-  Map<String, dynamic> toJson() => _$FirstInfoToJson(this);
+  factory TutorExtractedInfo.fromJson(Map<String, dynamic> json) =>
+      _$TutorExtractedInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$TutorExtractedInfoToJson(this);
 }

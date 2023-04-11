@@ -120,7 +120,7 @@ class MyRouter {
               settings);
         } else {
           return errorRoute(
-              'Input for Book t page is not TutorDetailArguments', settings);
+              'Input for Booking page is not TutorDetailArguments', settings);
         }
       //Schedule
       case schedule:

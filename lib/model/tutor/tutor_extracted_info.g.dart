@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'first_info.dart';
+part of 'tutor_extracted_info.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FirstInfo _$FirstInfoFromJson(Map<String, dynamic> json) => FirstInfo(
+TutorExtractedInfo _$TutorExtractedInfoFromJson(Map<String, dynamic> json) =>
+    TutorExtractedInfo(
       level: json['level'] as String?,
       email: json['email'] as String?,
       google: json['google'] as String?,
@@ -33,9 +34,13 @@ FirstInfo _$FirstInfoFromJson(Map<String, dynamic> json) => FirstInfo(
       updatedAt: json['updatedAt'] as String?,
       deletedAt: json['deletedAt'] as String?,
       studentGroupId: json['studentGroupId'] as String?,
+      tutorInfo: json['tutorInfo'] == null
+          ? null
+          : TutorInfo.fromJson(json['tutorInfo'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$FirstInfoToJson(FirstInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$TutorExtractedInfoToJson(TutorExtractedInfo instance) =>
+    <String, dynamic>{
       'level': instance.level,
       'email': instance.email,
       'google': instance.google,
@@ -62,4 +67,5 @@ Map<String, dynamic> _$FirstInfoToJson(FirstInfo instance) => <String, dynamic>{
       'updatedAt': instance.updatedAt,
       'deletedAt': instance.deletedAt,
       'studentGroupId': instance.studentGroupId,
+      'tutorInfo': instance.tutorInfo,
     };

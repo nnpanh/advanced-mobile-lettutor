@@ -5,7 +5,6 @@ import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../../config/router.dart';
 import '../../../const/export_const.dart';
-import '../../../model/course_model.dart';
 
 class CourseCard extends StatefulWidget {
   const CourseCard({super.key, required this.courseData});

@@ -126,18 +126,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     try {
       final userRepository = UserRepository();
       await userRepository.resetPassword(
-        email: _emailController.text,
-        onSuccess: () async {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Email send success!")),
-          );
-        },
+          email: _emailController.text,
+          showMessage: (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(e.toString())),
+            );
+          }
       );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
-    } finally {
+    }
+      finally {
       LoadingOverlay.of(context).hide();
     }
   }

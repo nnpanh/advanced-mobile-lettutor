@@ -42,9 +42,7 @@ class TutorCardState extends State<TutorCard> {
                     radius: 50,
                     backgroundColor: Colors.black54,
                     foregroundColor: Colors.transparent,
-                    foregroundImage: NetworkImage(widget.tutorData.avatar ??
-                        // foregroundImage: NetworkImage(widget.tutorData.avatarUrl ??
-                        "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
+                    foregroundImage: NetworkImage(widget.tutorData.avatar ?? ""),
                   ),
                 ),
                 Expanded(
@@ -74,16 +72,16 @@ class TutorCardState extends State<TutorCard> {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
+                            horizontal: 12, vertical: 12),
                         child: RatingBar(
                           ignoreGestures: true,
                           initialRating: 3,
                           minRating: 1,
                           direction: Axis.horizontal,
-                          allowHalfRating: true,
+                          allowHalfRating: false,
                           itemCount: 5,
                           glow: false,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 1),
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 1),
                           itemSize: 18,
                           onRatingUpdate: (double value) {},
                           ratingWidget: RatingWidget(

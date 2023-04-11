@@ -52,6 +52,9 @@ TutorModel _$TutorModelFromJson(Map<String, dynamic> json) => TutorModel(
       isNative: json['isNative'] as bool?,
       price: json['price'] as int?,
       isOnline: json['isOnline'] as bool?,
+      tutorInfo: json['tutorInfo'] == null
+          ? null
+          : TutorInfo.fromJson(json['tutorInfo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TutorModelToJson(TutorModel instance) =>
@@ -99,4 +102,5 @@ Map<String, dynamic> _$TutorModelToJson(TutorModel instance) =>
       'isNative': instance.isNative,
       'price': instance.price,
       'isOnline': instance.isOnline,
+      'tutorInfo': instance.tutorInfo,
     };

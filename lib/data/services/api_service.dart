@@ -30,9 +30,9 @@ class ApiService {
           cancelToken: cancelToken);
       switch (response.statusCode) {
         case 200:
-          return response.data;
+          return BoundResource(response: response.data, statusCode: 200);
         case 201:
-          return response.data;
+          return BoundResource(response: response.data, statusCode: 201);
       }
     } on DioError catch (err) {
       return BoundResource(
@@ -52,9 +52,9 @@ class ApiService {
           cancelToken: cancelToken);
       switch (response.statusCode) {
         case 200:
-          return response.data;
+          return BoundResource(response: response.data, statusCode: 200);
         case 201:
-          return response.data;
+          return BoundResource(response: response.data, statusCode: 201);
       }
     } on DioError catch (err) {
       return BoundResource(

@@ -1,3 +1,4 @@
+import '../services/api_service.dart';
 import 'base_repository.dart';
 
 class UserRepository extends BaseRepository {
@@ -40,10 +41,18 @@ class UserRepository extends BaseRepository {
 
   Future<void> resetPassword({
     required String email,
-    required Function() onSuccess,
+    required Function(String) showMessage,
   }) async {
     var response =
-        await service.post(url: "forgotPassword", data: {"email": email});
-    await onSuccess();
+        await service.post(url: "forgotPassword", data: {"email": email}) as BoundResource;
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        showMessage(response.response['message']);
+        break;
+      default:
+        showMessage(response.errorMsg.toString());
+        break;
+    }
   }
 }

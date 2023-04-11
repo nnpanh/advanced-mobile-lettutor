@@ -1,3 +1,9 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:lettutor/data/responses/response_get_list_tutor.dart';
+
+import '../services/api_service.dart';
 import 'base_repository.dart';
 
 class TutorRepository extends BaseRepository {
@@ -17,18 +23,28 @@ class TutorRepository extends BaseRepository {
     await onSuccess();
   }
 
-  /*
-  {{base_url}}tutor/more?perPage=9&page=1
-   */
-  //TODO: RESPONSE UNKNOWN
   Future<void> getListTutor({
-    required Function() onSuccess,
+    required String accessToken,
+    required int perPage,
+    required int page,
+    required Function(ResponseGetListTutor) onSuccess,
+    required Function(String) onFail,
   }) async {
     final response = await service.get(
-      url: "more?perPage=9&page=1",
-    );
+      url: "more?perPage=$perPage&page=$page",
+      headers: {
+        "Authorization":"Bearer $accessToken"
+      }) as BoundResource;
 
-    await onSuccess();
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        onSuccess(ResponseGetListTutor.fromJson(response.response));
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
 
   //TODO: RESPONSE UNKNOWN

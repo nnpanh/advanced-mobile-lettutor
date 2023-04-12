@@ -76,10 +76,10 @@ class TutorCardState extends State<TutorCard> {
                             horizontal: 12, vertical: 12),
                         child: RatingBar(
                           ignoreGestures: true,
-                          initialRating: 3,
+                          initialRating: widget.tutorData.rating??0.0,
                           minRating: 1,
                           direction: Axis.horizontal,
-                          allowHalfRating: false,
+                          allowHalfRating: true,
                           itemCount: 5,
                           glow: false,
                           itemPadding: const EdgeInsets.symmetric(horizontal: 1),

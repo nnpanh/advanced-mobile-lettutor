@@ -22,26 +22,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int tag = 0;
-  final _txtController = TextEditingController();
-  List<TutorModel> _tutorList = [];
-  List<String> _favTutor = [];
+  final List<TutorModel> _tutorList = [];
+  final List<String> _favTutorSecondId = [];
   bool _hasFetched = false;
 
-  // list of string options
-  List<String> options = [
-    'All categories',
-    'English for kids',
-    'English for Business',
-    'Conversational',
-    'Starters',
-    'Movers',
-    'Flyers',
-    'KET/PET',
-    'TOEIC',
-    'IELTS',
-    'TOEFL',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -116,83 +100,6 @@ class _HomePageState extends State<HomePage> {
                 )),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 18),
-              child: Text('Find a tutor',
-                  style: headLineMedium(context)?.copyWith(fontSize: 32)),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                textAlign: TextAlign.start,
-                controller: _txtController,
-                decoration: const InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.black12,
-                    ),
-                    contentPadding: EdgeInsets.all(18),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    ),
-                    hintText: 'Enter tutor name',
-                    hintStyle: TextStyle(color: Colors.black12)),
-                onChanged: (value) {
-                  onSearch(value);
-                },
-              ),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Select a specialities', style: headLineSmall(context)),
-                  IconButton(
-                    onPressed: resetFilter,
-                    icon: const Icon(FontAwesomeIcons.filterCircleXmark),
-                    iconSize: 18,
-                  )
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-              child: ChipsChoice<int>.single(
-                  value: tag,
-                  choiceItems: C2Choice.listFrom<int, String>(
-                    source: options,
-                    value: (i, v) => i,
-                    label: (i, v) => v,
-                    // tooltip: (i, v) => v,
-                  ),
-                  wrapped: true,
-                  // choiceCheckmark: true,
-                  choiceStyle: C2ChipStyle.outlined(
-                    color: CustomColor.shadowBlue,
-                    // color: Theme.of(context).primaryColor,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                    selectedStyle: C2ChipStyle.filled(
-                        color: Colors.blue, foregroundColor: Colors.white),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      tag = value;
-                    });
-                  }),
-            ),
-            const Divider(
-              color: Colors.grey,
-              thickness: 1,
-              indent: 36,
-              endIndent: 36,
-            ),
-            Container(
-              alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
               child: Text('Recommend tutors', style: headLineMedium(context)),
             ),
@@ -222,19 +129,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onSearch(String? input) {
-    print("$input");
-  }
-
-  void resetFilter() {
-    if (tag != 0 || _txtController.text.isNotEmpty) {
-      setState(() {
-        tag = 0;
-        _txtController.clear();
-      });
-    }
-  }
-
   void onClickFavorite() {}
 
   Future<void> callAPIGetTutorList(int page, TutorRepository tutorRepository, AuthProvider authProvider) async {
@@ -261,15 +155,33 @@ class _HomePageState extends State<HomePage> {
   void _handleTutorListDataFromAPI(ResponseGetListTutor response) {
     response.favoriteTutor?.forEach((element) {
       if (element.secondId != null) {
-        _favTutor.add(element.secondId!);
+        _favTutorSecondId.add(element.secondId!);
       }
     });
-      _tutorList.addAll(response.tutors?.rows??[]);
+
+    //Separate list
+    List<TutorModel> notFavoredList = [];
+    List<TutorModel> favoredList = [];
+    response.tutors?.rows?.forEach((element) {
+      if (checkIfTutorIsFavored(element)) {
+        favoredList.add(element);
+      } else {
+        notFavoredList.add(element);
+      }
+    });
+
+    //Sort by score
+    favoredList.sort((b, a) => (a.rating??0).compareTo((b.rating??0)));
+    notFavoredList.sort((b, a) => (a.rating??0).compareTo((b.rating??0)));
+
+    //Add to final list
+    _tutorList.addAll(notFavoredList);
+    _tutorList.addAll(favoredList);
   }
 
   bool checkIfTutorIsFavored(TutorModel tutor) {
-    for (var element in _favTutor) {
-      if (element == tutor.id) return true;
+    for (var element in _favTutorSecondId) {
+      if (element == tutor.userId) return true;
     }
     return false;
   }

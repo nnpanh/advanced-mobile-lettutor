@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<TutorModel> _tutorList = [];
-  final List<String> _favTutorSecondId = [];
+  List<String> _favTutorSecondId = [];
   bool _hasFetched = false;
 
 
@@ -115,7 +115,10 @@ class _HomePageState extends State<HomePage> {
                       itemCount: _tutorList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return TutorCard(tutorData: _tutorList[index],
-                            isFavor: checkIfTutorIsFavored(_tutorList[index]));
+                            isFavor: checkIfTutorIsFavored(_tutorList[index]),
+                            onClickFavorite: (){
+                          onClickFavorite(_tutorList[index]);
+                        });
                       })
               )
             )
@@ -129,7 +132,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onClickFavorite() {}
+  void onClickFavorite(TutorModel tutorClicked) {
+    if (checkIfTutorIsFavored(tutorClicked)){
+      _favTutorSecondId.remove(tutorClicked.userId);
+    } else {
+      if (tutorClicked.userId!= null) {
+        _favTutorSecondId.add(tutorClicked.userId!);
+        _favTutorSecondId = _favTutorSecondId.toSet().toList();
+      }
+    }
+  }
 
   Future<void> callAPIGetTutorList(int page, TutorRepository tutorRepository, AuthProvider authProvider) async {
     try {
@@ -175,13 +187,13 @@ class _HomePageState extends State<HomePage> {
     notFavoredList.sort((b, a) => (a.rating??0).compareTo((b.rating??0)));
 
     //Add to final list
-    _tutorList.addAll(notFavoredList);
     _tutorList.addAll(favoredList);
+    _tutorList.addAll(notFavoredList);
   }
 
   bool checkIfTutorIsFavored(TutorModel tutor) {
     for (var element in _favTutorSecondId) {
-      if (element == tutor.userId) return true;
+      if (element.compareTo(tutor.userId!) == 0) return true;
     }
     return false;
   }

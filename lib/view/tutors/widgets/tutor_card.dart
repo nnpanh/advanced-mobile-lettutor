@@ -10,16 +10,26 @@ import '../../../utils/utils.dart';
 import '../../common_widgets/chip_button.dart';
 
 class TutorCard extends StatefulWidget {
-  TutorCard({super.key, required this.tutorData, required this.isFavor});
+  const TutorCard({super.key, required this.tutorData, required this.isFavor, required this.onClickFavorite});
 
   final TutorModel tutorData;
-  bool isFavor;
+  final bool isFavor;
+  final VoidCallback onClickFavorite;
 
   @override
   State<TutorCard> createState() => TutorCardState();
 }
 
 class TutorCardState extends State<TutorCard> {
+  late bool isFavored;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavored = widget.isFavor;
+  }
+
+
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
@@ -98,11 +108,14 @@ class TutorCardState extends State<TutorCard> {
                   ),
                 ),
                 IconButton(
-                  icon: widget.isFavor
+                  icon: !isFavored
                       ? const Icon(Icons.favorite_outline, color: Colors.blue)
                       : const Icon(Icons.favorite, color: Colors.redAccent),
                   onPressed: () {
-                    //Todo: Truyen function click vao day, chi render lai dung trai tim
+                    widget.onClickFavorite();
+                    setState(() {
+                      isFavored = !isFavored;
+                    });
                   },
                 ),
               ],

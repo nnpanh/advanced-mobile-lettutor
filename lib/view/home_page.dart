@@ -189,8 +189,8 @@ class _HomePageState extends State<HomePage> {
 
   bool checkIfTutorIsFavored(TutorModel tutor) {
     for (var element in _favTutorSecondId) {
-      if (element.compareTo(tutor.userId!) == 0) return true;
+      if (element == tutor.userId) return false;
     }
-    return false;
+    return true;
   }
 }

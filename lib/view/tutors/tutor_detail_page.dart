@@ -223,8 +223,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         image: AssetImage(ImagesPath.youtube),
                         fit: BoxFit.fitWidth)),
                 TitleAndChips(
-                    options: [tutorInfo.languages??"en"], title: 'Languages'),
-                TitleAndChips(options: [tutorInfo.specialties??""], title: 'Specialities'),
+                    input: tutorInfo.languages??"en", title: 'Languages'),
+                TitleAndChips(input: tutorInfo.specialties??"", title: 'Specialities'),
                 // Container(
                 //   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                 //   child:
@@ -280,7 +280,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                   child: ReadMoreText(
-                    "${tutorInfo.interests}",
+                    "${tutorInfo.interests?.trim()}",
                     trimLines: 20,
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
@@ -300,7 +300,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                   child: ReadMoreText(
-                    "${tutorInfo.experience}",
+                    "${tutorInfo.experience?.trim()}",
                     trimLines: 20,
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(

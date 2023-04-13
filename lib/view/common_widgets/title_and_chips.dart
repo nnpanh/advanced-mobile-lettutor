@@ -4,24 +4,26 @@ import '../../const/const_value.dart';
 import 'chip_button.dart';
 import 'default_style.dart';
 
-class TitleAndChips extends StatelessWidget {
-  const TitleAndChips({super.key, required this.options, required this.title});
-  final List<String> options;
+class TitleAndChips extends StatefulWidget {
+  const TitleAndChips({super.key, required this.input, required this.title});
   final String title;
+  final String input;
+
+  @override
+  State<TitleAndChips> createState() => _TitleAndChipsState();
+}
+
+class _TitleAndChipsState extends State<TitleAndChips> {
+  late List<String> options;
+
+  @override
+  void initState() {
+    super.initState();
+    options = widget.input.split(',');
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> test = [
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-    ];
-
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -32,7 +34,7 @@ class TitleAndChips extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                child: Text(title, style: headLineSmall(context)),
+                child: Text(widget.title, style: headLineSmall(context)),
               ),
               Container(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),

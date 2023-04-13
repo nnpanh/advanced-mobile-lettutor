@@ -1,8 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/data/repositories/tutor_repository.dart';
+import 'package:lettutor/model/tutor/tutor_info.dart';
 import 'package:lettutor/model/tutor/tutor_model.dart';
+import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/dialogs/report_dialog.dart';
+import 'package:lettutor/view/common_widgets/loading_filled.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
@@ -24,6 +29,8 @@ class TutorDetailPage extends StatefulWidget {
 
 class _TutorDetailPageState extends State<TutorDetailPage> {
   late TutorModel tutorData;
+  late TutorInfo tutorInfo;
+  bool _hasFetch = false;
 
   @override
   void initState() {
@@ -34,21 +41,27 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    if (!_hasFetch) {
+      callAPIGetTutorById(TutorRepository(), Provider.of<AuthProvider>(context),
+          tutorData.userId);
+    }
 
     return Scaffold(
         appBar: appBarDefault(MyRouter.tutorDetail, context),
-        body: SingleChildScrollView(
-          child: Container(
-            color: Colors.white30,
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+        body: !_hasFetch
+            ? const LoadingFilled()
+            : SingleChildScrollView(
+                child: Container(
+                  color: Colors.white30,
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       flex: 1,
@@ -84,7 +97,6 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
-                              // "${tutorData.nationality}",
                               "${tutorData.country}",
                               style: bodyLarge(context)
                                   ?.copyWith(color: Colors.black38),
@@ -123,7 +135,6 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: ReadMoreText(
-                    // "${tutorData.description}",
                     "${tutorData.bio}",
                     trimLines: 4,
                     textAlign: TextAlign.justify,
@@ -146,12 +157,12 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              // tutorData.isFavorite = !tutorData.isFavorite;
-                              //TODO: FAVORITE
+                              if (tutorInfo.isFavorite!= null){
+                                tutorInfo.isFavorite = !tutorInfo.isFavorite!;
+                              }
                             });
                           },
-                          icon: true
-                              // icon: tutorData.isFavorite
+                          icon: tutorInfo.isFavorite??false
                               ? const Icon(
                                   Icons.favorite_border,
                                   color: Colors.blue,
@@ -212,58 +223,56 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         image: AssetImage(ImagesPath.youtube),
                         fit: BoxFit.fitWidth)),
                 TitleAndChips(
-                    // options: tutorData.specialities, title: 'Languages'),
-                    options: [],
-                    title: 'Languages'),
-                TitleAndChips(options: [], title: 'Specialities'),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child:
-                      Text('Suggested Courses', style: headLineSmall(context)),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                  child: LimitedBox(
-                    maxHeight: double.maxFinite,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 0,
-                      // itemCount: tutorData.suggestedCourses.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var course =
-                            CourseModel();
-                        return LimitedBox(
-                          maxWidth: double.maxFinite,
-                          maxHeight: double.maxFinite,
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
-                            child: RichText(
-                                text: TextSpan(children: [
-                              TextSpan(
-                                text: "•  ${course.name}   ",
-                                style: bodyLarge(context)?.copyWith(
-                                    fontSize: 16,
-                                    height: ConstValue.courseNameTextScale),
-                              ),
-                              TextSpan(
-                                  text: 'View',
-                                  style: bodyLarge(context)
-                                      ?.copyWith(color: Colors.blueAccent),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pushNamed(
-                                          context, MyRouter.courseDetail,
-                                          arguments: CourseDetailArguments(
-                                              courseModel: course));
-                                    })
-                            ])),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                    options: [tutorInfo.languages??"en"], title: 'Languages'),
+                TitleAndChips(options: [tutorInfo.specialties??""], title: 'Specialities'),
+                // Container(
+                //   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                //   child:
+                //       Text('Suggested Courses', style: headLineSmall(context)),
+                // ),
+                // Container(
+                //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                //   child: LimitedBox(
+                //     maxHeight: double.maxFinite,
+                //     child: ListView.builder(
+                //       shrinkWrap: true,
+                //       physics: const NeverScrollableScrollPhysics(),
+                //       itemCount: 0,
+                //       // itemCount: tutorData.suggestedCourses.length,
+                //       itemBuilder: (BuildContext context, int index) {
+                //         var course =
+                //             CourseModel();
+                //         return LimitedBox(
+                //           maxWidth: double.maxFinite,
+                //           maxHeight: double.maxFinite,
+                //           child: Container(
+                //             padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
+                //             child: RichText(
+                //                 text: TextSpan(children: [
+                //               TextSpan(
+                //                 text: "•  ${course.name}   ",
+                //                 style: bodyLarge(context)?.copyWith(
+                //                     fontSize: 16,
+                //                     height: ConstValue.courseNameTextScale),
+                //               ),
+                //               TextSpan(
+                //                   text: 'View',
+                //                   style: bodyLarge(context)
+                //                       ?.copyWith(color: Colors.blueAccent),
+                //                   recognizer: TapGestureRecognizer()
+                //                     ..onTap = () {
+                //                       Navigator.pushNamed(
+                //                           context, MyRouter.courseDetail,
+                //                           arguments: CourseDetailArguments(
+                //                               courseModel: course));
+                //                     })
+                //             ])),
+                //           ),
+                //         );
+                //       },
+                //     ),
+                //   ),
+                // ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                   child: Text('Interests', style: headLineSmall(context)),
@@ -271,7 +280,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                   child: ReadMoreText(
-                    "${tutorData.interests}",
+                    "${tutorInfo.interests}",
                     trimLines: 20,
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
@@ -291,8 +300,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                   child: ReadMoreText(
-                    "${tutorData.experience}",
-                    // "${tutorData.teachingExperience}",
+                    "${tutorInfo.experience}",
                     trimLines: 20,
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
@@ -313,15 +321,33 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         buttonType: ButtonType.filledButton,
                         callback: () {
                           Navigator.pushNamed(context, MyRouter.bookingDetail,
-                              arguments:
-                                  TutorDetailArguments(tutorModel: tutorData));
-                        },
-                        radius: 15),
+                              arguments: TutorDetailArguments(
+                                        tutorModel: tutorData));
+                              },
+                              radius: 15),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ));
+              ));
+  }
+
+  Future<void> callAPIGetTutorById(TutorRepository tutorRepository,
+      AuthProvider authProvider, String? userId) async {
+    await tutorRepository.getTutorById(
+        accessToken: authProvider.token?.access?.token ?? "",
+        tutorId: userId ?? "",
+        onSuccess: (response) async {
+          setState(() {
+            tutorInfo = response;
+            _hasFetch = true;
+          });
+        },
+        onFail: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${error.toString()}')),
+          );
+        });
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:lettutor/data/responses/response_get_list_tutor.dart';
+import 'package:lettutor/model/tutor/tutor_info.dart';
 
 import '../services/api_service.dart';
 import 'base_repository.dart';
@@ -50,23 +51,37 @@ class TutorRepository extends BaseRepository {
   //TODO: RESPONSE UNKNOWN
   Future<void> writeReviewAfterClass({
     required Function() onSuccess,
+    required Function(String) onFail,
   }) async {
     final response = await service.post(
       url: "feedbackTutor",
+
     );
 
     await onSuccess();
   }
 
-  //TODO: RESPONSE UNKNOWN
   Future<void> getTutorById({
-    required Function() onSuccess,
+    required String accessToken,
+    required String tutorId,
+    required Function(TutorInfo) onSuccess,
+    required Function(String) onFail,
   }) async {
     final response = await service.get(
-      url: "tutor/:tutorId",
-    );
+      url: "$tutorId",
+        headers: {
+          "Authorization":"Bearer $accessToken"
+      }) as BoundResource;
 
-    await onSuccess();
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        onSuccess(TutorInfo.fromJson(response.response));
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
 
   //TODO: RESPONSE UNKNOWN

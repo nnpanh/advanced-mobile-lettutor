@@ -30,6 +30,7 @@ class TutorCardState extends State<TutorCard> {
   }
 
 
+  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
@@ -146,7 +147,7 @@ class TutorCardState extends State<TutorCard> {
                   callback: () {
                     Navigator.pushNamed(context, MyRouter.tutorDetail,
                         arguments:
-                            TutorDetailArguments(tutorModel: widget.tutorData));
+                        TutorDetailArguments(tutorModel: widget.tutorData));
                   },
                 ))
           ],

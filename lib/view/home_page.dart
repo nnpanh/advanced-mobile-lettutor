@@ -1,11 +1,10 @@
-import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/data/repositories/tutor_repository.dart';
 import 'package:lettutor/data/responses/response_get_list_tutor.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/chip_button.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
+import 'package:lettutor/view/common_widgets/loading_filled.dart';
 import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
 import 'package:provider/provider.dart';
 
@@ -33,22 +32,19 @@ class _HomePageState extends State<HomePage> {
       callAPIGetTutorList(1, TutorRepository(), Provider.of<AuthProvider>(context));
     }
 
-    return !_hasFetched?  Container(
-      color: Colors.white,
-        constraints: const BoxConstraints.expand(),
-        child: const Center(child: CircularProgressIndicator())
-    ):
-    Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
-                width: double.infinity,
-                color: Colors.blue,
+    return !_hasFetched
+        ? const LoadingFilled()
+        : Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
+                      width: double.infinity,
+                      color: Colors.blue,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -133,18 +129,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onClickFavorite(TutorModel tutorClicked) {
-    if (checkIfTutorIsFavored(tutorClicked)){
+    if (checkIfTutorIsFavored(tutorClicked)) {
       _favTutorSecondId.remove(tutorClicked.userId);
     } else {
-      if (tutorClicked.userId!= null) {
+      if (tutorClicked.userId != null) {
         _favTutorSecondId.add(tutorClicked.userId!);
         _favTutorSecondId = _favTutorSecondId.toSet().toList();
       }
     }
+
+    //Call API update
+    //TODO: LATER
   }
 
   Future<void> callAPIGetTutorList(int page, TutorRepository tutorRepository, AuthProvider authProvider) async {
-    try {
       await tutorRepository.getListTutor(
         accessToken: authProvider.token?.access?.token??"",
         page: page,
@@ -160,8 +158,6 @@ class _HomePageState extends State<HomePage> {
               SnackBar(content: Text('Error: ${error.toString()}')),
             );
           });
-    } finally {
-    }
   }
 
   void _handleTutorListDataFromAPI(ResponseGetListTutor response) {

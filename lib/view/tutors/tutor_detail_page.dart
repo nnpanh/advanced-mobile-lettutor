@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/data/repositories/tutor_repository.dart';
@@ -9,11 +8,11 @@ import 'package:lettutor/view/common_widgets/dialogs/report_dialog.dart';
 import 'package:lettutor/view/common_widgets/loading_filled.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../config/router.dart';
 import '../../config/router_arguments.dart';
 import '../../const/export_const.dart';
-import '../../model/course/course_model.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/show_reviews_dialog.dart';
 import '../common_widgets/elevated_button.dart';
@@ -30,12 +29,19 @@ class TutorDetailPage extends StatefulWidget {
 class _TutorDetailPageState extends State<TutorDetailPage> {
   late TutorModel tutorData;
   late TutorInfo tutorInfo;
+  late VideoPlayerController _controller;
   bool _hasFetch = false;
 
   @override
   void initState() {
     tutorData = widget.tutorModel;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -201,86 +207,51 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            onPressedShowReviews(size, context);
+                            onPressedShowReviews(size, context, tutorData.feedbacks??[]);
                           },
                           icon: const Icon(
                             Icons.reviews_outlined,
                             color: Colors.blue,
                           ),
-                          padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
+                              ),
+                              Text('Reviews',
+                                  style: bodyLarge(context)
+                                      ?.copyWith(color: Colors.blue))
+                            ],
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                        child: InkWell(
+                          onTap: () {
+                            if (_controller.value.isPlaying) {
+                              _controller.pause();
+                            } else {
+                              _controller.play();
+                            }
+                          },
+                          child: AspectRatio(
+                            aspectRatio: _controller.value.aspectRatio,
+                            child: VideoPlayer(_controller),
+                          ),
                         ),
-                        Text('Reviews',
-                            style: bodyLarge(context)
-                                ?.copyWith(color: Colors.blue))
-                      ],
-                    ),
-                  ],
-                ),
-                Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 16),
-                    child: const Image(
-                        image: AssetImage(ImagesPath.youtube),
-                        fit: BoxFit.fitWidth)),
-                TitleAndChips(
-                    input: tutorInfo.languages??"en", title: 'Languages'),
-                TitleAndChips(input: tutorInfo.specialties??"", title: 'Specialities'),
-                // Container(
-                //   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                //   child:
-                //       Text('Suggested Courses', style: headLineSmall(context)),
-                // ),
-                // Container(
-                //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                //   child: LimitedBox(
-                //     maxHeight: double.maxFinite,
-                //     child: ListView.builder(
-                //       shrinkWrap: true,
-                //       physics: const NeverScrollableScrollPhysics(),
-                //       itemCount: 0,
-                //       // itemCount: tutorData.suggestedCourses.length,
-                //       itemBuilder: (BuildContext context, int index) {
-                //         var course =
-                //             CourseModel();
-                //         return LimitedBox(
-                //           maxWidth: double.maxFinite,
-                //           maxHeight: double.maxFinite,
-                //           child: Container(
-                //             padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
-                //             child: RichText(
-                //                 text: TextSpan(children: [
-                //               TextSpan(
-                //                 text: "•  ${course.name}   ",
-                //                 style: bodyLarge(context)?.copyWith(
-                //                     fontSize: 16,
-                //                     height: ConstValue.courseNameTextScale),
-                //               ),
-                //               TextSpan(
-                //                   text: 'View',
-                //                   style: bodyLarge(context)
-                //                       ?.copyWith(color: Colors.blueAccent),
-                //                   recognizer: TapGestureRecognizer()
-                //                     ..onTap = () {
-                //                       Navigator.pushNamed(
-                //                           context, MyRouter.courseDetail,
-                //                           arguments: CourseDetailArguments(
-                //                               courseModel: course));
-                //                     })
-                //             ])),
-                //           ),
-                //         );
-                //       },
-                //     ),
-                //   ),
-                // ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: Text('Interests', style: headLineSmall(context)),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                  child: ReadMoreText(
-                    "${tutorInfo.interests?.trim()}",
+                      ),
+                      TitleAndChips(
+                          input: tutorInfo.languages ?? "en",
+                          title: 'Languages'),
+                      TitleAndChips(
+                          input: tutorInfo.specialties ?? "",
+                          title: 'Specialities'),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        child: Text('Interests', style: headLineSmall(context)),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+                        child: ReadMoreText(
+                          "${tutorInfo.interests?.trim()}",
                     trimLines: 20,
                     textAlign: TextAlign.justify,
                     style: bodyLarge(context)?.copyWith(
@@ -343,6 +314,15 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
             tutorInfo = response;
             _hasFetch = true;
           });
+          //Play video
+          _controller = VideoPlayerController.network(tutorInfo.video ?? "");
+
+          _controller.addListener(() {
+            setState(() {});
+          });
+          _controller.setLooping(true);
+          _controller.initialize().then((_) => setState(() {}));
+          _controller.play();
         },
         onFail: (error) {
           ScaffoldMessenger.of(context).showSnackBar(

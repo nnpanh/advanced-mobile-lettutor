@@ -5,20 +5,19 @@ import 'package:lettutor/model/tutor/tutor_feedback.dart';
 import '../default_style.dart';
 import 'base_dialog/widget_dialog.dart';
 
-void onPressedShowReviews(Size size, BuildContext context) {
+void onPressedShowReviews(Size size, BuildContext context, List<TutorFeedback> listReview) {
   showDialog(
       context: context,
       builder: (BuildContext context) {
         return WidgetDialog(
-            title: 'Reviews', widget: ReviewDialogContent(size: size));
+            title: 'Reviews', widget: ReviewDialogContent(size: size, listReview: listReview));
       });
 }
 
 class ReviewDialogContent extends StatelessWidget {
-  ReviewDialogContent({super.key, required this.size});
+  const ReviewDialogContent({super.key, required this.size, required this.listReview});
   final Size size;
-  final List<TutorFeedback> listReview = [];
-  // final List<ReviewModel> listReview = generateReviewList();
+  final List<TutorFeedback> listReview;
 
   @override
   Widget build(BuildContext context) {

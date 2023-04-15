@@ -19,7 +19,8 @@ class _TitleAndChipsState extends State<TitleAndChips> {
   @override
   void initState() {
     super.initState();
-    options = widget.input.split(',');
+    var inputs = widget.input.replaceAll("-"," ");
+    options = inputs.split(',');
   }
 
   @override

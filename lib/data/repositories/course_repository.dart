@@ -1,28 +1,43 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:lettutor/data/responses/response_get_list_course.dart';
 
+import '../../model/course/course_model.dart';
 import '../../model/user/user_model.dart';
 import '../../model/user/user_token.dart';
+import '../services/api_service.dart';
 import 'base_repository.dart';
 
 class CourseRepository extends BaseRepository {
-  static const String prefix = "course/";
+  static const String prefix = "course";
 
   CourseRepository() : super(prefix);
 
-  //TODO: RESPONSE UNKNOWN
   Future<void> getCourseListWithPagination({
-    required int page,
+    required String accessToken,
     required int size,
-    required Function() onSuccess,
+    required int page,
+    required Function(List<CourseModel>) onSuccess,
+    required Function(String) onFail,
   }) async {
     final response = await service.get(
-        url: "course?page=1&size=100",
-    );
+        url: "?page=$page&size=$size",
+        headers: {
+          "Authorization":"Bearer $accessToken"
+        }) as BoundResource;
 
-    await onSuccess();
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        onSuccess(ResponseGetListCourse.fromJson(response.response).data?.rows??[]);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
+
 
   //TODO: RESPONSE UNKNOWN
   Future<void> getCourseDetailById({

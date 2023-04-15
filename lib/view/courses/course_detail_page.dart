@@ -71,9 +71,12 @@ class CourseDetailPage extends StatelessWidget {
                         title: 'Discover',
                         buttonType: ButtonType.filledButton,
                         callback: () {
-                          // Navigator.pushNamed(context, MyRouter.bookTutor,
-                          //     arguments:
-                          // TutorDetailArguments(courseModel: tutorData));
+                          Navigator.pushNamed(
+                              context, MyRouter.lessonDetail,
+                              arguments: LessonDetailArguments(
+                                  title: courseModel.topics?[0].name ?? "No title",
+                                  pdfUrl: courseModel.topics?[0].nameFile??
+                                      'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
                         },
                         radius: 50),
                   ),
@@ -221,8 +224,8 @@ class CourseDetailPage extends StatelessWidget {
                                 Navigator.pushNamed(
                                     context, MyRouter.lessonDetail,
                                     arguments: LessonDetailArguments(
-                                        title: courseModel.name ?? "No title",
-                                        pdfUrl:
+                                        title: courseModel.topics?[index].name ?? "No title",
+                                        pdfUrl: courseModel.topics?[index].nameFile??
                                             'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
                               },
                             );
@@ -230,7 +233,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Suggested Tutors',
+                  child: Text('Categories',
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -240,11 +243,9 @@ class CourseDetailPage extends StatelessWidget {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 0,
-                      // itemCount: courseModel.suggestedTutor?.length,
+                      itemCount: courseModel.categories?.length,
                       itemBuilder: (BuildContext context, int index) {
-                        var course = "";
-                        // var course = courseModel.suggestedTutor?[index];
+                        var course = courseModel.categories?[index];
                         return LimitedBox(
                           maxWidth: double.maxFinite,
                           maxHeight: double.maxFinite,
@@ -253,22 +254,16 @@ class CourseDetailPage extends StatelessWidget {
                             child: RichText(
                                 text: TextSpan(children: [
                               TextSpan(
-                                text: "•  $course   ",
+                                text: "•  ${course?.title}   ",
                                 style: bodyLarge(context)?.copyWith(
                                     fontSize: 16,
                                     height: ConstValue.courseNameTextScale),
                               ),
+                              if (course?.description != null)
                               TextSpan(
-                                  text: 'More info',
+                                  text: ' - ${course?.description}',
                                   style: bodyLarge(context)
-                                      ?.copyWith(color: Colors.blueAccent),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pushNamed(
-                                          context, MyRouter.tutorDetail,
-                                          arguments: TutorDetailArguments(
-                                              tutorModel: TutorModel()));
-                                    })
+                              )
                             ])),
                           ),
                         );

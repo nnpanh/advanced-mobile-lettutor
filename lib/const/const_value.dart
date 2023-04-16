@@ -16,8 +16,8 @@ class ImagesPath {
 class ConstValue {
   static const descriptionTextScale = 1.5;
   static const courseNameTextScale = 1.75;
-  static const levelList = ["Pre A1 (Beginner)", "A1 (Higher Beginner)", "A2 (Pre-intermediate)",
-    "B1 (Intermediate)", "B2 (Upper-intermediate","C1 (Advanced)","C2 (Proficiency)"];
+  static const levelList = ["BEGINNER", "HIGHER BEGINNER", "PRE-INTERMEDIATE",
+    "INTERMEDIATE", "UPPER-INTERMEDIATE","ADVANCED","PROFICIENCY"];
   static const specialityList = ["For kids", "For Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
 
 }

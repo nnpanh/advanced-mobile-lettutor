@@ -1,3 +1,5 @@
+import 'package:lettutor/model/user/user_model.dart';
+
 import '../services/api_service.dart';
 import 'base_repository.dart';
 
@@ -17,15 +19,44 @@ class UserRepository extends BaseRepository {
     await onSuccess();
   }
 
-  //TODO: RESPONSE UNKNOWN
-  Future<void> postUser({
-    required Function() onSuccess,
+  Future<void> updateUserInfo({
+    required String accessToken,
+    required UserModel input,
+    required Function(UserModel) onSuccess,
+    required Function(String) onFail,
   }) async {
-    final response = await service.post(
-      url: "info",
-    );
+    var learnTopics = [];
+    input.learnTopics?.forEach((element) {
+      learnTopics.add(element.id);
+    });
+    var testPreparations = [];
+    input.testPreparations?.forEach((element) {
+      testPreparations.add(element.id);
+    });
+    final response = await service.put(url: 'info',
+        headers: {
+          "Authorization":"Bearer $accessToken"
+        },
+        data: {
+      "name": input.name,
+      "country": input.country,
+      "phone": input.phone,
+      "birthday": input.birthday,
+      "level": input.level,
+      "learnTopics": learnTopics,
+      "testPreparations": testPreparations
+    }) as BoundResource;
 
-    await onSuccess();
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        final user = UserModel.fromJson(response.response['user']);
+        await onSuccess(user);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
 
   //TODO: RESPONSE UNKNOWN

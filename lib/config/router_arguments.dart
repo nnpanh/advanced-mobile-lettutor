@@ -1,7 +1,6 @@
 import 'package:lettutor/model/course/course_model.dart';
 import 'package:lettutor/model/tutor/tutor_model.dart';
 
-
 class TutorDetailArguments {
   final TutorModel tutorModel;
 

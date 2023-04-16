@@ -2,11 +2,14 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lettutor/config/router.dart';
+import 'package:lettutor/data/repositories/user_repository.dart';
+import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/utils/validation_extension.dart';
 import 'package:lettutor/view/common_widgets/chip_dropdown.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/settings/widget/required_label.dart';
+import 'package:provider/provider.dart';
 
 import '../../const/const_value.dart';
 import '../../model/user/user_model.dart';
@@ -21,31 +24,46 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   final _formKey = GlobalKey<FormState>();
+  final _txtName = TextEditingController();
   final _txtCountry = TextEditingController();
   final _txtBirthday = TextEditingController();
   String? _txtLevel;
   final List<DropdownMenuItem<String>> _levelList = [];
-  final UserModel userModel = testUser();
+  late UserModel userModel;
+  late bool hasInitValue = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _txtCountry.text = userModel.country ?? "";
-    if (userModel.birthday != null) {
-      _txtBirthday.text = userModel.birthday!;
-    }
-    for (var element in ConstValue.levelList) {
-      _levelList.add(DropdownMenuItem(
-        value: element,
-        child: Text(element),
-      ));
-    }
+  void initValues(AuthProvider authProvider) {
+    setState(() {
+      userModel = authProvider.currentUser!;
+      //Set values for form
+      _txtLevel = userModel.level;
+      _txtName.text = userModel.name??"";
+      _txtCountry.text = userModel.country ?? "";
+      if (userModel.birthday != null) {
+        _txtBirthday.text = formatDateStringFromApi(userModel.birthday);
+      }
+      if (hasInitValue == false) {
+        for (var element in ConstValue.levelList) {
+          _levelList.add(DropdownMenuItem(
+            value: element,
+            child: Text(element),
+          ));
+        }
+      }
+      hasInitValue = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    if (hasInitValue == false) {
+      initValues(authProvider);
+    }
+
+    return !hasInitValue? const SizedBox():
+    Scaffold(
       appBar: appBarDefault(MyRouter.account, context),
       body: SingleChildScrollView(
         child: Container(
@@ -163,7 +181,7 @@ class _AccountPageState extends State<AccountPage> {
                           margin: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 24),
                           child: TextFormField(
-                            initialValue: userModel.name,
+                            controller: _txtName,
                             keyboardType: TextInputType.name,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
@@ -386,7 +404,7 @@ class _AccountPageState extends State<AccountPage> {
                               title: 'Save changes',
                               callback: () {
                                 if (_formKey.currentState!.validate()) {
-                                  Navigator.of(context).pop();
+                                  callAPIUpdateProfile(UserRepository(), authProvider);
                                 }
                               },
                               buttonType: ButtonType.filledButton,
@@ -401,4 +419,30 @@ class _AccountPageState extends State<AccountPage> {
       ),
     );
   }
+
+  Future<void> callAPIUpdateProfile(UserRepository userRepository, AuthProvider authProvider) async {
+    await userRepository.updateUserInfo(
+        accessToken: authProvider.token?.access?.token??"",
+        input: UserModel(
+          name: _txtName.text,
+          phone: userModel.phone,
+          country: _txtCountry.text,
+          birthday:  formatDateStringToApi(_txtBirthday.text),
+          level: _txtLevel,
+          learnTopics: userModel.learnTopics,
+          testPreparations: userModel.testPreparations),
+        onSuccess: (user) async {
+         authProvider.saveLoginInfo(user, authProvider.token);
+         initValues(authProvider);
+         ScaffoldMessenger.of(context).showSnackBar(
+           const SnackBar(content: Text('Profile updated successfully')),
+         );
+        },
+        onFail: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${error.toString()}')),
+          );
+        });
+  }
+
 }

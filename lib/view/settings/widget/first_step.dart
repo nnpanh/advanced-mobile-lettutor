@@ -24,7 +24,7 @@ class _FirstStepState extends State<FirstStep> {
   String? _txtLevel;
   bool hasUploaded = false;
   final List<DropdownMenuItem<String>> _levelList = [];
-  final UserModel userModel = testUser();
+  late UserModel userModel;
 
   @override
   void initState() {

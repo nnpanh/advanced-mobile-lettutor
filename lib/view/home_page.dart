@@ -137,9 +137,6 @@ class _HomePageState extends State<HomePage> {
         _favTutorSecondId = _favTutorSecondId.toSet().toList();
       }
     }
-
-    //Call API update
-    //TODO: LATER
   }
 
   Future<void> callAPIGetTutorList(int page, TutorRepository tutorRepository, AuthProvider authProvider) async {

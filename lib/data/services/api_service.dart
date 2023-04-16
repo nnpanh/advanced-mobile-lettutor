@@ -15,6 +15,32 @@ class ApiService {
 
   ApiService(this.baseUrl);
 
+  Future<dynamic> put(
+      {required String url,
+        Map<String, dynamic>? headers,
+        Map<String, dynamic>? data,
+        CancelToken? cancelToken}) async {
+    try {
+      final response = await api.put("$baseUrl$url",
+          options: Options(
+              headers: headers,
+              contentType: Headers.jsonContentType,
+              method: 'PUT'),
+          data: data,
+          cancelToken: cancelToken);
+      switch (response.statusCode) {
+        case 200:
+          return BoundResource(response: response.data, statusCode: 200);
+        case 201:
+          return BoundResource(response: response.data, statusCode: 201);
+      }
+    } on DioError catch (err) {
+      return BoundResource(
+          errorMsg: err.response?.data['message'] ?? err.message,
+          statusCode: err.response?.statusCode ?? 500);
+    }
+  }
+
   Future<dynamic> post(
       {required String url,
       Map<String, dynamic>? headers,

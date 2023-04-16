@@ -18,15 +18,11 @@ import 'firebase_options.dart';
 void main() {
   MyApp.initSystemDefault();
 
-  runApp(MyApp(
-    baseUrl: "https://www.google.com/"
-  ));
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-   String baseUrl;
-
-   MyApp({super.key, required this.baseUrl});
+   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override

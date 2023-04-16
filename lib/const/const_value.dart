@@ -9,6 +9,8 @@ class ImagesPath {
   static const thanks = "assets/images/thanks.png";
   static const video = "assets/images/video.jpg";
   static const calendar = "assets/images/calendar.png";
+  static const vietnam = "assets/images/vietnam.png";
+  static const english = "assets/images/britain.png";
 }
 
 class ConstValue {

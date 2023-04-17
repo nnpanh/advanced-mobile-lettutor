@@ -1,7 +1,6 @@
-import 'package:flutter/gestures.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/config/router_arguments.dart';
-import 'package:lettutor/model/tutor/tutor_model.dart';
 import 'package:lettutor/view/courses/widgets/chapter_card.dart';
 import 'package:readmore/readmore.dart';
 
@@ -30,12 +29,19 @@ class CourseDetailPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image(
+                CachedNetworkImage(
                   width: double.maxFinite,
                   height: size.width * .75 - 32,
                   fit: BoxFit.fill,
-                  image: NetworkImage(courseModel.imageUrl ??
-                      "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
+                  imageUrl: courseModel.imageUrl ?? "",
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress)),
+                  errorWidget: (context, url, error) => Image.asset(
+                    ImagesPath.error,
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 Container(
                   padding:
@@ -71,11 +77,11 @@ class CourseDetailPage extends StatelessWidget {
                         title: 'Discover',
                         buttonType: ButtonType.filledButton,
                         callback: () {
-                          Navigator.pushNamed(
-                              context, MyRouter.lessonDetail,
+                          Navigator.pushNamed(context, MyRouter.lessonDetail,
                               arguments: LessonDetailArguments(
-                                  title: courseModel.topics?[0].name ?? "No title",
-                                  pdfUrl: courseModel.topics?[0].nameFile??
+                                  title:
+                                      courseModel.topics?[0].name ?? "No title",
+                                  pdfUrl: courseModel.topics?[0].nameFile ??
                                       'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
                         },
                         radius: 50),
@@ -224,8 +230,11 @@ class CourseDetailPage extends StatelessWidget {
                                 Navigator.pushNamed(
                                     context, MyRouter.lessonDetail,
                                     arguments: LessonDetailArguments(
-                                        title: courseModel.topics?[index].name ?? "No title",
-                                        pdfUrl: courseModel.topics?[index].nameFile??
+                                        title:
+                                            courseModel.topics?[index].name ??
+                                                "No title",
+                                        pdfUrl: courseModel
+                                                .topics?[index].nameFile ??
                                             'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
                               },
                             );
@@ -260,10 +269,9 @@ class CourseDetailPage extends StatelessWidget {
                                     height: ConstValue.courseNameTextScale),
                               ),
                               if (course?.description != null)
-                              TextSpan(
-                                  text: ' - ${course?.description}',
-                                  style: bodyLarge(context)
-                              )
+                                TextSpan(
+                                    text: ' - ${course?.description}',
+                                    style: bodyLarge(context))
                             ])),
                           ),
                         );

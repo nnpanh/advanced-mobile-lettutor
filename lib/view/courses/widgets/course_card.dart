@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/model/course/course_model.dart';
@@ -36,12 +37,19 @@ class CourseCardState extends State<CourseCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image(
+            CachedNetworkImage(
               width: double.maxFinite,
               height: size.width * .75 - 32,
               fit: BoxFit.fill,
-              image: NetworkImage(widget.courseData.imageUrl ??
-                  "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
+              imageUrl: widget.courseData.imageUrl ?? "",
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress)),
+              errorWidget: (context, url, error) => Image.asset(
+                ImagesPath.error,
+                fit: BoxFit.contain,
+              ),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),

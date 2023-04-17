@@ -4,6 +4,7 @@ import 'package:lettutor/data/repositories/tutor_repository.dart';
 import 'package:lettutor/model/tutor/tutor_info.dart';
 import 'package:lettutor/model/tutor/tutor_model.dart';
 import 'package:lettutor/providers/auth_provider.dart';
+import 'package:lettutor/view/common_widgets/circle_network_image.dart';
 import 'package:lettutor/view/common_widgets/dialogs/report_dialog.dart';
 import 'package:lettutor/view/common_widgets/loading_filled.dart';
 import 'package:provider/provider.dart';
@@ -68,151 +69,150 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        alignment: Alignment.center,
-                        // padding: const EdgeInsets.all(16),
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.black54,
-                          foregroundColor: Colors.transparent,
-                          foregroundImage: NetworkImage(tutorData.avatar ??
-                              "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                            child: Text(
-                              "${tutorData.name}",
-                              style: bodyLargeBold(context)?.copyWith(
-                                fontSize: 18,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: CircleNetworkImage(
+                                  url: tutorData.avatar, size: 80.0),
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              "${tutorData.country}",
-                              style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.black38),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                                  child: Text(
+                                    "${tutorData.name}",
+                                    style: bodyLargeBold(context)?.copyWith(
+                                      fontSize: 18,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(
+                                    "${tutorData.country}",
+                                    style: bodyLarge(context)
+                                        ?.copyWith(color: Colors.black38),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 12),
+                                  child: RatingBar(
+                                    initialRating: 3,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    glow: false,
+                                    ignoreGestures: true,
+                                    itemPadding: const EdgeInsets.symmetric(
+                                        horizontal: 1),
+                                    itemSize: 24,
+                                    onRatingUpdate: (double value) {},
+                                    ratingWidget: RatingWidget(
+                                      full: const Icon(Icons.star,
+                                          color: Colors.amber),
+                                      empty: const Icon(Icons.star_border,
+                                          color: Colors.amber),
+                                      half: const Icon(Icons.star_half,
+                                          color: Colors.amber),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 12),
-                            child: RatingBar(
-                              initialRating: 3,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              glow: false,
-                              ignoreGestures: true,
-                              itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 1),
-                              itemSize: 24,
-                              onRatingUpdate: (double value) {},
-                              ratingWidget: RatingWidget(
-                                full:
-                                    const Icon(Icons.star, color: Colors.amber),
-                                empty: const Icon(Icons.star_border,
-                                    color: Colors.amber),
-                                half: const Icon(Icons.star_half,
-                                    color: Colors.amber),
-                              ),
-                            ),
-                          )
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                  child: ReadMoreText(
-                    "${tutorData.bio}",
-                    trimLines: 4,
-                    textAlign: TextAlign.justify,
-                    style: bodyLarge(context)?.copyWith(
-                      color: CustomColor.greyTextColor,
-                    ),
-                    colorClickableText: Colors.blue,
-                    trimMode: TrimMode.Line,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: ' Show less',
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (tutorInfo.isFavorite!= null){
-                                tutorInfo.isFavorite = !tutorInfo.isFavorite!;
-                              }
-                            });
-                          },
-                          icon: tutorInfo.isFavorite??false
-                              ? const Icon(
-                                  Icons.favorite_border,
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                        child: ReadMoreText(
+                          "${tutorData.bio}",
+                          trimLines: 4,
+                          textAlign: TextAlign.justify,
+                          style: bodyLarge(context)?.copyWith(
+                            color: CustomColor.greyTextColor,
+                          ),
+                          colorClickableText: Colors.blue,
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: 'Show more',
+                          trimExpandedText: ' Show less',
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (tutorInfo.isFavorite != null) {
+                                      tutorInfo.isFavorite =
+                                          !tutorInfo.isFavorite!;
+                                    }
+                                  });
+                                },
+                                icon: tutorInfo.isFavorite ?? false
+                                    ? const Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.blue,
+                                      )
+                                    : const Icon(
+                                        Icons.favorite,
+                                        color: Colors.redAccent,
+                                      ),
+                                padding: const EdgeInsets.all(8),
+                              ),
+                              Text('Favorite',
+                                  style: bodyLarge(context)
+                                      ?.copyWith(color: Colors.blue))
+                            ],
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  onPressedReport(
+                                      size, tutorData.name, context);
+                                },
+                                icon: const Icon(
+                                  Icons.report_outlined,
                                   color: Colors.blue,
-                                )
-                              : const Icon(
-                                  Icons.favorite,
-                                  color: Colors.redAccent,
                                 ),
-                          padding: const EdgeInsets.all(8),
-                        ),
-                        Text('Favorite',
-                            style: bodyLarge(context)
-                                ?.copyWith(color: Colors.blue))
-                      ],
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            onPressedReport(size, tutorData.name, context);
-                          },
-                          icon: const Icon(
-                            Icons.report_outlined,
-                            color: Colors.blue,
+                                padding: const EdgeInsets.all(8),
+                              ),
+                              Text('Report',
+                                  style: bodyLarge(context)
+                                      ?.copyWith(color: Colors.blue))
+                            ],
                           ),
-                          padding: const EdgeInsets.all(8),
-                        ),
-                        Text('Report',
-                            style: bodyLarge(context)
-                                ?.copyWith(color: Colors.blue))
-                      ],
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            onPressedShowReviews(size, context, tutorData.feedbacks??[]);
-                          },
-                          icon: const Icon(
-                            Icons.reviews_outlined,
-                            color: Colors.blue,
-                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  onPressedShowReviews(
+                                      size, context, tutorData.feedbacks ?? []);
+                                },
+                                icon: const Icon(
+                                  Icons.reviews_outlined,
+                                  color: Colors.blue,
+                                ),
                                 padding: const EdgeInsets.all(8),
                               ),
                               Text('Reviews',
@@ -232,9 +232,17 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                               _controller.play();
                             }
                           },
-                          child: AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
+                          child: LimitedBox(
+                            maxHeight: size.height * 0.4,
+                            child: Container(
+                              color: Colors.black87,
+                              child: Center(
+                                child: AspectRatio(
+                                  aspectRatio: _controller.value.aspectRatio,
+                                  child: VideoPlayer(_controller),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -252,47 +260,48 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                         child: ReadMoreText(
                           "${tutorInfo.interests?.trim()}",
-                    trimLines: 20,
-                    textAlign: TextAlign.justify,
-                    style: bodyLarge(context)?.copyWith(
-                      color: CustomColor.greyTextColor,
-                    ),
-                    colorClickableText: Colors.blue,
-                    trimMode: TrimMode.Line,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: ' Show less',
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: Text('Teaching experience',
-                      style: headLineSmall(context)),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                  child: ReadMoreText(
-                    "${tutorInfo.experience?.trim()}",
-                    trimLines: 20,
-                    textAlign: TextAlign.justify,
-                    style: bodyLarge(context)?.copyWith(
-                      color: CustomColor.greyTextColor,
-                    ),
-                    colorClickableText: Colors.blue,
-                    trimMode: TrimMode.Line,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: ' Show less',
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                    margin: const EdgeInsets.all(16),
-                    child: CustomElevatedButton(
-                        title: 'Book this tutor',
-                        buttonType: ButtonType.filledButton,
-                        callback: () {
-                          Navigator.pushNamed(context, MyRouter.bookingDetail,
-                              arguments: TutorDetailArguments(
+                          trimLines: 20,
+                          textAlign: TextAlign.justify,
+                          style: bodyLarge(context)?.copyWith(
+                            color: CustomColor.greyTextColor,
+                          ),
+                          colorClickableText: Colors.blue,
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: 'Show more',
+                          trimExpandedText: ' Show less',
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        child: Text('Teaching experience',
+                            style: headLineSmall(context)),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+                        child: ReadMoreText(
+                          "${tutorInfo.experience?.trim()}",
+                          trimLines: 20,
+                          textAlign: TextAlign.justify,
+                          style: bodyLarge(context)?.copyWith(
+                            color: CustomColor.greyTextColor,
+                          ),
+                          colorClickableText: Colors.blue,
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: 'Show more',
+                          trimExpandedText: ' Show less',
+                        ),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Container(
+                          margin: const EdgeInsets.all(16),
+                          child: CustomElevatedButton(
+                              title: 'Book this tutor',
+                              buttonType: ButtonType.filledButton,
+                              callback: () {
+                                Navigator.pushNamed(
+                                    context, MyRouter.bookingDetail,
+                                    arguments: TutorDetailArguments(
                                         tutorModel: tutorData));
                               },
                               radius: 15),

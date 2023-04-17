@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/model/tutor/tutor_model.dart';
+import 'package:lettutor/view/common_widgets/circle_network_image.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../../config/router.dart';
@@ -10,7 +11,11 @@ import '../../../utils/utils.dart';
 import '../../common_widgets/chip_button.dart';
 
 class TutorCard extends StatefulWidget {
-  const TutorCard({super.key, required this.tutorData, required this.isFavor, required this.onClickFavorite});
+  const TutorCard(
+      {super.key,
+      required this.tutorData,
+      required this.isFavor,
+      required this.onClickFavorite});
 
   final TutorModel tutorData;
   final bool isFavor;
@@ -28,7 +33,6 @@ class TutorCardState extends State<TutorCard> {
     super.initState();
     isFavored = widget.isFavor;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +54,8 @@ class TutorCardState extends State<TutorCard> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.black54,
-                    foregroundColor: Colors.transparent,
-                    foregroundImage: NetworkImage(widget.tutorData.avatar ?? ""),
-                  ),
+                  child: CircleNetworkImage(
+                      url: widget.tutorData.avatar, size: 80.0),
                 ),
                 Expanded(
                   flex: 2,
@@ -87,13 +87,14 @@ class TutorCardState extends State<TutorCard> {
                             horizontal: 12, vertical: 12),
                         child: RatingBar(
                           ignoreGestures: true,
-                          initialRating: widget.tutorData.rating??0.0,
+                          initialRating: widget.tutorData.rating ?? 0.0,
                           minRating: 1,
                           direction: Axis.horizontal,
                           allowHalfRating: true,
                           itemCount: 5,
                           glow: false,
-                          itemPadding: const EdgeInsets.symmetric(horizontal: 1),
+                          itemPadding:
+                              const EdgeInsets.symmetric(horizontal: 1),
                           itemSize: 18,
                           onRatingUpdate: (double value) {},
                           ratingWidget: RatingWidget(
@@ -147,7 +148,7 @@ class TutorCardState extends State<TutorCard> {
                   callback: () {
                     Navigator.pushNamed(context, MyRouter.tutorDetail,
                         arguments:
-                        TutorDetailArguments(tutorModel: widget.tutorData));
+                            TutorDetailArguments(tutorModel: widget.tutorData));
                   },
                 ))
           ],

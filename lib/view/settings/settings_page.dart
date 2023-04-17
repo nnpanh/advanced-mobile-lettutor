@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/utils/utils.dart';
+import 'package:lettutor/view/common_widgets/circle_network_image.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/settings/widget/menu_widget.dart';
 import 'package:provider/provider.dart';
@@ -45,15 +46,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 28,
-                        backgroundColor: Colors.white,
-                        foregroundImage: NetworkImage(authProvider.currentUser?.avatar??
-                            "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
+                    Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
                       ),
+                      child: CircleNetworkImage(
+                          url: authProvider.currentUser?.avatar, size: 48.0),
                     ),
                     Expanded(
                       child: Container(
@@ -62,13 +62,13 @@ class _SettingsPageState extends State<SettingsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              authProvider.currentUser?.name??"Unknown name",
+                              authProvider.currentUser?.name ?? "Unknown name",
                               style: bodyLargeBold(context)
                                   ?.copyWith(color: Colors.white, fontSize: 18),
                               maxLines: 1,
                             ),
                             Text(
-                              authProvider.currentUser?.country??"EN",
+                              authProvider.currentUser?.country ?? "EN",
                               style: bodyLarge(context)
                                   ?.copyWith(color: Colors.white),
                               maxLines: 1,
@@ -147,17 +147,18 @@ class _SettingsPageState extends State<SettingsPage> {
                     softWrap: true,
                   ),
                   ExpansionTile(
-                    title:  Text(
+                    title: Text(
                       "Notifications",
                       style: bodyLarge(context),
                     ),
                     tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
                     childrenPadding: const EdgeInsets.fromLTRB(12, 0, 2, 0),
                     children: <Widget>[
-                      ListTile(title: Text("Receive in-app notification",
-                          style: bodyLarge(context)),
+                      ListTile(
+                        title: Text("Receive in-app notification",
+                            style: bodyLarge(context)),
                         contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing:  Switch(
+                        trailing: Switch(
                           // This bool value toggles the switch.
                           value: _notifications[0],
                           activeColor: Colors.blue,
@@ -169,10 +170,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           },
                         ),
                       ),
-                      ListTile(title: Text("Receive email",
-                          style: bodyLarge(context)),
+                      ListTile(
+                        title: Text("Receive email", style: bodyLarge(context)),
                         contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing:  Switch(
+                        trailing: Switch(
                           // This bool value toggles the switch.
                           value: _notifications[1],
                           activeColor: Colors.blue,
@@ -184,10 +185,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           },
                         ),
                       ),
-                      ListTile(title: Text("Receive SMS text",
-                          style: bodyLarge(context)),
+                      ListTile(
+                        title:
+                            Text("Receive SMS text", style: bodyLarge(context)),
                         contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing:  Switch(
+                        trailing: Switch(
                           // This bool value toggles the switch.
                           value: _notifications[2],
                           activeColor: Colors.blue,
@@ -202,40 +204,49 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   ExpansionTile(
-                    title:  Text(
+                    title: Text(
                       "Language",
                       style: bodyLarge(context),
                     ),
                     childrenPadding: const EdgeInsets.fromLTRB(12, 0, 2, 0),
                     tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
                     children: <Widget>[
-                      ListTile(title: Text("Vietnamese",
-                          style: bodyLarge(context)),
+                      ListTile(
+                        title: Text("Vietnamese", style: bodyLarge(context)),
                         contentPadding: const EdgeInsets.fromLTRB(2, 0, 4, 0),
                         leading: Image.asset(
                           ImagesPath.vietnam,
                           fit: BoxFit.fitHeight,
                           height: 18,
                         ),
-                        trailing: _isVietnamese? const Icon(Icons.radio_button_checked, color: Colors.blue, size: 18):
-                        const Icon(Icons.radio_button_off, color: Colors.black45, size: 18),
-                        onTap: (){
+                        trailing: _isVietnamese
+                            ? const Icon(Icons.radio_button_checked,
+                                color: Colors.blue, size: 18)
+                            : const Icon(Icons.radio_button_off,
+                                color: Colors.black45, size: 18),
+                        onTap: () {
                           setState(() {
                             _isVietnamese = true;
                           });
                         },
                       ),
-                      ListTile(title: Text("English",
-                          style: bodyLarge(context)),
+                      ListTile(
+                        title: Text("English", style: bodyLarge(context)),
                         contentPadding: const EdgeInsets.fromLTRB(2, 0, 4, 0),
                         leading: Image.asset(
                           ImagesPath.english,
                           fit: BoxFit.fitHeight,
                           height: 18,
                         ),
-                        trailing: !_isVietnamese? const Icon(Icons.radio_button_checked, color: Colors.blue, size: 18,):
-                        const Icon(Icons.radio_button_off, color: Colors.black45, size: 18),
-                        onTap: (){
+                        trailing: !_isVietnamese
+                            ? const Icon(
+                                Icons.radio_button_checked,
+                                color: Colors.blue,
+                                size: 18,
+                              )
+                            : const Icon(Icons.radio_button_off,
+                                color: Colors.black45, size: 18),
+                        onTap: () {
                           setState(() {
                             _isVietnamese = false;
                           });
@@ -244,83 +255,97 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   ExpansionTile(
-                    title:  Text(
+                    title: Text(
                       "Dark mode",
                       style: bodyLarge(context),
                     ),
                     childrenPadding: const EdgeInsets.fromLTRB(12, 0, 2, 0),
                     tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
                     children: <Widget>[
-                      ListTile(title: Text("Light mode",
-                          style: bodyLarge(context)),
+                      ListTile(
+                        title: Text("Light mode", style: bodyLarge(context)),
                         contentPadding: const EdgeInsets.fromLTRB(2, 0, 4, 0),
                         leading: const Icon(Icons.sunny, color: Colors.yellow),
-                        trailing: _isLightMode? const Icon(Icons.radio_button_checked, color: Colors.blue, size: 18):
-                        const Icon(Icons.radio_button_off, color: Colors.black45, size: 18),
-                        onTap: (){
+                        trailing: _isLightMode
+                            ? const Icon(Icons.radio_button_checked,
+                                color: Colors.blue, size: 18)
+                            : const Icon(Icons.radio_button_off,
+                                color: Colors.black45, size: 18),
+                        onTap: () {
                           setState(() {
                             _isLightMode = true;
                           });
                         },
                       ),
-                      ListTile(title: Text("Dark mode",
-                          style: bodyLarge(context)),
+                      ListTile(
+                        title: Text("Dark mode", style: bodyLarge(context)),
                         contentPadding: const EdgeInsets.fromLTRB(2, 0, 4, 0),
-                        leading: const Icon(Icons.nights_stay, color: Colors.lightBlue,),
-                        trailing: !_isLightMode? const Icon(Icons.radio_button_checked, color: Colors.blue, size: 18,):
-                        const Icon(Icons.radio_button_off, color: Colors.black45, size: 18),
-                        onTap: (){
+                        leading: const Icon(
+                          Icons.nights_stay,
+                          color: Colors.lightBlue,
+                        ),
+                        trailing: !_isLightMode
+                            ? const Icon(
+                                Icons.radio_button_checked,
+                                color: Colors.blue,
+                                size: 18,
+                              )
+                            : const Icon(Icons.radio_button_off,
+                                color: Colors.black45, size: 18),
+                        onTap: () {
                           setState(() {
                             _isLightMode = false;
                           });
                         },
                       ),
                       ExpansionTile(
-                        title:  Text(
+                        title: Text(
                           "Contact for support",
                           style: bodyLarge(context),
                         ),
-
                         tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
                         children: <Widget>[
-                          ListTile(title: RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: "Hotline:",
-                                    style: bodyLargeBold(context)),
-                                TextSpan(
-                                    text: " 0988012170",
-                                    style: bodyLarge(context))
-                              ])),),
-                          ListTile(title: RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: "Email:",
-                                    style: bodyLargeBold(context)),
-                                TextSpan(
-                                    text: " hcmus@edu.com.vn",
-                                    style: bodyLarge(context))
-                              ])),),
+                          ListTile(
+                            title: RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                  text: "Hotline:",
+                                  style: bodyLargeBold(context)),
+                              TextSpan(
+                                  text: " 0988012170",
+                                  style: bodyLarge(context))
+                            ])),
+                          ),
+                          ListTile(
+                            title: RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                  text: "Email:",
+                                  style: bodyLargeBold(context)),
+                              TextSpan(
+                                  text: " hcmus@edu.com.vn",
+                                  style: bodyLarge(context))
+                            ])),
+                          ),
                         ],
                       ),
                     ],
                   ),
                   ExpansionTile(
-                    title:  Text(
+                    title: Text(
                       "Application information",
                       style: bodyLarge(context),
                     ),
                     tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
                     children: <Widget>[
-                      ListTile(title: RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: "Version: ",
-                                style: bodyLargeBold(context)),
-                            TextSpan(
-                                text: " 1.0.0",
-                                style: bodyLarge(context))
-                          ])),),
+                      ListTile(
+                        title: RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                              text: "Version: ", style: bodyLargeBold(context)),
+                          TextSpan(text: " 1.0.0", style: bodyLarge(context))
+                        ])),
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -334,7 +359,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     softWrap: true,
                   ),
                   ExpansionTile(
-                    title:  Text(
+                    title: Text(
                       "Privacy policies",
                       style: bodyLarge(context),
                     ),
@@ -342,28 +367,35 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                        child: ListTile(title: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                  text: "For further info, please visit our detailed ",
-                                  style: bodyLarge(context)?.copyWith(height: ConstValue.courseNameTextScale)),
-                              TextSpan(
-                                  text: "Privacy & Policies page",
-                                  style: bodyLarge(context)?.copyWith(color:Colors.blue).copyWith(height: ConstValue.courseNameTextScale),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      final uri = Uri.parse("https://www.privacypolicies.com/live/000c9d07-af97-4158-88a8-05c24a8617fe");
-                                      if (await canLaunchUrl(uri)) {
+                        child: ListTile(
+                          title: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text:
+                                    "For further info, please visit our detailed ",
+                                style: bodyLarge(context)?.copyWith(
+                                    height: ConstValue.courseNameTextScale)),
+                            TextSpan(
+                                text: "Privacy & Policies page",
+                                style: bodyLarge(context)
+                                    ?.copyWith(color: Colors.blue)
+                                    .copyWith(
+                                        height: ConstValue.courseNameTextScale),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    final uri = Uri.parse(
+                                        "https://www.privacypolicies.com/live/000c9d07-af97-4158-88a8-05c24a8617fe");
+                                    if (await canLaunchUrl(uri)) {
                                       await launchUrl(uri);
-                                      }
-                                    })
-                            ])),
+                                    }
+                                  })
+                          ])),
                         ),
                       ),
                     ],
                   ),
                   ExpansionTile(
-                    title:  Text(
+                    title: Text(
                       "Terms & conditions",
                       style: bodyLarge(context),
                     ),
@@ -371,27 +403,35 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                        child: ListTile(title: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                  text: "For further info, please visit our detailed ",
-                                  style: bodyLarge(context)?.copyWith(height: ConstValue.courseNameTextScale)),
-                              TextSpan(
-                                  text: "Terms & conditions",
-                                  style: bodyLarge(context)?.copyWith(color:Colors.blue).copyWith(height: ConstValue.courseNameTextScale),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      final uri = Uri.parse("https://www.privacypolicies.com/live/000c9d07-af97-4158-88a8-05c24a8617fe");
-                                      if (await canLaunchUrl(uri)) {
-                                        await launchUrl(uri);
-                                      }
-                                    })
-                            ])),),
+                        child: ListTile(
+                          title: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text:
+                                    "For further info, please visit our detailed ",
+                                style: bodyLarge(context)?.copyWith(
+                                    height: ConstValue.courseNameTextScale)),
+                            TextSpan(
+                                text: "Terms & conditions",
+                                style: bodyLarge(context)
+                                    ?.copyWith(color: Colors.blue)
+                                    .copyWith(
+                                        height: ConstValue.courseNameTextScale),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    final uri = Uri.parse(
+                                        "https://www.privacypolicies.com/live/000c9d07-af97-4158-88a8-05c24a8617fe");
+                                    if (await canLaunchUrl(uri)) {
+                                      await launchUrl(uri);
+                                    }
+                                  })
+                          ])),
+                        ),
                       ),
                     ],
                   ),
                   ExpansionTile(
-                    title:  Text(
+                    title: Text(
                       "Contact for support",
                       style: bodyLarge(context),
                     ),
@@ -399,22 +439,29 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                        child: ListTile(title: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                  text: "Contact info:  ",
-                                  style: bodyLarge(context)?.copyWith(height: ConstValue.courseNameTextScale)),
-                              TextSpan(
-                                  text: "Official webpage",
-                                  style: bodyLarge(context)?.copyWith(color:Colors.blue).copyWith(height: ConstValue.courseNameTextScale),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      final uri = Uri.parse("https://sandbox.app.lettutor.com/");
-                                      if (await canLaunchUrl(uri)) {
-                                        await launchUrl(uri);
-                                      }
-                                    }),
-                            ])),),
+                        child: ListTile(
+                          title: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: "Contact info:  ",
+                                style: bodyLarge(context)?.copyWith(
+                                    height: ConstValue.courseNameTextScale)),
+                            TextSpan(
+                                text: "Official webpage",
+                                style: bodyLarge(context)
+                                    ?.copyWith(color: Colors.blue)
+                                    .copyWith(
+                                        height: ConstValue.courseNameTextScale),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    final uri = Uri.parse(
+                                        "https://sandbox.app.lettutor.com/");
+                                    if (await canLaunchUrl(uri)) {
+                                      await launchUrl(uri);
+                                    }
+                                  }),
+                          ])),
+                        ),
                       ),
                     ],
                   ),
@@ -431,7 +478,8 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  void onPressedLogOut(BuildContext context, Size size, AuthProvider authProvider) {
+  void onPressedLogOut(
+      BuildContext context, Size size, AuthProvider authProvider) {
     showDialog(
         context: context,
         builder: (BuildContext context) {

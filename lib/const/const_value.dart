@@ -1,3 +1,5 @@
+import 'package:lettutor/model/user/test_preparation.dart';
+
 class ImagesPath {
   static const logo = "assets/images/logo.png";
   static const intro = "assets/images/intro.png";
@@ -16,10 +18,27 @@ class ImagesPath {
 class ConstValue {
   static const descriptionTextScale = 1.5;
   static const courseNameTextScale = 1.75;
-  static const levelList = ["BEGINNER", "HIGHER BEGINNER", "PRE-INTERMEDIATE",
-    "INTERMEDIATE", "UPPER-INTERMEDIATE","ADVANCED","PROFICIENCY"];
-  static const specialityList = ["For kids", "For Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
-
+  static const levelList = [
+    "BEGINNER",
+    "HIGHER BEGINNER",
+    "PRE-INTERMEDIATE",
+    "INTERMEDIATE",
+    "UPPER-INTERMEDIATE",
+    "ADVANCED",
+    "PROFICIENCY"
+  ];
+  static const specialityList = [
+    "For kids",
+    "For Business",
+    "Conversational",
+    "Starters",
+    "Movers",
+    "Flyers",
+    "KET/PET",
+    "TOEIC",
+    "IELTS",
+    "TOEFL"
+  ];
 }
 
 class ButtonType {
@@ -36,8 +55,10 @@ class NavigationIndex {
 }
 
 class CourseOverView {
-  static const takenReason = "Our world is rapidly changing thanks to new technology, and the vocabulary needed to discuss modern life is evolving almost daily. In this course you will learn the most up-to-date terminology from expertly crafted lessons as well from your native-speaking tutor.";
-  static const achievement = "You will learn vocabulary related to timely topics like remote work, artificial intelligence, online privacy, and more. In addition to discussion questions, you will practice intermediate level speaking tasks such as using data to describe trends.";
+  static const takenReason =
+      "Our world is rapidly changing thanks to new technology, and the vocabulary needed to discuss modern life is evolving almost daily. In this course you will learn the most up-to-date terminology from expertly crafted lessons as well from your native-speaking tutor.";
+  static const achievement =
+      "You will learn vocabulary related to timely topics like remote work, artificial intelligence, online privacy, and more. In addition to discussion questions, you will practice intermediate level speaking tasks such as using data to describe trends.";
 }
 
 class TimeFormat {
@@ -47,21 +68,14 @@ class TimeFormat {
   static const getDateOnly = "getDateOnly";
 }
 
-// enum Speciality {
-//   forKids, forBusiness, conversational, starters, movers, flyers, ketPet, toeic, ielts, toefl, }
-//
-// extension SpecialityExtension on Speciality {
-//   List<String> get getList {
-//     return ["For kids", "For Business", "Conversational","Starters", "Movers","Flyers","KET/PET","TOEIC","IELTS","TOEFL"];
-//   }
-//
-//   String get name {
-//     return getList[index];
-//   }
-// }
-
 class Nationality {
   static const nationVN = 'Vietnamese';
   static const nationNative = 'Native speaker';
   static const nationForeign = 'Foreign speaker';
+}
+
+class Specialities {
+  static List<TestPreparation> specialities = [
+    TestPreparation(id: 0, key: "", name: ""),
+  ];
 }

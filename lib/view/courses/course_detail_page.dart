@@ -118,7 +118,7 @@ class CourseDetailPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          CourseOverView.takenReason,
+                          courseModel.reason ?? CourseOverView.takenReason,
                           style: bodyLarge(context),
                           textAlign: TextAlign.justify,
                         ),
@@ -152,7 +152,7 @@ class CourseDetailPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          CourseOverView.achievement,
+                          courseModel.purpose ?? CourseOverView.achievement,
                           style: bodyLarge(context),
                           textAlign: TextAlign.justify,
                         ),

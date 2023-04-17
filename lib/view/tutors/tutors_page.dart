@@ -21,19 +21,6 @@ class _TutorsPageState extends State<TutorsPage> {
 
   // list of string options
   late List<String> specialities;
-  // List<String> specialities = [
-  //   'All categories',
-  //   'English for kids',
-  //   'English for Business',
-  //   'Conversational',
-  //   'Starters',
-  //   'Movers',
-  //   'Flyers',
-  //   'KET/PET',
-  //   'TOEIC',
-  //   'IELTS',
-  //   'TOEFL',
-  // ];
 
   int nationality = 0;
   List<String> nationalities = [
@@ -193,7 +180,11 @@ class _TutorsPageState extends State<TutorsPage> {
                       scrollDirection: Axis.vertical,
                       itemCount: tutorList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return TutorCard(tutorData: tutorList[index], isFavor: true, onClickFavorite: () {  },);
+                        return TutorCard(
+                          tutorData: tutorList[index],
+                          isFavor: true,
+                          onClickFavorite: () {},
+                        );
                       })),
             )
             // Container(

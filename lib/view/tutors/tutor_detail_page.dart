@@ -299,6 +299,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                               title: 'Book this tutor',
                               buttonType: ButtonType.filledButton,
                               callback: () {
+                                _controller.pause();
                                 Navigator.pushNamed(
                                     context, MyRouter.bookingDetail,
                                     arguments: TutorDetailArguments(

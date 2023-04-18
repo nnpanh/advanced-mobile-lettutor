@@ -12,31 +12,14 @@ part 'response_get_list_schedule.g.dart';
 @JsonSerializable()
 class ResponseGetListSchedule {
   String? message;
-  SchedulePagination? data;
+  List<Schedule>? scheduleOfTutor;
 
   ResponseGetListSchedule({
     this.message,
-    this.data,
+    this.scheduleOfTutor,
   });
 
   factory ResponseGetListSchedule.fromJson(Map<String, dynamic> json) =>
       _$ResponseGetListScheduleFromJson(json);
   Map<String, dynamic> toJson() => _$ResponseGetListScheduleToJson(this);
 }
-
-
-@JsonSerializable()
-class SchedulePagination {
-  int? count;
-  List<Schedule>? rows;
-
-  SchedulePagination({
-    this.count,
-    this.rows,
-  });
-
-  factory SchedulePagination.fromJson(Map<String, dynamic> json) =>
-      _$SchedulePaginationFromJson(json);
-  Map<String, dynamic> toJson() => _$SchedulePaginationToJson(this);
-}
-

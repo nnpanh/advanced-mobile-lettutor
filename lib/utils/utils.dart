@@ -122,3 +122,9 @@ String? hiddenEmail(String? email) {
     return "$toHidden$last";
   }
 }
+
+extension DateTimeFromTimeOfDay on DateTime {
+  DateTime appliedFromTimeOfDay(TimeOfDay timeOfDay) {
+    return DateTime.utc(year, month, day, timeOfDay.hour, timeOfDay.minute);
+  }
+}

@@ -1,6 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/data/repositories/booking_repository.dart';
+import 'package:lettutor/data/repositories/schedule_repository.dart';
+import 'package:lettutor/model/schedule/schedule.dart';
 import 'package:lettutor/model/tutor/tutor_model.dart';
+import 'package:lettutor/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
@@ -9,6 +14,7 @@ import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import '../common_widgets/elevated_button.dart';
+import '../common_widgets/loading_overlay.dart';
 
 class BookingDetailPage extends StatefulWidget {
   const BookingDetailPage({super.key, required this.tutorModel});
@@ -22,19 +28,26 @@ class BookingDetailPage extends StatefulWidget {
 class _BookingDetailPageState extends State<BookingDetailPage> {
   late TutorModel tutorData;
   late DateTime date;
-  late String time;
+  late int selectedOption;
+  List<Schedule> options = [];
+  bool fetchFirstDate = false;
+  TextEditingController _txtController = TextEditingController();
 
   @override
   void initState() {
     tutorData = widget.tutorModel;
     date = DateTime.now();
-    time = "01:30-02:30";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    if (!fetchFirstDate) {
+      _callApiGetScheduleByDate(date, ScheduleRepository(), authProvider);
+    }
 
     return Scaffold(
         appBar: appBarDefault(MyRouter.bookingDetail, context),
@@ -51,6 +64,14 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                   child: Text('Appointment', style: headLineSmall(context)),
                 ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: Text(
+                      "Bookings can only be made within the last 7 days.",
+                      style: bodyLarge(context)?.copyWith(color: Colors.black45)
+                      // ?.copyWith(color: Colors.white, fontSize: 18),
+                      ),
+                ),
                 SizedBox(
                   width: double.infinity,
                   child: Container(
@@ -64,7 +85,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                             initialDate: date,
                             firstDate: DateTime.now(),
                             lastDate:
-                                DateTime.now().add(const Duration(days: 14)),
+                                DateTime.now().add(const Duration(days: 7)),
                             builder: (BuildContext context, child) {
                               return Theme(
                                 data: Theme.of(context).copyWith(
@@ -82,7 +103,10 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                           dateTime.then((value) {
                             if (value != null) {
                               setState(() {
-                                date = value;
+                                date = value.appliedFromTimeOfDay(
+                                    const TimeOfDay(hour: 0, minute: 0));
+                                _callApiGetScheduleByDate(
+                                    date, ScheduleRepository(), authProvider);
                               });
                             }
                           });
@@ -98,7 +122,9 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: CustomElevatedButton(
-                        title: time,
+                        title: options.isNotEmpty
+                            ? options[selectedOption].getDisplayTime()
+                            : "No available schedule",
                         callback: () {
                           onPressedTime(context, size);
                         },
@@ -128,8 +154,11 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                                     ?.copyWith(color: Colors.blueAccent),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    //todo: push qua man setting profile -> my wallet
-                                    Navigator.pushNamed(context, MyRouter.home);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'E-wallet is not supported in this version, please access to our website for more info')),
+                                    );
                                   }))
                       ]),
                 ),
@@ -139,10 +168,11 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  child: const TextField(
+                  child: TextField(
                     maxLines: 5,
+                    controller: _txtController,
                     keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Leave a note for your tutor.',
                     ),
@@ -155,7 +185,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                     child: CustomElevatedButton(
                         title: 'Confirm booking',
                         callback: () {
-                          onPressedConfirm(context, size);
+                          onPressedConfirm(BookingRepository(), authProvider);
                         },
                         buttonType: ButtonType.filledButton,
                         radius: 15),
@@ -167,31 +197,31 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
         ));
   }
 
-  void onPressedConfirm(BuildContext context, Size size) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return ConfirmDialog(
-            size: size,
-            content: "Book this tutor successfully.",
-            title: 'Announcement',
-            onLeftButton: () {},
-            onRightButton: () {
-              Navigator.of(context).pop();
-            },
-            leftButton: '',
-            rightButton: 'Confirm',
-            hasLeftButton: false,
-          );
-        });
+
+  void onPressedConfirm(BookingRepository bookingRepository, AuthProvider authProvider) async {
+    LoadingOverlay.of(context).show();
+    try {
+      await bookingRepository.bookLesson(
+          accessToken: authProvider.token?.access?.token ?? "",
+          scheduleDetailIds: [options[selectedOption].scheduleDetails!.first.id!],
+          notes: _txtController.text,
+          onSuccess: (response) async {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(response)),
+            );
+            Navigator.of(context).pop();
+          },
+          onFail: (error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${error.toString()}')),
+            );
+          });
+    } finally {
+      LoadingOverlay.of(context).hide();
+    }
   }
 
   void onPressedTime(BuildContext context, Size size) {
-    List<String> options = [];
-    for (var i = 0; i < 9; i++) {
-      options.add('0${i}:30-0${i + 1}:30');
-    }
-
     Widget child = LimitedBox(
       maxHeight: size.height * 0.8, // Change as per your requirement
       maxWidth: size.width, // Change as per your requirement
@@ -200,7 +230,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
         itemCount: options.length,
         itemBuilder: (BuildContext context, int index) {
           Widget? trailing;
-          if (options[index] == time) {
+          if (index == selectedOption) {
             trailing = const Icon(
               Icons.check,
               color: Colors.blue,
@@ -212,12 +242,12 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
             child: Column(
               children: [
                 ListTile(
-                  title: Text(options[index]),
+                  title: Text(options[index].getDisplayTime()),
                   trailing: trailing,
                   onTap: () {
                     Navigator.of(context).pop();
                     setState(() {
-                      time = options[index];
+                      selectedOption = index;
                     });
                   },
                 ),
@@ -231,5 +261,45 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
       ),
     );
     showBottomDialog(context, 'Select a filter', child);
+  }
+
+  void _callApiGetScheduleByDate(DateTime inputTime,
+      ScheduleRepository scheduleRepository, AuthProvider authProvider) async {
+    int startTime = inputTime.millisecondsSinceEpoch;
+    DateTime endDateTime = inputTime.add(const Duration(days: 1));
+    endDateTime =
+        DateTime(endDateTime.year, endDateTime.month, endDateTime.day);
+    int endTime = endDateTime.millisecondsSinceEpoch;
+
+    LoadingOverlay.of(context).show();
+
+    try {
+      await scheduleRepository.getScheduleById(
+          accessToken: authProvider.token?.access?.token ?? "",
+          startTime: startTime,
+          endTime: endTime,
+          tutorId: widget.tutorModel.userId ?? "",
+          onSuccess: (response) async {
+            List<Schedule> newList = [];
+            for (var element in response) {
+              if (element.isBooked == false) {
+                newList.add(element);
+              }
+            }
+            newList.sort((a, b) => (a.startTime!).compareTo((b.startTime!)));
+            setState(() {
+              options = newList;
+              fetchFirstDate = true;
+              selectedOption = 0;
+            });
+          },
+          onFail: (error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${error.toString()}')),
+            );
+          });
+    } finally {
+      LoadingOverlay.of(context).hide();
+    }
   }
 }

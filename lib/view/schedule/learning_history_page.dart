@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/data/repositories/booking_repository.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
-import 'package:lettutor/model/tutor/tutor_feedback.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/dialogs/create_review_dialog.dart';
-import 'package:lettutor/view/common_widgets/loading_filled.dart';
 import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/router.dart';
-import '../../const/const_value.dart';
-import '../../model/tutor/tutor_extracted_info.dart';
-import '../../utils/utils.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 import '../common_widgets/dialogs/report_dialog.dart';
@@ -41,7 +36,7 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
     if (!_hasFetch) {
       callApiGetListSchedules(1, BookingRepository(), Provider.of<AuthProvider>(context));
     }
-    return !_hasFetch? const LoadingFilled():Scaffold(
+    return Scaffold(
       appBar: appBarWithCustomAction(
           MyRouter.learningHistory,
           context,
@@ -70,18 +65,20 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-              child: LimitedBox(
-                  maxHeight: double.maxFinite,
-                  child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: lessonList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        BookingInfo lesson = lessonList[index];
+            _hasFetch
+                ? lessonList.isNotEmpty
+                    ? Container(
+                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                        child: LimitedBox(
+                            maxHeight: double.maxFinite,
+                            child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                itemCount: lessonList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  BookingInfo lesson = lessonList[index];
                         return LessonCard(
                           lessonData: lesson,
                           isHistoryCard: true,
@@ -96,16 +93,29 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
 
                             onPressedCreateReview(
                                 size,
-                                context,
-                                reviewArguments,
-                                lesson.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.name,
-                              lesson.scheduleDetailInfo?.scheduleInfo?.date
-                            );
-                          },
-                          iconButtonCallback: () {},
-                        );
-                      })),
-            )
+                                          context,
+                                          reviewArguments,
+                                          lesson.scheduleDetailInfo
+                                              ?.scheduleInfo?.tutorInfo?.name,
+                                          lesson.scheduleDetailInfo
+                                              ?.scheduleInfo?.date);
+                                    },
+                                    iconButtonCallback: () {},
+                                  );
+                                })),
+                      )
+                    : SizedBox(
+                        height: size.height * 0.5,
+                        child: Center(
+                          child: Text("No booking found",
+                              style: bodyLarge(context)
+                                  ?.copyWith(color: Colors.black45)),
+                        ),
+                      )
+                : SizedBox(
+                    height: size.height * 0.7,
+                    child: const Center(child: CircularProgressIndicator()),
+                  )
           ],
         ),
       ),

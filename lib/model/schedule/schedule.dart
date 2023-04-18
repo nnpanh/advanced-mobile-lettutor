@@ -35,6 +35,10 @@ class Schedule {
     this.tutorInfo,
   });
 
+  String getDisplayTime() {
+    return "$startTime:$endTime";
+  }
+
   factory Schedule.fromJson(Map<String, dynamic> json) =>
       _$ScheduleFromJson(json);
   Map<String, dynamic> toJson() => _$ScheduleToJson(this);

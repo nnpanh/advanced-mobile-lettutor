@@ -19,14 +19,13 @@ class ScheduleRepository extends BaseRepository {
   Future<void> getScheduleById({
     required String accessToken,
     required String tutorId,
+    required int startTime,
+    required int endTime,
     required Function(List<Schedule>) onSuccess,
     required Function(String) onFail,
   }) async {
-    final response = await service.post(
-        url: "",
-        data: {
-          "tutorId": tutorId
-        },
+    final response = await service.get(
+        url: "?tutorId=$tutorId&startTimestamp=$startTime&endTimestamp=$endTime&=",
         headers: {
           "Authorization":"Bearer $accessToken"
         }) as BoundResource;
@@ -34,7 +33,7 @@ class ScheduleRepository extends BaseRepository {
     switch (response.statusCode) {
       case 200:
       case 201:
-        onSuccess(ResponseGetListSchedule.fromJson(response.response).data?.rows??[]);
+        onSuccess(ResponseGetListSchedule.fromJson(response.response).scheduleOfTutor??[]);
         break;
       default:
         onFail(response.errorMsg.toString());
@@ -56,7 +55,7 @@ class ScheduleRepository extends BaseRepository {
     switch (response.statusCode) {
       case 200:
       case 201:
-        onSuccess(ResponseGetListSchedule.fromJson(response.response).data?.rows??[]);
+        onSuccess(ResponseGetListSchedule.fromJson(response.response).scheduleOfTutor??[]);
         break;
       default:
         onFail(response.errorMsg.toString());

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/providers/auth_provider.dart';
-import 'package:lettutor/view/common_widgets/chip_button.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/dialogs/base_dialog/confirm_dialog.dart';
-import 'package:lettutor/view/common_widgets/loading_filled.dart';
 import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../data/repositories/booking_repository.dart';
-import '../../utils/utils.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -33,8 +30,7 @@ class _SchedulePageState extends State<SchedulePage> {
       callApiGetListSchedules(1, BookingRepository(), Provider.of<AuthProvider>(context));
     }
 
-    return !_hasFetch? const LoadingFilled()
-    : Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -43,7 +39,10 @@ class _SchedulePageState extends State<SchedulePage> {
                 padding: const EdgeInsets.fromLTRB(24, 48, 24, 8),
                 child: Row(
                   children: [
-                    Expanded(flex: 2, child: Image.asset(ImagesPath.calendar, fit: BoxFit.contain)),
+                    Expanded(
+                        flex: 2,
+                        child: Image.asset(ImagesPath.calendar,
+                            fit: BoxFit.contain)),
                     Expanded(
                       flex: 3,
                       child: Text(
@@ -95,17 +94,19 @@ class _SchedulePageState extends State<SchedulePage> {
                 ],
               ),
             ),
-            lessonList.isNotEmpty? Container(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-              child: LimitedBox(
-                  maxHeight: double.maxFinite,
-                  child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: lessonList.length,
-                      itemBuilder: (BuildContext context, int index) {
+            _hasFetch
+                ? lessonList.isNotEmpty
+                    ? Container(
+                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                        child: LimitedBox(
+                            maxHeight: double.maxFinite,
+                            child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                itemCount: lessonList.length,
+                                itemBuilder: (BuildContext context, int index) {
                         return LessonCard(
                           lessonData: lessonList[index],
                           isHistoryCard: false,
@@ -118,17 +119,21 @@ class _SchedulePageState extends State<SchedulePage> {
                           iconButtonCallback: () {
                             onPressedLeaveNote(context, size);
                           },
-                        );
-                      })),
-            ):
-            SizedBox(
-              height: size.height * 0.5,
-              child: Center(
-                child: Text("No booking found", style: bodyLarge(context)?.copyWith(
-                    color: Colors.black45
-                )),
-              ),
-            )
+                                  );
+                                })),
+                      )
+                    : SizedBox(
+                        height: size.height * 0.5,
+                        child: Center(
+                          child: Text("No booking found",
+                              style: bodyLarge(context)
+                                  ?.copyWith(color: Colors.black45)),
+                        ),
+                      )
+                : SizedBox(
+                    height: size.height * 0.5,
+                    child: const Center(child: CircularProgressIndicator()),
+                  )
           ],
         ),
       ),
@@ -210,7 +215,10 @@ class _SchedulePageState extends State<SchedulePage> {
         });
   }
 
-  void onPressedGoToMeeting() {}
+  void onPressedGoToMeeting() {
+    Navigator.of(context)
+        .pushNamed(MyRouter.joinMeeting);
+  }
 
   Future<void> callApiGetListSchedules(int page, BookingRepository bookingRepository, AuthProvider authProvider) async {
     await bookingRepository.getIncomingLessons(

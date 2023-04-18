@@ -35,7 +35,12 @@ class _TutorsPageState extends State<TutorsPage> {
   @override
   void initState() {
     specialities = ['All categories'];
-    specialities.addAll(ConstValue.specialityList);
+    for (var element in Specialities.specialities) {
+      specialities.add(element.name!);
+    }
+    for (var element in Specialities.topics) {
+      specialities.add(element.name!);
+    }
     super.initState();
   }
 
@@ -73,7 +78,7 @@ class _TutorsPageState extends State<TutorsPage> {
                     hintText: 'Enter tutor name',
                     hintStyle: TextStyle(color: Colors.black12)),
                 onChanged: (value) {
-                  onSearch("$value");
+                  onSearch(value);
                 },
               ),
             ),

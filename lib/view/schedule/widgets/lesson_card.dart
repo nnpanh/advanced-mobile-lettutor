@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import '../../../const/export_const.dart';
+import '../../../utils/utils.dart';
 
 class LessonCard extends StatefulWidget {
   const LessonCard(
@@ -99,7 +100,7 @@ class LessonCardState extends State<LessonCard> {
             Container(
               padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
               child: RichText(text: TextSpan(children: [TextSpan(text: "Lesson date:  ",style: bodyLargeBold(context)),
-                TextSpan(text: widget.lessonData.scheduleDetailInfo?.scheduleInfo?.date,
+                TextSpan(text: formatDateStringFromApi(widget.lessonData.scheduleDetailInfo?.scheduleInfo?.date!),
                     style: bodyLarge(context))],
               ),
               ),

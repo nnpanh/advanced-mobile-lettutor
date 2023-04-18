@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/data/repositories/booking_repository.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/model/tutor/tutor_feedback.dart';
+import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/dialogs/create_review_dialog.dart';
+import 'package:lettutor/view/common_widgets/loading_filled.dart';
 import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/router.dart';
 import '../../const/const_value.dart';
@@ -20,24 +24,24 @@ class LearningHistoryPage extends StatefulWidget {
 }
 
 class _LearningHistoryPageState extends State<LearningHistoryPage> {
-  late List<BookingInfo> lessonList;
+  final List<BookingInfo> lessonList = [];
   late int selectedFilter = 0;
   List<String> filterOptions = [
     'Last 1 month',
     'Last 3 months',
     'Last 6 months'
   ];
+  bool _hasFetch = false;
 
-  @override
-  void initState() {
-    lessonList = [];
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+
+    if (!_hasFetch) {
+      callApiGetListSchedules(1, BookingRepository(), Provider.of<AuthProvider>(context));
+    }
+    return !_hasFetch? const LoadingFilled():Scaffold(
       appBar: appBarWithCustomAction(
           MyRouter.learningHistory,
           context,
@@ -148,5 +152,33 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
       ),
     );
     showBottomDialog(context, 'Select a filter', child);
+  }
+
+
+  Future<void> callApiGetListSchedules(int page, BookingRepository bookingRepository, AuthProvider authProvider) async {
+    await bookingRepository.getLearningHistory(
+        accessToken: authProvider.token?.access?.token??"",
+        page: page,
+        perPage: 20,
+        now: DateTime.now().millisecondsSinceEpoch.toString(),
+        onSuccess: (response) async {
+          _filterListScheduleFromApi(response);
+        },
+        onFail: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${error.toString()}')),
+          );
+        });
+  }
+
+  void _filterListScheduleFromApi(List<BookingInfo> listBooking) {
+    for (var value in listBooking) {
+      if (value.isDeleted != true) {
+        lessonList.add(value);
+      }
+    }
+    setState(() {
+      _hasFetch = true;
+    });
   }
 }

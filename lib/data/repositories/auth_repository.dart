@@ -83,6 +83,10 @@ class AuthRepository extends BaseRepository {
   }) async {
     final response = await service.postFormData(
             url: "register",
+        headers: {
+          "origin": "https://sandbox.api.lettutor.com",
+          "referer":  "https://sandbox.api.lettutor.com",
+        },
             data: {"email": email, "password": password, "source": null})
         as BoundResource;
 

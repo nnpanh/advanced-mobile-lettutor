@@ -248,10 +248,10 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       ),
                       TitleAndChips(
                           input: tutorInfo.languages ?? "en",
-                          title: 'Languages'),
+                          title: 'Languages', type: TutorDetailListType.languages),
                       TitleAndChips(
                           input: tutorInfo.specialties ?? "",
-                          title: 'Specialities'),
+                          title: 'Specialities', type: TutorDetailListType.specialities,),
                       Container(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                         child: Text('Interests', style: headLineSmall(context)),

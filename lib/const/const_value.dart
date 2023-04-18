@@ -48,6 +48,11 @@ class ButtonType {
   static const filledWhiteButton = "filledWhiteButton";
 }
 
+class TutorDetailListType {
+  static const languages = "languages";
+  static const specialities = "specialities";
+}
+
 class NavigationIndex {
   static const homePage = 0;
   static const schedulePage = 1;

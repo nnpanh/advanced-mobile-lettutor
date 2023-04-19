@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/view/courses/widgets/chapter_card.dart';
 import 'package:readmore/readmore.dart';
@@ -20,7 +21,8 @@ class CourseDetailPage extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBarDefault(MyRouter.courseDetail, context),
+        appBar:
+            appBarDefault(AppLocalizations.of(context)!.courseDetail, context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -65,8 +67,8 @@ class CourseDetailPage extends StatelessWidget {
                     ),
                     colorClickableText: Colors.blue,
                     trimMode: TrimMode.Line,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: ' Show less',
+                    trimCollapsedText: AppLocalizations.of(context)!.showMore,
+                    trimExpandedText: AppLocalizations.of(context)!.showLess,
                   ),
                 ),
                 SizedBox(
@@ -89,7 +91,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Overview',
+                  child: Text(AppLocalizations.of(context)!.overview,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -104,7 +106,7 @@ class CourseDetailPage extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Text("Why take this course",
+                      Text(AppLocalizations.of(context)!.whyTakeThisCourse,
                           style: bodyLargeBold(context)?.copyWith(
                               height: ConstValue.courseNameTextScale))
                     ],
@@ -138,7 +140,7 @@ class CourseDetailPage extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Text("What will you be able to do",
+                      Text(AppLocalizations.of(context)!.whatAbleToDo,
                           style: bodyLargeBold(context)?.copyWith(
                               height: ConstValue.courseNameTextScale))
                     ],
@@ -162,7 +164,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Experience Level',
+                  child: Text(AppLocalizations.of(context)!.experienceLevel,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -185,7 +187,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Course Length',
+                  child: Text(AppLocalizations.of(context)!.courseLength,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -200,7 +202,8 @@ class CourseDetailPage extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Text("${courseModel.topics?.length} Topics",
+                      Text(
+                          "${courseModel.topics?.length} ${AppLocalizations.of(context)!.topics}",
                           style: bodyLargeBold(context)?.copyWith(
                               height: ConstValue.courseNameTextScale))
                     ],
@@ -208,7 +211,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('List of Topic',
+                  child: Text(AppLocalizations.of(context)!.listOfTopic,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -242,7 +245,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Categories',
+                  child: Text(AppLocalizations.of(context)!.categories,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(

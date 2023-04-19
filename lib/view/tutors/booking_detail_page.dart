@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/data/repositories/booking_repository.dart';
 import 'package:lettutor/data/repositories/schedule_repository.dart';
 import 'package:lettutor/model/schedule/schedule.dart';
@@ -7,12 +8,10 @@ import 'package:lettutor/model/tutor/tutor_model.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../config/router.dart';
 import '../../const/const_value.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
-import '../common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import '../common_widgets/elevated_button.dart';
 import '../common_widgets/loading_overlay.dart';
 
@@ -31,7 +30,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
   late int selectedOption;
   List<Schedule> options = [];
   bool fetchFirstDate = false;
-  TextEditingController _txtController = TextEditingController();
+  final TextEditingController _txtController = TextEditingController();
 
   @override
   void initState() {
@@ -50,7 +49,8 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
     }
 
     return Scaffold(
-        appBar: appBarDefault(MyRouter.bookingDetail, context),
+        appBar: appBarDefault(
+            AppLocalizations.of(context)!.bookingDetails, context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -62,12 +62,12 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
               children: [
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                  child: Text('Appointment', style: headLineSmall(context)),
+                  child: Text(AppLocalizations.of(context)!.appointment,
+                      style: headLineSmall(context)),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                  child: Text(
-                      "Bookings can only be made within the last 7 days.",
+                  child: Text(AppLocalizations.of(context)!.bookingCanOnlyMade,
                       style: bodyLarge(context)?.copyWith(color: Colors.black45)
                       // ?.copyWith(color: Colors.white, fontSize: 18),
                       ),
@@ -124,7 +124,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                     child: CustomElevatedButton(
                         title: options.isNotEmpty
                             ? options[selectedOption].getDisplayTime()
-                            : "No available schedule",
+                            : AppLocalizations.of(context)!.noAvailableSchedule,
                         callback: () {
                           onPressedTime(context, size);
                         },
@@ -135,7 +135,8 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                  child: Text('Payment', style: headLineSmall(context)),
+                  child: Text(AppLocalizations.of(context)!.payment,
+                      style: headLineSmall(context)),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
@@ -143,28 +144,31 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Price: 1 lesson",
+                          AppLocalizations.of(context)!.priceLesson,
                           style: bodyLarge(context)?.copyWith(
                               height: ConstValue.courseNameTextScale),
                         ),
                         RichText(
                             text: TextSpan(
-                                text: 'You have 1 lesson left',
+                                text: AppLocalizations.of(context)!
+                                    .haveLessonLess,
                                 style: bodyLarge(context)
                                     ?.copyWith(color: Colors.blueAccent),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
+                                      SnackBar(
                                           content: Text(
-                                              'E-wallet is not supported in this version, please access to our website for more info')),
+                                              AppLocalizations.of(context)!
+                                                  .eWalletNotAvailable)),
                                     );
                                   }))
                       ]),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  child: Text('Notes', style: headLineSmall(context)),
+                  child: Text(AppLocalizations.of(context)!.notes,
+                      style: headLineSmall(context)),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -172,9 +176,9 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                     maxLines: 5,
                     controller: _txtController,
                     keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Leave a note for your tutor.',
+                      hintText: AppLocalizations.of(context)!.leaveANote,
                     ),
                   ),
                 ),
@@ -183,7 +187,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                   child: Container(
                     margin: const EdgeInsets.all(16),
                     child: CustomElevatedButton(
-                        title: 'Confirm booking',
+                        title: AppLocalizations.of(context)!.confirmBooking,
                         callback: () {
                           onPressedConfirm(BookingRepository(), authProvider);
                         },
@@ -197,13 +201,15 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
         ));
   }
 
-
-  void onPressedConfirm(BookingRepository bookingRepository, AuthProvider authProvider) async {
+  void onPressedConfirm(
+      BookingRepository bookingRepository, AuthProvider authProvider) async {
     LoadingOverlay.of(context).show();
     try {
       await bookingRepository.bookLesson(
           accessToken: authProvider.token?.access?.token ?? "",
-          scheduleDetailIds: [options[selectedOption].scheduleDetails!.first.id!],
+          scheduleDetailIds: [
+            options[selectedOption].scheduleDetails!.first.id!
+          ],
           notes: _txtController.text,
           onSuccess: (response) async {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -260,7 +266,8 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
         },
       ),
     );
-    showBottomDialog(context, 'Select a filter', child);
+    showBottomDialog(
+        context, AppLocalizations.of(context)!.selectAFilter, child);
   }
 
   void _callApiGetScheduleByDate(DateTime inputTime,

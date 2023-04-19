@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/data/repositories/tutor_repository.dart';
 import 'package:lettutor/model/tutor/tutor_info.dart';
@@ -54,7 +55,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
     }
 
     return Scaffold(
-        appBar: appBarDefault(MyRouter.tutorDetail, context),
+        appBar:
+            appBarDefault(AppLocalizations.of(context)!.tutorDetails, context),
         body: !_hasFetch
             ? const LoadingFilled()
             : SingleChildScrollView(
@@ -146,8 +148,10 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                           ),
                           colorClickableText: Colors.blue,
                           trimMode: TrimMode.Line,
-                          trimCollapsedText: 'Show more',
-                          trimExpandedText: ' Show less',
+                          trimCollapsedText:
+                              AppLocalizations.of(context)!.showMore,
+                          trimExpandedText:
+                              AppLocalizations.of(context)!.showLess,
                         ),
                       ),
                       Row(
@@ -177,7 +181,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                                       ),
                                 padding: const EdgeInsets.all(8),
                               ),
-                              Text('Favorite',
+                              Text(AppLocalizations.of(context)!.favorite,
                                   style: bodyLarge(context)
                                       ?.copyWith(color: Colors.blue))
                             ],
@@ -196,7 +200,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                                 ),
                                 padding: const EdgeInsets.all(8),
                               ),
-                              Text('Report',
+                              Text(AppLocalizations.of(context)!.report,
                                   style: bodyLarge(context)
                                       ?.copyWith(color: Colors.blue))
                             ],
@@ -215,7 +219,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                                 ),
                                 padding: const EdgeInsets.all(8),
                               ),
-                              Text('Reviews',
+                              Text(AppLocalizations.of(context)!.reviews,
                                   style: bodyLarge(context)
                                       ?.copyWith(color: Colors.blue))
                             ],
@@ -248,13 +252,17 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                       ),
                       TitleAndChips(
                           input: tutorInfo.languages ?? "en",
-                          title: 'Languages', type: TutorDetailListType.languages),
+                          title: AppLocalizations.of(context)!.languages,
+                          type: TutorDetailListType.languages),
                       TitleAndChips(
-                          input: tutorInfo.specialties ?? "",
-                          title: 'Specialities', type: TutorDetailListType.specialities,),
+                        input: tutorInfo.specialties ?? "",
+                        title: AppLocalizations.of(context)!.specialities,
+                        type: TutorDetailListType.specialities,
+                      ),
                       Container(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Text('Interests', style: headLineSmall(context)),
+                        child: Text(AppLocalizations.of(context)!.interests,
+                            style: headLineSmall(context)),
                       ),
                       Container(
                         padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
@@ -267,13 +275,16 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                           ),
                           colorClickableText: Colors.blue,
                           trimMode: TrimMode.Line,
-                          trimCollapsedText: 'Show more',
-                          trimExpandedText: ' Show less',
+                          trimCollapsedText:
+                              AppLocalizations.of(context)!.showMore,
+                          trimExpandedText:
+                              AppLocalizations.of(context)!.showLess,
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Text('Teaching experience',
+                        child: Text(
+                            AppLocalizations.of(context)!.teachingExperience,
                             style: headLineSmall(context)),
                       ),
                       Container(
@@ -287,8 +298,10 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                           ),
                           colorClickableText: Colors.blue,
                           trimMode: TrimMode.Line,
-                          trimCollapsedText: 'Show more',
-                          trimExpandedText: ' Show less',
+                          trimCollapsedText:
+                              AppLocalizations.of(context)!.showMore,
+                          trimExpandedText:
+                              AppLocalizations.of(context)!.showLess,
                         ),
                       ),
                       SizedBox(
@@ -296,7 +309,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                         child: Container(
                           margin: const EdgeInsets.all(16),
                           child: CustomElevatedButton(
-                              title: 'Book this tutor',
+                              title:
+                                  AppLocalizations.of(context)!.bookThisTutor,
                               buttonType: ButtonType.filledButton,
                               callback: () {
                                 _controller.pause();

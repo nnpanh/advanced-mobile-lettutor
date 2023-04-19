@@ -1,11 +1,11 @@
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:lettutor/config/router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
-import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 
+import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 
 class JoinMeetingPage extends StatefulWidget {
   const JoinMeetingPage({super.key});
@@ -19,20 +19,24 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBarDefault(MyRouter.joinMeeting, context),
-      body: Center(
-        child: Image.asset(ImagesPath.video)
-      ),
-      floatingActionButton:
-      FloatingActionButton(onPressed: () { onPressedTime(context, size); },
+      appBar: appBarDefault(AppLocalizations.of(context)!.joinMeeting, context),
+      body: Center(child: Image.asset(ImagesPath.video)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          onPressedTime(context, size);
+        },
         backgroundColor: Colors.blue,
-        child: const Icon(Icons.message, color: Colors.white,),
+        child: const Icon(
+          Icons.message,
+          color: Colors.white,
+        ),
       ),
     );
   }
+
   void onPressedTime(BuildContext context, Size size) {
     List<String> options = [];
-    for (var i = 0; i<10; i++) {
+    for (var i = 0; i < 10; i++) {
       options.add('This is a kind of chat box');
     }
 
@@ -55,28 +59,27 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
                         text: 'Help me translate what the tutor just said.',
                         color: Color(0xFF1B97F3),
                         tail: false,
-                        textStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16
-                        ),
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
-                     Container(
-                       padding: const EdgeInsets.symmetric(vertical: 8),
-                       child: const BubbleSpecialThree(
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: const BubbleSpecialThree(
                         text: "我要睡觉!",
                         color: Color(0xFFE8E8EE),
                         tail: false,
                         isSender: false,
+                      ),
                     ),
-                     ),
                   ],
                 ),
               );
             },
           ),
         ),
-        const Divider(height: 1,),
+        const Divider(
+          height: 1,
+        ),
         MessageBar(
           onSend: (_) => print(_),
         ),

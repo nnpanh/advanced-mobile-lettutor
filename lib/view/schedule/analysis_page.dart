@@ -10,12 +10,9 @@ class AnalysisPage extends StatefulWidget {
 class _AnalysisPageState extends State<AnalysisPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Courses"),
-      ),
-      body: const Text(
-        'Add chart and analysis if have time hehe',
+    return const Scaffold(
+      body: Text(
+        'Add chart and analysis if have time',
       ),
     );
   }

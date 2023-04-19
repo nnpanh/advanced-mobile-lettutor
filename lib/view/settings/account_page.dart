@@ -1,7 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lettutor/config/router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/data/repositories/user_repository.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/utils/utils.dart';
@@ -66,7 +66,8 @@ class _AccountPageState extends State<AccountPage> {
     return !hasInitValue
         ? const SizedBox()
         : Scaffold(
-            appBar: appBarDefault(MyRouter.account, context),
+            appBar: appBarDefault(
+                AppLocalizations.of(context)!.editAccount, context),
             body: SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.fromLTRB(8, 24, 8, 16),
@@ -182,8 +183,8 @@ class _AccountPageState extends State<AccountPage> {
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 0, horizontal: 26),
                                 width: double.infinity,
-                                child: const RequiredLabel(
-                                  label: 'Name',
+                                child: RequiredLabel(
+                                  label: AppLocalizations.of(context)!.name,
                                 )),
                             Container(
                                 margin: const EdgeInsets.symmetric(
@@ -234,8 +235,9 @@ class _AccountPageState extends State<AccountPage> {
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 0, horizontal: 26),
                                 width: double.infinity,
-                                child: const RequiredLabel(
-                                  label: 'Nationality',
+                                child: RequiredLabel(
+                                  label:
+                                      AppLocalizations.of(context)!.nationality,
                                 )),
                             Container(
                                 margin: const EdgeInsets.symmetric(
@@ -251,8 +253,7 @@ class _AccountPageState extends State<AccountPage> {
                                   onTap: () {
                                     showCountryPicker(
                                         context: context,
-                                        showPhoneCode:
-                                            false, // optional. Shows phone code before the country name.
+                                        showPhoneCode: false,
                                         onSelect: (Country country) {
                                           setState(() {
                                             _txtCountry.text = country.name;
@@ -264,8 +265,9 @@ class _AccountPageState extends State<AccountPage> {
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 0, horizontal: 26),
                                 width: double.infinity,
-                                child:
-                                    const RequiredLabel(label: 'Phone number')),
+                                child: RequiredLabel(
+                                    label: AppLocalizations.of(context)!
+                                        .phoneNumber)),
                             Container(
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 12, horizontal: 24),
@@ -287,8 +289,8 @@ class _AccountPageState extends State<AccountPage> {
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 0, horizontal: 26),
                                 width: double.infinity,
-                                child: const RequiredLabel(
-                                  label: 'Birthday',
+                                child: RequiredLabel(
+                                  label: AppLocalizations.of(context)!.birthday,
                                 )),
                             Container(
                                 margin: const EdgeInsets.symmetric(
@@ -338,8 +340,8 @@ class _AccountPageState extends State<AccountPage> {
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 0, horizontal: 26),
                                 width: double.infinity,
-                                child: const RequiredLabel(
-                                  label: "My level",
+                                child: RequiredLabel(
+                                  label: AppLocalizations.of(context)!.myLevel,
                                 )),
                             Container(
                                 margin: const EdgeInsets.symmetric(
@@ -369,8 +371,9 @@ class _AccountPageState extends State<AccountPage> {
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 0, horizontal: 26),
                                 width: double.infinity,
-                                child: const RequiredLabel(
-                                  label: 'Want to learn',
+                                child: RequiredLabel(
+                                  label:
+                                      AppLocalizations.of(context)!.wantToLearn,
                                 )),
                             Container(
                                 margin: const EdgeInsets.symmetric(
@@ -391,7 +394,7 @@ class _AccountPageState extends State<AccountPage> {
                                     vertical: 0, horizontal: 26),
                                 width: double.infinity,
                                 child: Text(
-                                  'Study schedule',
+                                  AppLocalizations.of(context)!.studySchedule,
                                   style: bodyLargeBold(context),
                                   textAlign: TextAlign.start,
                                 )),
@@ -402,11 +405,10 @@ class _AccountPageState extends State<AccountPage> {
                                   keyboardType: TextInputType.text,
                                   maxLines: 5,
                                   minLines: 3,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText:
-                                        'Note the time of week you want to study',
-                                  ),
+                                  decoration: InputDecoration(
+                                      border: const OutlineInputBorder(),
+                                      hintText: AppLocalizations.of(context)!
+                                          .noteTheTime),
                                 )),
                             SizedBox(
                               width: double.infinity,
@@ -414,7 +416,8 @@ class _AccountPageState extends State<AccountPage> {
                                 margin:
                                     const EdgeInsets.fromLTRB(24, 12, 24, 24),
                                 child: CustomElevatedButton(
-                                    title: 'Save changes',
+                                    title: AppLocalizations.of(context)!
+                                        .saveChanges,
                                     callback: () {
                                       if (_formKey.currentState!.validate()) {
                                         callAPIUpdateProfile(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/utils/utils.dart';
 
@@ -95,22 +96,22 @@ class CustomBottomNavigationBar extends StatelessWidget {
             ),
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              items: const <BottomNavigationBarItem>[
+              items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
+                  icon: const Icon(Icons.home),
+                  label: AppLocalizations.of(context)?.home,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.timer_sharp),
-                  label: 'Schedule',
+                  icon: const Icon(Icons.timer_sharp),
+                  label: AppLocalizations.of(context)?.schedule,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.school),
-                  label: 'Study',
+                  icon: const Icon(Icons.school),
+                  label: AppLocalizations.of(context)?.study,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Settings',
+                  icon: const Icon(Icons.settings),
+                  label: AppLocalizations.of(context)?.settings,
                 ),
               ],
               currentIndex: selectedIndex,

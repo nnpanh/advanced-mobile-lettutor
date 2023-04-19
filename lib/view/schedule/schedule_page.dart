@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
@@ -21,13 +22,13 @@ class _SchedulePageState extends State<SchedulePage> {
   final lessonList = [];
   bool _hasFetch = false;
 
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     if (!_hasFetch) {
-      callApiGetListSchedules(1, BookingRepository(), Provider.of<AuthProvider>(context));
+      callApiGetListSchedules(
+          1, BookingRepository(), Provider.of<AuthProvider>(context));
     }
 
     return Scaffold(
@@ -45,13 +46,11 @@ class _SchedulePageState extends State<SchedulePage> {
                             fit: BoxFit.contain)),
                     Expanded(
                       flex: 3,
-                      child: Text(
-                          "Here is a list of booked lessons. You can track when will the lesson starts, join the meeting or cancel before 2 hours",
-                          style: bodyLarge(context)?.copyWith(
-                            color: Colors.black45
-                          )
-                        // ?.copyWith(color: Colors.white, fontSize: 18),
-                      ),
+                      child: Text(AppLocalizations.of(context)!.hereIsAList,
+                          style: bodyLarge(context)
+                              ?.copyWith(color: Colors.black45)
+                          // ?.copyWith(color: Colors.white, fontSize: 18),
+                          ),
                     ),
                   ],
                 )),
@@ -63,17 +62,19 @@ class _SchedulePageState extends State<SchedulePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex:7,
-                    child: Text('My schedule', style: headLineMedium(context)?.copyWith(
-                      fontSize: 30,
-                    )),
+                    flex: 7,
+                    child: Text(AppLocalizations.of(context)!.mySchedule,
+                        style: headLineMedium(context)?.copyWith(
+                          fontSize: 30,
+                        )),
                   ),
-                  Expanded(flex:3,
+                  Expanded(
+                    flex: 3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.pushNamed(context, MyRouter.analysis);
                           },
                           icon: const Icon(Icons.bar_chart),
@@ -81,8 +82,9 @@ class _SchedulePageState extends State<SchedulePage> {
                           iconSize: 30,
                         ),
                         IconButton(
-                          onPressed: (){
-                            Navigator.pushNamed(context, MyRouter.learningHistory);
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, MyRouter.learningHistory);
                           },
                           icon: const Icon(Icons.history),
                           color: Colors.blue,
@@ -107,18 +109,20 @@ class _SchedulePageState extends State<SchedulePage> {
                                 scrollDirection: Axis.vertical,
                                 itemCount: lessonList.length,
                                 itemBuilder: (BuildContext context, int index) {
-                        return LessonCard(
-                          lessonData: lessonList[index],
-                          isHistoryCard: false,
-                          leftButton: 'Cancel',
-                          rightButton: 'Go to meeting',
-                          leftButtonCallback: () {
-                            onPressedCancel(context, size);
-                          },
-                          rightButtonCallback: () {},
-                          iconButtonCallback: () {
-                            onPressedLeaveNote(context, size);
-                          },
+                                  return LessonCard(
+                                    lessonData: lessonList[index],
+                                    isHistoryCard: false,
+                                    leftButton:
+                                        AppLocalizations.of(context)!.cancel,
+                                    rightButton: AppLocalizations.of(context)!
+                                        .goToMeeting,
+                                    leftButtonCallback: () {
+                                      onPressedCancel(context, size);
+                                    },
+                                    rightButtonCallback: () {},
+                                    iconButtonCallback: () {
+                                      onPressedLeaveNote(context, size);
+                                    },
                                   );
                                 })),
                       )
@@ -150,20 +154,21 @@ class _SchedulePageState extends State<SchedulePage> {
         builder: (BuildContext context) {
           return ConfirmDialog(
             content: null,
-            title: 'Cancel lesson',
+            title: AppLocalizations.of(context)!.cancelLesson,
             widget: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Do you want to cancel this lesson?'),
+                Text(AppLocalizations.of(context)!.doYouWantToCancel),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: const TextField(
+                  child: TextField(
                     maxLines: 5,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Leave the reason why you cancel this lesson..',
+                      border: const OutlineInputBorder(),
+                      hintText:
+                          AppLocalizations.of(context)!.leaveReasonWhyCancel,
                     ),
                   ),
                 ),
@@ -176,8 +181,8 @@ class _SchedulePageState extends State<SchedulePage> {
             onLeftButton: () {
               Navigator.of(context).pop();
             },
-            leftButton: 'Cancel',
-            rightButton: 'Confirm',
+            leftButton: AppLocalizations.of(context)!.cancel,
+            rightButton: AppLocalizations.of(context)!.confirm,
             hasLeftButton: true,
           );
         });
@@ -189,15 +194,15 @@ class _SchedulePageState extends State<SchedulePage> {
         builder: (BuildContext context) {
           return ConfirmDialog(
             content: null,
-            title: 'Send note',
+            title: AppLocalizations.of(context)!.sendNote,
             widget: Container(
               padding: const EdgeInsets.only(bottom: 8),
-              child: const TextField(
+              child: TextField(
                 maxLines: 5,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Leave a note for your tutor before the lesson..',
+                  hintText: AppLocalizations.of(context)!.leaveANote,
                 ),
               ),
             ),
@@ -208,21 +213,21 @@ class _SchedulePageState extends State<SchedulePage> {
             onLeftButton: () {
               Navigator.of(context).pop();
             },
-            leftButton: 'Cancel',
-            rightButton: 'Send',
+            leftButton: AppLocalizations.of(context)!.cancel,
+            rightButton: AppLocalizations.of(context)!.send,
             hasLeftButton: true,
           );
         });
   }
 
   void onPressedGoToMeeting() {
-    Navigator.of(context)
-        .pushNamed(MyRouter.joinMeeting);
+    Navigator.of(context).pushNamed(MyRouter.joinMeeting);
   }
 
-  Future<void> callApiGetListSchedules(int page, BookingRepository bookingRepository, AuthProvider authProvider) async {
+  Future<void> callApiGetListSchedules(int page,
+      BookingRepository bookingRepository, AuthProvider authProvider) async {
     await bookingRepository.getIncomingLessons(
-        accessToken: authProvider.token?.access?.token??"",
+        accessToken: authProvider.token?.access?.token ?? "",
         page: page,
         perPage: 20,
         now: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -239,7 +244,7 @@ class _SchedulePageState extends State<SchedulePage> {
   void _filterListScheduleFromApi(List<BookingInfo> listBooking) {
     for (var value in listBooking) {
       if (value.isDeleted != true) {
-        lessonList.insert(0,value);
+        lessonList.insert(0, value);
       }
     }
     setState(() {

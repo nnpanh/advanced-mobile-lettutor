@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/config/router.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../const/const_value.dart';
-import '../../const/themes.dart';
-
-final ThemeManager _themeManager = ThemeManager();
 
 class SelectPage extends StatefulWidget {
   const SelectPage({super.key});
@@ -17,20 +15,7 @@ class SelectPage extends StatefulWidget {
 class _SelectPageState extends State<SelectPage> {
   @override
   void initState() {
-    _themeManager.addListener(themeListener);
     super.initState();
-  }
-
-  themeListener() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  @override
-  void dispose() {
-    _themeManager.removeListener(themeListener);
-    super.dispose();
   }
 
   @override
@@ -56,14 +41,14 @@ class _SelectPageState extends State<SelectPage> {
                         size: 48,
                       ),
                       Text(
-                        'Tutor',
+                        AppLocalizations.of(context)!.tutor,
                         style: headLineMedium(context)
                             ?.copyWith(color: Colors.white),
                       ),
                       SizedBox(
                         width: size.width * 0.4,
                         child: Text(
-                          'Find a tutor for a one-on-one lesson',
+                          AppLocalizations.of(context)!.tutorDescription,
                           style: bodyLarge(context)?.copyWith(
                             color: Colors.white,
                           ),
@@ -93,14 +78,14 @@ class _SelectPageState extends State<SelectPage> {
                         size: 48,
                       ),
                       Text(
-                        'Course',
+                        AppLocalizations.of(context)!.course,
                         style: headLineMedium(context)
                             ?.copyWith(color: Colors.blue),
                       ),
                       SizedBox(
                         width: size.width * 0.5,
                         child: Text(
-                          'Or exploring yourself with our library of lessons and ebooks',
+                          AppLocalizations.of(context)!.courseDescription,
                           style: bodyLarge(context)?.copyWith(
                             color: Colors.blue,
                           ),

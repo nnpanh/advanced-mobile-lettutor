@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/model/course/course_model.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
@@ -76,7 +77,7 @@ class CourseCardState extends State<CourseCard> {
             Container(
               padding: const EdgeInsets.all(24),
               child: Text(
-                "Level ${widget.courseData.level}  •  ${widget.courseData.topics?.length} Lessons",
+                "${AppLocalizations.of(context)!.level} ${widget.courseData.level}  •  ${widget.courseData.topics?.length} ${AppLocalizations.of(context)!.lessons}",
                 style: bodyLarge(context),
                 textAlign: TextAlign.start,
                 softWrap: true,

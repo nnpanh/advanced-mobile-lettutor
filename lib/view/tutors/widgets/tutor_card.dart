@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/model/tutor/tutor_model.dart';
 import 'package:lettutor/view/common_widgets/circle_network_image.dart';
@@ -65,7 +66,6 @@ class TutorCardState extends State<TutorCard> {
                     children: [
                       Container(
                         padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
-                        // horizontal: 16, vertical: 12),
                         child: Text(
                           "${widget.tutorData.name}",
                           style: bodyLargeBold(context),
@@ -77,7 +77,6 @@ class TutorCardState extends State<TutorCard> {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
                           "${widget.tutorData.country}",
-                          // "${widget.tutorData.nationality}",
                           style: bodyLarge(context)
                               ?.copyWith(color: CustomColor.greyTextColor),
                         ),
@@ -141,7 +140,7 @@ class TutorCardState extends State<TutorCard> {
                 margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                 // padding: const EdgeInsets.all(16),
                 child: ChipButton(
-                  title: 'Book',
+                  title: AppLocalizations.of(context)!.book,
                   icon: Icons.calendar_month,
                   hasIcon: true,
                   chipType: ButtonType.outlinedButton,

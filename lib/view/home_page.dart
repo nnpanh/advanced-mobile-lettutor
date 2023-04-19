@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.of(context)
                                             .pushNamed(MyRouter.joinMeeting);
                                       },
-                                      title: '  Join  ',
+                                      title: AppLocalizations.of(context)!.join,
                                       hasIcon: false,
                                       chipType: ButtonType.filledWhiteButton,
                                     ))
@@ -90,7 +90,8 @@ class _HomePageState extends State<HomePage> {
                             height: 8,
                           ),
                           Text(
-                            'Total learning hours left: 4 hours',
+                            AppLocalizations.of(context)!
+                                .totalLearningHoursLeft,
                             style: bodyLarge(context)
                                 ?.copyWith(color: Colors.white),
                           ),
@@ -99,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     alignment: Alignment.topLeft,
                     padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-                    child: Text('Recommend tutors',
+                    child: Text(AppLocalizations.of(context)!.recommendTutors,
                         style: headLineMedium(context)),
                   ),
                   Container(

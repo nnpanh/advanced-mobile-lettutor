@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/view/courses/widgets/course_tab.dart';
 
@@ -37,7 +38,9 @@ class _CoursesPageState extends State<CoursesPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: isSearching ? buildSearchField() : const Text('Online Courses'),
+        title: isSearching
+            ? buildSearchField()
+            : Text(AppLocalizations.of(context)!.onlineCourses),
         // automaticallyImplyLeading: isSearching ? false : true,
         leading: isSearching
             ? IconButton(
@@ -97,10 +100,10 @@ class _CoursesPageState extends State<CoursesPage>
     return TextField(
       controller: _txtController,
       autofocus: true,
-      decoration: const InputDecoration(
-        hintText: "Input course name...",
+      decoration: InputDecoration(
+        hintText: AppLocalizations.of(context)!.inputCourseName,
         border: InputBorder.none,
-        hintStyle: TextStyle(color: Colors.white54),
+        hintStyle: const TextStyle(color: Colors.white54),
       ),
       style: const TextStyle(color: Colors.white, fontSize: 16.0),
       onChanged: (query) {},

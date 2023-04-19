@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-
 class LessonDetailPage extends StatefulWidget {
   const LessonDetailPage({super.key, required this.title, required this.url});
   final String title;
@@ -39,7 +38,6 @@ class LessonDetailPageState extends State<LessonDetailPage> {
       ),
       body: SfPdfViewer.network(
         widget.url,
-        // 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
         key: _pdfViewerKey,
       ),
     );

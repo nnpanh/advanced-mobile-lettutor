@@ -1,10 +1,9 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
-import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
 
-import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../model/tutor/tutor_model.dart';
 import '../common_widgets/elevated_button.dart';
@@ -49,7 +48,8 @@ class _TutorsPageState extends State<TutorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDefault(MyRouter.tutors, context),
+      appBar:
+          appBarDefault(AppLocalizations.of(context)!.onlineTutors, context),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -57,46 +57,45 @@ class _TutorsPageState extends State<TutorsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
-              child:
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Find a tutor', style: headLineSmall(context)),
-                  IconButton(
-                    onPressed: resetFilter,
-                    icon: const Icon(FontAwesomeIcons.filterCircleXmark),
-                    iconSize: 18,
-                  )
-                ],
-              )
-            ),
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(AppLocalizations.of(context)!.findATutor,
+                        style: headLineSmall(context)),
+                    IconButton(
+                      onPressed: resetFilter,
+                      icon: const Icon(FontAwesomeIcons.filterCircleXmark),
+                      iconSize: 18,
+                    )
+                  ],
+                )),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TextField(
                 keyboardType: TextInputType.text,
                 textAlign: TextAlign.start,
                 controller: _txtController,
-                decoration: const InputDecoration(
-                    prefixIcon: Icon(
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(
                       Icons.search,
                       color: Colors.black12,
                     ),
-                    contentPadding: EdgeInsets.all(18),
-                    border: OutlineInputBorder(
+                    contentPadding: const EdgeInsets.all(18),
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(50.0)),
                     ),
-                    hintText: 'Enter tutor name',
-                    hintStyle: TextStyle(color: Colors.black12)),
-                onChanged: (value) {
-                },
+                    hintText: AppLocalizations.of(context)!.enterTutorName,
+                    hintStyle: const TextStyle(color: Colors.black12)),
+                onChanged: (value) {},
               ),
             ),
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-              child: Text('Select a specialities', style: headLineSmall(context)),
+              child: Text(AppLocalizations.of(context)!.selectASpeciality,
+                  style: headLineSmall(context)),
             ),
             Container(
               alignment: Alignment.topLeft,
@@ -107,13 +106,10 @@ class _TutorsPageState extends State<TutorsPage> {
                     source: specialities,
                     value: (i, v) => i,
                     label: (i, v) => v,
-                    // tooltip: (i, v) => v,
                   ),
                   wrapped: true,
-                  // choiceCheckmark: true,
                   choiceStyle: C2ChipStyle.outlined(
                     color: CustomColor.shadowBlue,
-                    // color: Theme.of(context).primaryColor,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(25),
                     ),
@@ -132,7 +128,8 @@ class _TutorsPageState extends State<TutorsPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('Select nationality', style: headLineSmall(context)),
+                  Text(AppLocalizations.of(context)!.selectNationality,
+                      style: headLineSmall(context)),
                 ],
               ),
             ),
@@ -145,13 +142,10 @@ class _TutorsPageState extends State<TutorsPage> {
                     source: nationalities,
                     value: (i, v) => i,
                     label: (i, v) => v,
-                    // tooltip: (i, v) => v,
                   ),
                   wrapped: true,
-                  // choiceCheckmark: true,
                   choiceStyle: C2ChipStyle.outlined(
                     color: CustomColor.shadowBlue,
-                    // color: Theme.of(context).primaryColor,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(25),
                     ),
@@ -170,7 +164,8 @@ class _TutorsPageState extends State<TutorsPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('Select origin', style: headLineSmall(context)),
+                  Text(AppLocalizations.of(context)!.selectOrigin,
+                      style: headLineSmall(context)),
                 ],
               ),
             ),
@@ -183,13 +178,10 @@ class _TutorsPageState extends State<TutorsPage> {
                     source: natives,
                     value: (i, v) => i,
                     label: (i, v) => v,
-                    // tooltip: (i, v) => v,
                   ),
                   wrapped: true,
-                  // choiceCheckmark: true,
                   choiceStyle: C2ChipStyle.outlined(
                     color: CustomColor.shadowBlue,
-                    // color: Theme.of(context).primaryColor,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(25),
                     ),
@@ -212,11 +204,11 @@ class _TutorsPageState extends State<TutorsPage> {
             SizedBox(
               width: double.infinity,
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: CustomElevatedButton(
-                    title: 'Search',
-                    callback: () {
-                    },
+                    title: AppLocalizations.of(context)!.search,
+                    callback: () {},
                     buttonType: ButtonType.filledWhiteButton,
                     radius: 15),
               ),
@@ -261,7 +253,10 @@ class _TutorsPageState extends State<TutorsPage> {
   }
 
   void resetFilter() {
-    if (speciality != 0 || _txtController.text.isNotEmpty || nationality != 0 || native != 0) {
+    if (speciality != 0 ||
+        _txtController.text.isNotEmpty ||
+        nationality != 0 ||
+        native != 0) {
       setState(() {
         nationality = 0;
         speciality = 0;

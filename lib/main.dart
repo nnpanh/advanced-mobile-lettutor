@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/providers/auth_provider.dart';
+import 'package:lettutor/providers/settings_provider.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
 import 'package:lettutor/view/common_widgets/loading_overlay.dart';
@@ -32,9 +33,7 @@ class MyApp extends StatefulWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.blue),
     );
-
     WidgetsFlutterBinding.ensureInitialized();
-
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -42,8 +41,6 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -60,8 +57,11 @@ class MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
             create: (_) => AuthProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (_) => SettingsProvider(),
+          ),
         ],
-        child: MaterialApp(
+        builder: (context, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'LetTutor',
             theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
@@ -71,6 +71,7 @@ class MyAppState extends State<MyApp> {
             onGenerateRoute: MyRouter.generateRoute,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
+            locale: Provider.of<SettingsProvider>(context).locale,
             home: LoadingOverlay(
               child: AnimatedSplashScreen(
                   duration: 2000,

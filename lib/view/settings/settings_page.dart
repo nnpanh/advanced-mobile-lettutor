@@ -298,37 +298,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           });
                         },
                       ),
-                      ExpansionTile(
-                        title: Text(
-                          "Contact for support",
-                          style: bodyLarge(context),
-                        ),
-                        tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
-                        children: <Widget>[
-                          ListTile(
-                            title: RichText(
-                                text: TextSpan(children: [
-                              TextSpan(
-                                  text: "Hotline:",
-                                  style: bodyLargeBold(context)),
-                              TextSpan(
-                                  text: " 0988012170",
-                                  style: bodyLarge(context))
-                            ])),
-                          ),
-                          ListTile(
-                            title: RichText(
-                                text: TextSpan(children: [
-                              TextSpan(
-                                  text: "Email:",
-                                  style: bodyLargeBold(context)),
-                              TextSpan(
-                                  text: " hcmus@edu.com.vn",
-                                  style: bodyLarge(context))
-                            ])),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                   ExpansionTile(
@@ -427,6 +396,47 @@ class _SettingsPageState extends State<SettingsPage> {
                                   })
                           ])),
                         ),
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: Text(
+                      "Contact for support",
+                      style: bodyLarge(context),
+                    ),
+                    tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
+                    children: <Widget>[
+                      ListTile(
+                        title: RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                              text: "Email:", style: bodyLargeBold(context)),
+                          TextSpan(
+                              text: " lettutor@edu.com.vn",
+                              style: bodyLarge(context))
+                        ])),
+                      ),
+                      ListTile(
+                        title: RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                              text: "Official page:",
+                              style: bodyLargeBold(context)),
+                          TextSpan(
+                              text: "Official webpage",
+                              style: bodyLarge(context)
+                                  ?.copyWith(color: Colors.blue)
+                                  .copyWith(
+                                      height: ConstValue.courseNameTextScale),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
+                                  final uri = Uri.parse(
+                                      "https://sandbox.app.lettutor.com/");
+                                  if (await canLaunchUrl(uri)) {
+                                    await launchUrl(uri);
+                                  }
+                                }),
+                        ])),
                       ),
                     ],
                   ),

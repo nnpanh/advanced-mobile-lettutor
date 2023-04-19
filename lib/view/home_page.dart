@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/data/repositories/tutor_repository.dart';
 import 'package:lettutor/data/responses/response_get_list_tutor.dart';
 import 'package:lettutor/providers/auth_provider.dart';
@@ -25,11 +26,11 @@ class _HomePageState extends State<HomePage> {
   List<String> _favTutorSecondId = [];
   bool _hasFetched = false;
 
-
   @override
   Widget build(BuildContext context) {
     if (!_hasFetched) {
-      callAPIGetTutorList(1, TutorRepository(), Provider.of<AuthProvider>(context));
+      callAPIGetTutorList(
+          1, TutorRepository(), Provider.of<AuthProvider>(context));
     }
 
     return !_hasFetched
@@ -45,87 +46,89 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
                       width: double.infinity,
                       color: Colors.blue,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Upcoming Lesson',
-                      style: bodyLargeBold(context)
-                          ?.copyWith(color: Colors.white, fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              getDateString(
-                                  DateTime.now(), TimeFormat.getDateAndTime),
-                              style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.white),
+                          Text(
+                            AppLocalizations.of(context)!.upComingLesson,
+                            style: bodyLargeBold(context)
+                                ?.copyWith(color: Colors.white, fontSize: 18),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    getDateString(DateTime.now(),
+                                        TimeFormat.getDateAndTime),
+                                    style: bodyLarge(context)
+                                        ?.copyWith(color: Colors.white),
+                                  ),
+                                ),
+                                Expanded(
+                                    flex: 1,
+                                    child: ChipButton(
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(MyRouter.joinMeeting);
+                                      },
+                                      title: '  Join  ',
+                                      hasIcon: false,
+                                      chipType: ButtonType.filledWhiteButton,
+                                    ))
+                              ],
                             ),
                           ),
-                          Expanded(
-                              flex: 1,
-                              child: ChipButton(
-                                callback: () {
-                                  Navigator.of(context)
-                                      .pushNamed(MyRouter.joinMeeting);
-                                },
-                                title: '  Join  ',
-                                hasIcon: false,
-                                chipType: ButtonType.filledWhiteButton,
-                              ))
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            'Total learning hours left: 4 hours',
+                            style: bodyLarge(context)
+                                ?.copyWith(color: Colors.white),
+                          ),
                         ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      'Total learning hours left: 4 hours',
-                      style: bodyLarge(context)?.copyWith(color: Colors.white),
-                    ),
-                  ],
-                )),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-              child: Text('Recommend tutors', style: headLineMedium(context)),
+                      )),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+                    child: Text('Recommend tutors',
+                        style: headLineMedium(context)),
+                  ),
+                  Container(
+                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                      child: LimitedBox(
+                          maxHeight: double.maxFinite,
+                          child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemCount: _tutorList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TutorCard(
+                                    tutorData: _tutorList[index],
+                                    isFavor: checkIfTutorIsFavored(
+                                        _tutorList[index]),
+                                    onClickFavorite: () {
+                                      onClickFavorite(_tutorList[index]);
+                                    });
+                              })))
+                ],
+              ),
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-              child: LimitedBox(
-                  maxHeight: double.maxFinite,
-                  child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: _tutorList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return TutorCard(tutorData: _tutorList[index],
-                            isFavor: checkIfTutorIsFavored(_tutorList[index]),
-                            onClickFavorite: (){
-                          onClickFavorite(_tutorList[index]);
-                        });
-                      })
-              )
-            )
-          ],
-        ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: NavigationIndex.homePage,
-        context: context,
-      ),
-    );
+            bottomNavigationBar: CustomBottomNavigationBar(
+              selectedIndex: NavigationIndex.homePage,
+              context: context,
+            ),
+          );
   }
 
   void onClickFavorite(TutorModel tutorClicked) {
@@ -139,22 +142,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> callAPIGetTutorList(int page, TutorRepository tutorRepository, AuthProvider authProvider) async {
-      await tutorRepository.getListTutor(
-        accessToken: authProvider.token?.access?.token??"",
+  Future<void> callAPIGetTutorList(int page, TutorRepository tutorRepository,
+      AuthProvider authProvider) async {
+    await tutorRepository.getListTutor(
+        accessToken: authProvider.token?.access?.token ?? "",
         page: page,
-          perPage: 10,
-          onSuccess: (response) async {
+        perPage: 10,
+        onSuccess: (response) async {
           _handleTutorListDataFromAPI(response);
           setState(() {
             _hasFetched = true;
           });
-          },
-          onFail: (error) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error: ${error.toString()}')),
-            );
-          });
+        },
+        onFail: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${error.toString()}')),
+          );
+        });
   }
 
   void _handleTutorListDataFromAPI(ResponseGetListTutor response) {
@@ -176,8 +180,8 @@ class _HomePageState extends State<HomePage> {
     });
 
     //Sort by score
-    favoredList.sort((b, a) => (a.rating??0).compareTo((b.rating??0)));
-    notFavoredList.sort((b, a) => (a.rating??0).compareTo((b.rating??0)));
+    favoredList.sort((b, a) => (a.rating ?? 0).compareTo((b.rating ?? 0)));
+    notFavoredList.sort((b, a) => (a.rating ?? 0).compareTo((b.rating ?? 0)));
 
     //Add to final list
     _tutorList.addAll(favoredList);

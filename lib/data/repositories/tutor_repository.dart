@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:lettutor/data/responses/response_get_list_tutor.dart';
 import 'package:lettutor/model/tutor/tutor_info.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
 
 import '../services/api_service.dart';
 import 'base_repository.dart';
@@ -68,7 +69,7 @@ class TutorRepository extends BaseRepository {
     required Function(String) onFail,
   }) async {
     final response = await service.get(
-      url: "$tutorId",
+      url: tutorId,
         headers: {
           "Authorization":"Bearer $accessToken"
       }) as BoundResource;
@@ -84,15 +85,44 @@ class TutorRepository extends BaseRepository {
     }
   }
 
-  //TODO: RESPONSE UNKNOWN
   Future<void> searchTutor({
-    required Function() onSuccess,
+    required String accessToken,
+    required String searchKeys,
+    required List<String> speciality,
+    required Map<String, dynamic> nationality,
+    required Function(List<TutorModel>) onSuccess,
+    required Function(String) onFail,
+
   }) async {
     final response = await service.post(
       url: "search",
-    );
+        data: {
+          "filters": {
+            "specialties": speciality,
+            "nationality": nationality,
+            "date": null,
+            "tutoringTimeAvailable": [
+              null,
+              null
+            ]
+          },
+          "search": searchKeys,
+          "page": "1",
+          "perPage": 12
+        },
+        headers: {
+          "Authorization":"Bearer $accessToken"
+      }) as BoundResource;
 
-    await onSuccess();
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      await onSuccess(TutorPagination.fromJson(response.response).rows??[]);
+      break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
 
   //TODO: RESPONSE UNKNOWN

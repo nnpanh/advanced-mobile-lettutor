@@ -16,10 +16,12 @@ class TutorCard extends StatefulWidget {
       {super.key,
       required this.tutorData,
       required this.isFavor,
-      required this.onClickFavorite});
+      required this.onClickFavorite,
+        required this.hasFavor});
 
   final TutorModel tutorData;
   final bool isFavor;
+  final bool hasFavor;
   final VoidCallback onClickFavorite;
 
   @override
@@ -108,6 +110,7 @@ class TutorCardState extends State<TutorCard> {
                     ],
                   ),
                 ),
+                if (widget.hasFavor)
                 IconButton(
                   icon: !isFavored
                       ? const Icon(Icons.favorite_outline, color: Colors.blue)

@@ -170,7 +170,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                                     }
                                   });
                                 },
-                                icon: tutorInfo.isFavorite ?? false
+                                icon: tutorInfo.isFavorite == false
                                     ? const Icon(
                                         Icons.favorite_border,
                                         color: Colors.blue,

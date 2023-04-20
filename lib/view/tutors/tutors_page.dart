@@ -2,7 +2,15 @@ import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lettutor/config/router.dart';
+import 'package:lettutor/config/router_arguments.dart';
+import 'package:lettutor/data/repositories/tutor_repository.dart';
+import 'package:lettutor/data/responses/response_get_list_tutor.dart';
+import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
+import 'package:lettutor/view/common_widgets/loading_filled.dart';
+import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
+import 'package:provider/provider.dart';
 
 import '../../const/export_const.dart';
 import '../../model/tutor/tutor_model.dart';
@@ -18,20 +26,15 @@ class TutorsPage extends StatefulWidget {
 class _TutorsPageState extends State<TutorsPage> {
   final _txtController = TextEditingController();
   int speciality = 0;
-  int nationality = 0;
-  int native = 0;
+  int nationalityIndex = 0;
   // list of string options
   late List<String> specialities;
   List<String> nationalities = [
-    'All nationalities',
-    'Vietnamese',
+    'All',
+    'Foreign Tutor',
+    'Vietnamese Tutor',
+    'Native English Tutor'
   ];
-  List<String> natives = [
-    'Native speaker',
-    'Foreign speaker',
-  ];
-
-  List<TutorModel> tutorList = [];
 
   @override
   void initState() {
@@ -137,7 +140,7 @@ class _TutorsPageState extends State<TutorsPage> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: ChipsChoice<int>.single(
-                  value: nationality,
+                  value: nationalityIndex,
                   choiceItems: C2Choice.listFrom<int, String>(
                     source: nationalities,
                     value: (i, v) => i,
@@ -154,43 +157,7 @@ class _TutorsPageState extends State<TutorsPage> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      nationality = value;
-                    });
-                  }),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(AppLocalizations.of(context)!.selectOrigin,
-                      style: headLineSmall(context)),
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
-              child: ChipsChoice<int>.single(
-                  value: native,
-                  choiceItems: C2Choice.listFrom<int, String>(
-                    source: natives,
-                    value: (i, v) => i,
-                    label: (i, v) => v,
-                  ),
-                  wrapped: true,
-                  choiceStyle: C2ChipStyle.outlined(
-                    color: CustomColor.shadowBlue,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                    selectedStyle: C2ChipStyle.filled(
-                        color: Colors.blue, foregroundColor: Colors.white),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      native = value;
+                      nationalityIndex = value;
                     });
                   }),
             ),
@@ -208,40 +175,13 @@ class _TutorsPageState extends State<TutorsPage> {
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: CustomElevatedButton(
                     title: AppLocalizations.of(context)!.search,
-                    callback: () {},
+                    callback: () {
+                      onSearch(_txtController.text);
+                    },
                     buttonType: ButtonType.filledWhiteButton,
                     radius: 15),
               ),
             ),
-            // const Divider(
-            //   color: Colors.grey,
-            //   thickness: 1,
-            //   indent: 24,
-            //   endIndent: 24,
-            // ),
-            // Container(
-            //   alignment: Alignment.topLeft,
-            //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-            //   child: Text('Matched tutors', style: headLineSmall(context)),
-            // ),
-            // Container(
-            //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-            //   child: LimitedBox(
-            //       maxHeight: double.maxFinite,
-            //       child: ListView.builder(
-            //           padding: EdgeInsets.zero,
-            //           shrinkWrap: true,
-            //           physics: const NeverScrollableScrollPhysics(),
-            //           scrollDirection: Axis.vertical,
-            //           itemCount: tutorList.length,
-            //           itemBuilder: (BuildContext context, int index) {
-            //             return TutorCard(
-            //               tutorData: tutorList[index],
-            //               isFavor: true,
-            //               onClickFavorite: () {},
-            //             );
-            //           })),
-            // )
           ],
         ),
       ),
@@ -249,22 +189,26 @@ class _TutorsPageState extends State<TutorsPage> {
   }
 
   void onSearch(String? input) {
-    print("$input");
+    List<String> specKeys = [];
+    if (speciality!=0) {
+      specKeys.add(specialities[speciality].toLowerCase().replaceAll(' ', '-'));
+    }
+    String searchKeys = "";
+    if (_txtController.text.isNotEmpty) searchKeys = _txtController.text;
+    Navigator.pushNamed(context, MyRouter.searchResults,
+        arguments:  SearchResultArguments(nationalityIndex, searchKeys, specKeys)
+    );
   }
 
   void resetFilter() {
     if (speciality != 0 ||
         _txtController.text.isNotEmpty ||
-        nationality != 0 ||
-        native != 0) {
+        nationalityIndex!=0) {
       setState(() {
-        nationality = 0;
+        nationalityIndex = 0;
         speciality = 0;
-        native = 0;
         _txtController.clear();
       });
     }
   }
-
-  void onClickFavorite() {}
 }

@@ -115,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                               itemCount: _tutorList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TutorCard(
+                                  hasFavor: true,
                                     tutorData: _tutorList[index],
                                     isFavor: checkIfTutorIsFavored(
                                         _tutorList[index]),
@@ -191,8 +192,8 @@ class _HomePageState extends State<HomePage> {
 
   bool checkIfTutorIsFavored(TutorModel tutor) {
     for (var element in _favTutorSecondId) {
-      if (element == tutor.userId) return false;
+      if (element == tutor.userId) return true;
     }
-    return true;
+    return false;
   }
 }

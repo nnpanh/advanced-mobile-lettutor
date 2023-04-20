@@ -19,3 +19,11 @@ class LessonDetailArguments {
 
   const LessonDetailArguments({required this.title, required this.pdfUrl});
 }
+
+class SearchResultArguments {
+  final int nationality;
+  final String searchKey;
+  final List<String> specialities;
+
+  const SearchResultArguments(this.nationality, this.searchKey, this.specialities);
+}

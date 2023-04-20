@@ -17,6 +17,7 @@ import '../view/courses/select_page.dart';
 import '../view/home_page.dart';
 import '../view/schedule/schedule_page.dart';
 import '../view/tutors/booking_detail_page.dart';
+import '../view/tutors/search_result.dart';
 import '../view/tutors/tutor_detail_page.dart';
 import '../view/tutors/tutors_page.dart';
 import 'error_page.dart';
@@ -41,6 +42,7 @@ class MyRouter {
   static const String tutors = 'Online Tutors';
   static const String tutorDetail = 'Tutor Details';
   static const String bookingDetail = 'Booking Details';
+  static const String searchResults = 'Search Results';
 
   //Schedule
   static const String schedule = 'Schedule';
@@ -121,6 +123,16 @@ class MyRouter {
         } else {
           return errorRoute(
               'Input for Booking page is not TutorDetailArguments', settings);
+        }
+      case searchResults:
+        if (args is SearchResultArguments) {
+          return successRoute(
+              LoadingOverlay(
+                  child: SearchResultPage(nationality: args.nationality, searchKey: args.searchKey, specialities: args.specialities,)),
+              settings);
+        } else {
+          return errorRoute(
+              'Input for Search result page is not SearchResultArguments', settings);
         }
       //Schedule
       case schedule:

@@ -75,9 +75,10 @@ class TimeFormat {
 }
 
 class Nationality {
-  static const nationVN = 'Vietnamese';
-  static const nationNative = 'Native speaker';
-  static const nationForeign = 'Foreign speaker';
+  static const nationVN = 2;
+  static const nationNative = 3;
+  static const nationForeign = 1;
+  static const nationAll = 0;
 }
 
 class Specialities {

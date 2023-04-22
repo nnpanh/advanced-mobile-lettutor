@@ -1,4 +1,5 @@
 import 'package:lettutor/model/course/course_model.dart';
+import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/model/tutor/tutor_model.dart';
 
 class TutorDetailArguments {
@@ -12,6 +13,13 @@ class CourseDetailArguments {
 
   const CourseDetailArguments({required this.courseModel});
 }
+
+class BookingInfoArguments {
+  final BookingInfo upcomingLesson;
+
+  const BookingInfoArguments({required this.upcomingLesson});
+}
+
 
 class LessonDetailArguments {
   final String title;

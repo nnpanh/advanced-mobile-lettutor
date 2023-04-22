@@ -241,14 +241,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  custom_timer:
-    dependency: "direct main"
-    description:
-      name: custom_timer
-      sha256: "65af2d6a3f6f232b224ad1dd06dbab9f8473be69800a32934cbd1e6d90276348"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.3"
   dart_style:
     dependency: transitive
     description:
@@ -350,6 +342,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
+  flutter_countdown_timer:
+    dependency: "direct main"
+    description:
+      name: flutter_countdown_timer
+      sha256: dfcbd7d6f76a5589f78f3f3ba2f9ea2e199368eccc1adce4153ce985b9587bc5
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -549,6 +549,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.1"
+  jwt_decoder:
+    dependency: "direct main"
+    description:
+      name: jwt_decoder
+      sha256: "54774aebf83f2923b99e6416b4ea915d47af3bde56884eb622de85feabbc559f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   lints:
     dependency: transitive
     description:

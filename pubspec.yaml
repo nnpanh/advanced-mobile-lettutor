@@ -22,7 +22,6 @@ dependencies:
   chips_choice: ^3.0.0
   flutter_rating_bar: ^4.0.1
   readmore: ^2.2.0
-  custom_timer: ^0.2.3
   country_picker: ^2.0.19
   chat_bubbles: ^1.4.1
 
@@ -51,6 +50,8 @@ dependencies:
 
   #State managements
   provider: ^6.0.5
+  jwt_decoder: ^2.0.1
+  flutter_countdown_timer: ^4.1.0
 
 dev_dependencies:
   flutter_test:

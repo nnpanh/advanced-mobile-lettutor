@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.lettutor">
     <uses-permission android:name="android.permission.INTERNET" />
-   <application
+   <application tools:replace="android:label"
         android:label="LetTutor"
         android:name="${applicationName}"
         android:icon="@mipmap/logo">
@@ -31,5 +32,13 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+       <service
+           android:name="org.jitsi.meet.sdk.ConnectionService"
+           android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
+           android:exported="true">
+           <intent-filter>
+               <action android:name="android.telecom.ConnectionService" />
+           </intent-filter>
+       </service>
     </application>
 </manifest>

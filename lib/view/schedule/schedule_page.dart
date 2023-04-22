@@ -8,6 +8,7 @@ import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/router.dart';
+import '../../config/router_arguments.dart';
 import '../../const/const_value.dart';
 import '../../data/repositories/booking_repository.dart';
 
@@ -119,7 +120,9 @@ class _SchedulePageState extends State<SchedulePage> {
                                     leftButtonCallback: () {
                                       onPressedCancel(context, size);
                                     },
-                                    rightButtonCallback: () {},
+                                    rightButtonCallback: () {
+                                      onPressedGoToMeeting();
+                                    },
                                     iconButtonCallback: () {
                                       onPressedLeaveNote(context, size);
                                     },
@@ -201,7 +204,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 maxLines: 5,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   hintText: AppLocalizations.of(context)!.leaveANote,
                 ),
               ),
@@ -221,7 +224,7 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   void onPressedGoToMeeting() {
-    Navigator.of(context).pushNamed(MyRouter.joinMeeting);
+    Navigator.of(context).pushNamed(MyRouter.joinMeeting, arguments: BookingInfoArguments(upcomingLesson: lessonList.first));
   }
 
   Future<void> callApiGetListSchedules(int page,

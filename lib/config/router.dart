@@ -139,8 +139,13 @@ class MyRouter {
         return successRoute(
             LoadingOverlay(child: const SchedulePage()), settings);
       case joinMeeting:
-        return successRoute(
-            LoadingOverlay(child: const JoinMeetingPage()), settings);
+        if (args is BookingInfoArguments) {
+          return successRoute(
+            LoadingOverlay(child: JoinMeetingPage(upcomingClass: args.upcomingLesson,)), settings);
+        } else {
+          return errorRoute(
+              'Input for Booking info is not BookingInfoArguments', settings);
+        }
       case learningHistory:
         return successRoute(
             LoadingOverlay(child: const LearningHistoryPage()), settings);

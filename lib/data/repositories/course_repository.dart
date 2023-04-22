@@ -38,16 +38,4 @@ class CourseRepository extends BaseRepository {
     }
   }
 
-
-  //TODO: RESPONSE UNKNOWN
-  Future<void> getCourseDetailById({
-    required String courseId,
-    required Function() onSuccess,
-  }) async {
-    final response = await service.get(
-        url: "course/88d8bc4c-3ed2-4c70-b64b-61fff7461712",
-    );
-
-    await onSuccess();
-  }
 }

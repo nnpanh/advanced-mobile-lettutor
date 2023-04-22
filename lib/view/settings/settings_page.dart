@@ -355,7 +355,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 style: bodyLarge(context)?.copyWith(
                                     height: ConstValue.courseNameTextScale)),
                             TextSpan(
-                                text: "Privacy & Policies page",
+                                text: " Privacy & Policies page",
                                 style: bodyLarge(context)
                                     ?.copyWith(color: Colors.blue)
                                     .copyWith(
@@ -391,7 +391,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 style: bodyLarge(context)?.copyWith(
                                     height: ConstValue.courseNameTextScale)),
                             TextSpan(
-                                text: "Terms & conditions page",
+                                text: " Terms & conditions page",
                                 style: bodyLarge(context)
                                     ?.copyWith(color: Colors.blue)
                                     .copyWith(

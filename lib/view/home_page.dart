@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   //Upcoming lesson data
   List<BookingInfo> lessonList = [];
-  double totalLessonTime = 0.0;
+  String totalLessonTime = "";
   BookingInfo? upcomingLesson;
 
   //Fetch API
@@ -105,8 +105,8 @@ class _HomePageState extends State<HomePage> {
                             height: 8,
                           ),
                           Text(
-                              (totalLessonTime==0.0)? AppLocalizations.of(context)!.noUpcomingLesson:
-                            "${AppLocalizations.of(context)!.totalLearningHoursLeft}: ${totalLessonTime.toStringAsFixed(2)}",
+                              (totalLessonTime.isEmpty)? AppLocalizations.of(context)!.noUpcomingLesson:
+                            "${AppLocalizations.of(context)!.totalLearningHoursLeft}: $totalLessonTime",
                             style: bodyLarge(context)
                                 ?.copyWith(color: Colors.white),
                           ),
@@ -213,9 +213,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> callApiGetListSchedules(BookingRepository bookingRepository, AuthProvider authProvider) async {
-    await bookingRepository.getUpcomingLessonAtHomePage(
+    await bookingRepository.getIncomingLessons(
         accessToken: authProvider.token?.access?.token ?? "",
-        now: DateTime.now().millisecondsSinceEpoch,
+        page: 1,
+        perPage: 100000,
+        now: DateTime.now().millisecondsSinceEpoch.toString(),
         onSuccess: (response) async {
           _filterListScheduleFromApi(response);
         },
@@ -225,7 +227,6 @@ class _HomePageState extends State<HomePage> {
           );
         });
   }
-
   void _filterListScheduleFromApi(List<BookingInfo> listBooking) {
     for (var value in listBooking) {
       if (value.isDeleted != true) {
@@ -233,21 +234,34 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
-    double totalTime = 0.0;
+    //Calculate total learning time
+    DateTime totalTime = DateTime.now();
+    DateTime nowTime = totalTime;
     for (var element in lessonList) {
-      var lessonDuration = DateTime.fromMillisecondsSinceEpoch(element.scheduleDetailInfo!.endPeriodTimestamp!).difference(DateTime.fromMillisecondsSinceEpoch(element.scheduleDetailInfo!.startPeriodTimestamp!));
-      var minutesValue = double.parse((lessonDuration.inMinutes/60).toStringAsFixed(2));
-      totalTime = totalTime + lessonDuration.inHours + minutesValue;
+      var startTime = DateTime.fromMillisecondsSinceEpoch(element.scheduleDetailInfo!.startPeriodTimestamp!);
+      var endTime = DateTime.fromMillisecondsSinceEpoch(element.scheduleDetailInfo!.endPeriodTimestamp!);
+      var learningDuration = endTime.difference(startTime);
+      totalTime = totalTime.add(learningDuration);
     }
+    Duration learningDuration = totalTime.difference(nowTime);
 
-    setState(() {
-      upcomingLesson = lessonList.first;
-      totalLessonTime = totalTime;
-      _hasFetched = true;
-    });
+    if (mounted) {
+      setState(() {
+        upcomingLesson = lessonList.first;
+        totalLessonTime = _printDuration(learningDuration);
+        _hasFetched = true;
+      });
+    }
   }
 
   void joinUpcomingMeeting(BuildContext context) {
     Navigator.of(context).pushNamed(MyRouter.joinMeeting, arguments: BookingInfoArguments(upcomingLesson: upcomingLesson!));
+  }
+
+  String _printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }

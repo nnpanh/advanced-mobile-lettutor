@@ -31,7 +31,7 @@ class BookingInfo {
   String? cancelNote;
   String? calendarId;
   bool? showRecordUrl;
-  List<String>? studentMaterials;
+  // List<String>? studentMaterials;
   List<TutorFeedback>? feedbacks;
 
   BookingInfo({
@@ -56,7 +56,7 @@ class BookingInfo {
     this.cancelNote,
     this.calendarId,
     this.showRecordUrl,
-    this.studentMaterials,
+    // this.studentMaterials,
     this.feedbacks,
   });
 

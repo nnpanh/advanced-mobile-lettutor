@@ -1,4 +1,5 @@
 import 'package:lettutor/data/responses/response_get_list_booking_info.dart';
+import 'package:lettutor/data/responses/response_get_next_booking_info.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 
 import '../services/api_service.dart';
@@ -52,8 +53,30 @@ class BookingRepository extends BaseRepository {
       case 200:
       case 201:
         onSuccess(
-            ResponseGetListBooking.fromJson(response.response).data?.rows ??
-                []);
+            ResponseGetListBooking.fromJson(response.response).data?.rows ?? []);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
+  }
+
+  Future<void> getUpcomingLessonAtHomePage({
+    required String accessToken,
+    required int now,
+    required Function(List<BookingInfo>) onSuccess,
+    required Function(String) onFail,
+  }) async {
+    final response = await service.get(
+        url:
+        "next?dateTime=$now",
+        headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        onSuccess(
+            ResponseGetNextBookingInfo.fromJson(response.response).data?? []);
         break;
       default:
         onFail(response.errorMsg.toString());

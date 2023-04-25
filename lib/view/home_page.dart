@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/data/repositories/tutor_repository.dart';
 import 'package:lettutor/data/responses/response_get_list_tutor.dart';
+import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/chip_button.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
@@ -11,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import '../config/router.dart';
 import '../const/export_const.dart';
+import '../data/repositories/booking_repository.dart';
 import '../model/tutor/tutor_model.dart';
 import '../utils/utils.dart';
 
@@ -22,15 +25,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //Tutor list
   final List<TutorModel> _tutorList = [];
   List<String> _favTutorSecondId = [];
+
+  //Upcoming lesson data
+  List<BookingInfo> lessonList = [];
+  double totalLessonTime = 0.0;
+  BookingInfo? upcomingLesson;
+
+  //Fetch API
   bool _hasFetched = false;
+
 
   @override
   Widget build(BuildContext context) {
     if (!_hasFetched) {
-      callAPIGetTutorList(
-          1, TutorRepository(), Provider.of<AuthProvider>(context));
+      var authProvider = Provider.of<AuthProvider>(context);
+      //Fetch API
+      callAPIGetTutorList(1, TutorRepository(), authProvider);
+      callApiGetListSchedules(BookingRepository(), authProvider);
     }
 
     return !_hasFetched
@@ -59,14 +73,16 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Row(
+                            child:
+                            (upcomingLesson != null)?
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Expanded(
                                   flex: 2,
                                   child: Text(
-                                    getDateString(DateTime.now(),
+                                    getDateString(DateTime.fromMillisecondsSinceEpoch(upcomingLesson!.scheduleDetailInfo!.startPeriodTimestamp!),
                                         TimeFormat.getDateAndTime),
                                     style: bodyLarge(context)
                                         ?.copyWith(color: Colors.white),
@@ -76,22 +92,21 @@ class _HomePageState extends State<HomePage> {
                                     flex: 1,
                                     child: ChipButton(
                                       callback: () {
-                                        Navigator.of(context)
-                                            .pushNamed(MyRouter.joinMeeting);
+                                        joinUpcomingMeeting(context);
                                       },
                                       title: AppLocalizations.of(context)!.join,
                                       hasIcon: false,
                                       chipType: ButtonType.filledWhiteButton,
                                     ))
                               ],
-                            ),
+                            ): const SizedBox(),
                           ),
                           const SizedBox(
                             height: 8,
                           ),
                           Text(
-                            AppLocalizations.of(context)!
-                                .totalLearningHoursLeft,
+                              (totalLessonTime==0.0)? AppLocalizations.of(context)!.noUpcomingLesson:
+                            "${AppLocalizations.of(context)!.totalLearningHoursLeft}: ${totalLessonTime.toStringAsFixed(2)}",
                             style: bodyLarge(context)
                                 ?.copyWith(color: Colors.white),
                           ),
@@ -195,5 +210,44 @@ class _HomePageState extends State<HomePage> {
       if (element == tutor.userId) return true;
     }
     return false;
+  }
+
+  Future<void> callApiGetListSchedules(BookingRepository bookingRepository, AuthProvider authProvider) async {
+    await bookingRepository.getUpcomingLessonAtHomePage(
+        accessToken: authProvider.token?.access?.token ?? "",
+        now: DateTime.now().millisecondsSinceEpoch,
+        onSuccess: (response) async {
+          _filterListScheduleFromApi(response);
+        },
+        onFail: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${error.toString()}')),
+          );
+        });
+  }
+
+  void _filterListScheduleFromApi(List<BookingInfo> listBooking) {
+    for (var value in listBooking) {
+      if (value.isDeleted != true) {
+        lessonList.insert(0, value);
+      }
+    }
+
+    double totalTime = 0.0;
+    for (var element in lessonList) {
+      var lessonDuration = DateTime.fromMillisecondsSinceEpoch(element.scheduleDetailInfo!.endPeriodTimestamp!).difference(DateTime.fromMillisecondsSinceEpoch(element.scheduleDetailInfo!.startPeriodTimestamp!));
+      var minutesValue = double.parse((lessonDuration.inMinutes/60).toStringAsFixed(2));
+      totalTime = totalTime + lessonDuration.inHours + minutesValue;
+    }
+
+    setState(() {
+      upcomingLesson = lessonList.first;
+      totalLessonTime = totalTime;
+      _hasFetched = true;
+    });
+  }
+
+  void joinUpcomingMeeting(BuildContext context) {
+    Navigator.of(context).pushNamed(MyRouter.joinMeeting, arguments: BookingInfoArguments(upcomingLesson: upcomingLesson!));
   }
 }

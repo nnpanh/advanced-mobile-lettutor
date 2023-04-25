@@ -22,15 +22,13 @@ class JoinMeetingPage extends StatefulWidget {
 
 class _JoinMeetingPageState extends State<JoinMeetingPage> {
   late BookingInfo upcomingClass = widget.upcomingClass;
-  late Duration countdownTime;
   late DateTime endTime;
   bool canJoinMeeting = false;
 
   @override
   void initState() {
     super.initState();
-    countdownTime = const Duration(minutes: 1);
-    endTime = DateTime.now().add(countdownTime);
+    endTime = DateTime.fromMillisecondsSinceEpoch(upcomingClass.scheduleDetailInfo!.startPeriodTimestamp!);
   }
 
   void onEnd() {

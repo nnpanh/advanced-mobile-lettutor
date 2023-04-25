@@ -125,6 +125,7 @@
   "appointment": "Appointment",
   "notifications": "Notifications",
   "confirmBooking": "Confirm booking",
+  "noUpcomingLesson": "You have no upcoming lesson",
   "noAvailableSchedule": "No available schedule",
   "eWalletNotAvailable": "E-wallet is not supported in this version, please access to our website for more info"
 }

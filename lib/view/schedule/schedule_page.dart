@@ -250,6 +250,7 @@ class _SchedulePageState extends State<SchedulePage> {
         lessonList.insert(0, value);
       }
     }
+
     setState(() {
       _hasFetch = true;
     });

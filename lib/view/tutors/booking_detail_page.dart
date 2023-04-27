@@ -267,7 +267,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
       ),
     );
     showBottomDialog(
-        context, AppLocalizations.of(context)!.selectAFilter, child);
+        context, AppLocalizations.of(context)!.selectAFilter, child, false);
   }
 
   void _callApiGetScheduleByDate(DateTime inputTime,

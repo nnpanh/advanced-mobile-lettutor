@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:lettutor/const/const_value.dart';
-import 'package:lettutor/model/user/user_model.dart';
 
 import '../config/router.dart';
 
@@ -101,6 +100,15 @@ void pushNamedAndRemoveUntilHome(BuildContext context, {String? newRoute}) {
       }
       return false;
     }
+  });
+}
+
+void popUntilHome(BuildContext context) {
+  Navigator.popUntil(context, (route) {
+    if (route.settings.name == MyRouter.home) {
+      return true;
+    }
+    return false;
   });
 }
 

@@ -49,7 +49,7 @@ AppBar appBarDefault(String title, BuildContext context) {
           color: Colors.white,
         ),
         onPressed: () {
-          pushNamedAndRemoveUntilHome(context);
+          popUntilHome(context);
         },
       ));
 }

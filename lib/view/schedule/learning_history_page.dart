@@ -174,7 +174,7 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
       ),
     );
     showBottomDialog(
-        context, AppLocalizations.of(context)!.selectAFilter, child);
+        context, AppLocalizations.of(context)!.selectAFilter, child, false);
   }
 
   Future<void> callApiGetListSchedules(int page,

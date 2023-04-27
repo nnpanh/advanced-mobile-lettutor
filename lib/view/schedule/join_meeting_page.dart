@@ -3,11 +3,11 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:lettutor/config/router.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/elevated_button.dart';
-import 'package:lettutor/view/schedule/widgets/chat_list.dart';
 
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 
@@ -31,10 +31,6 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
   late BookingInfo upcomingClass = widget.upcomingClass;
   late DateTime endTime;
   bool canJoinMeeting = false;
-
-  //Chat GPT list
-  List<ChatData> conversations = [];
-  // final TextEditingController _txtController = TextEditingController();
 
   @override
   void initState() {
@@ -124,21 +120,6 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
   }
 
   void onPressedChatBubble(BuildContext context, Size size) {
-    showBottomDialog(
-        context,
-        'ChatGPT',
-        ChatList(
-          conversations: conversations,
-          sendMessage: _sendMessage,
-        ),
-        true);
-  }
-
-  void _sendMessage(String message) {
-    List<ChatData> newList = conversations;
-    newList.add(ChatData(message, false));
-    setState(() {
-      conversations = newList;
-    });
+    Navigator.pushNamed(context, MyRouter.home);
   }
 }

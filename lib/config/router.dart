@@ -48,7 +48,10 @@ class MyRouter {
   static const String schedule = 'Schedule';
   static const String learningHistory = 'Learning History';
   static const String analysis = 'Analysis';
+
+  //Meeting
   static const String joinMeeting = 'Join Meeting';
+  static const String chatGpt = 'Chat GPT';
 
   //Settings
   static const String setting = 'Settings';
@@ -128,11 +131,16 @@ class MyRouter {
         if (args is SearchResultArguments) {
           return successRoute(
               LoadingOverlay(
-                  child: SearchResultPage(nationality: args.nationality, searchKey: args.searchKey, specialities: args.specialities,)),
+                  child: SearchResultPage(
+                nationality: args.nationality,
+                searchKey: args.searchKey,
+                specialities: args.specialities,
+              )),
               settings);
         } else {
           return errorRoute(
-              'Input for Search result page is not SearchResultArguments', settings);
+              'Input for Search result page is not SearchResultArguments',
+              settings);
         }
       //Schedule
       case schedule:
@@ -141,11 +149,17 @@ class MyRouter {
       case joinMeeting:
         if (args is BookingInfoArguments) {
           return successRoute(
-            LoadingOverlay(child: JoinMeetingPage(upcomingClass: args.upcomingLesson,)), settings);
+              LoadingOverlay(
+                  child: JoinMeetingPage(
+                upcomingClass: args.upcomingLesson,
+              )),
+              settings);
         } else {
           return errorRoute(
               'Input for Booking info is not BookingInfoArguments', settings);
         }
+      case chatGpt:
+        return successRoute(LoadingOverlay(child: JoinMeetingPage()), settings);
       case learningHistory:
         return successRoute(
             LoadingOverlay(child: const LearningHistoryPage()), settings);

@@ -346,7 +346,7 @@ class _LoginPageState extends State<LoginPage> {
             _hasAuthenticated = true;
           });
 
-          Future.delayed(const Duration(seconds: 1), () {
+          Future.delayed(const Duration(seconds: 0), () {
             Navigator.pushNamedAndRemoveUntil(
                 context, MyRouter.home, (route) => false);
           });

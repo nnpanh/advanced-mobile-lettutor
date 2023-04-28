@@ -37,7 +37,6 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
     super.initState();
     endTime = DateTime.fromMillisecondsSinceEpoch(
         upcomingClass.scheduleDetailInfo!.startPeriodTimestamp!);
-    conversations.add(ChatData("Enter your prompt to generate", true));
   }
 
   void onEnd() {
@@ -120,6 +119,6 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
   }
 
   void onPressedChatBubble(BuildContext context, Size size) {
-    Navigator.pushNamed(context, MyRouter.home);
+    Navigator.pushNamed(context, MyRouter.chatGpt);
   }
 }

@@ -4,6 +4,7 @@ import 'package:lettutor/view/authentication/forgot_pass_page.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
 import 'package:lettutor/view/authentication/sign_up_page.dart';
 import 'package:lettutor/view/courses/lesson_detail_page.dart';
+import 'package:lettutor/view/schedule/chat_gpt_page.dart';
 import 'package:lettutor/view/schedule/join_meeting_page.dart';
 import 'package:lettutor/view/schedule/learning_history_page.dart';
 import 'package:lettutor/view/settings/account_page.dart';
@@ -159,7 +160,7 @@ class MyRouter {
               'Input for Booking info is not BookingInfoArguments', settings);
         }
       case chatGpt:
-        return successRoute(LoadingOverlay(child: JoinMeetingPage()), settings);
+        return successRoute(LoadingOverlay(child: const ChatGPTPage()), settings);
       case learningHistory:
         return successRoute(
             LoadingOverlay(child: const LearningHistoryPage()), settings);

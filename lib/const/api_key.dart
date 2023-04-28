@@ -1,0 +1,1 @@
+const apiKeyChatGPT ="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";

@@ -13,7 +13,7 @@ Requirement 2 & 3: Implement in code, branch "milestone-1-mockup-ui"
 
 ## Milestone 2
 
-Implement basic functions of LetTutor from [checklist](https://app.slack.com/client/T0MAPCD1U/C04Q6D00X16) in bracnh "milestone-2-basic-online-app
+Implement basic functions of LetTutor from [checklist](https://app.slack.com/client/T0MAPCD1U/C04Q6D00X16) in branch "milestone-2-basic-online-app
 
 Video demo: [https://www.youtube.com/watch?v=fbr4dlib914](https://www.youtube.com/watch?v=fbr4dlib914)
 

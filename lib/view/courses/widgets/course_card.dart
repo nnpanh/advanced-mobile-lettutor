@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/config/router_arguments.dart';
+import 'package:lettutor/model/course/course_model.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../../config/router.dart';
 import '../../../const/export_const.dart';
-import '../../../model/course_model.dart';
 
 class CourseCard extends StatefulWidget {
   const CourseCard({super.key, required this.courseData});
@@ -36,17 +38,24 @@ class CourseCardState extends State<CourseCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image(
+            CachedNetworkImage(
               width: double.maxFinite,
               height: size.width * .75 - 32,
               fit: BoxFit.fill,
-              image: NetworkImage(widget.courseData.illustrateUrl ??
-                  "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
+              imageUrl: widget.courseData.imageUrl ?? "",
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress)),
+              errorWidget: (context, url, error) => Image.asset(
+                ImagesPath.error,
+                fit: BoxFit.contain,
+              ),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Text(
-                "${widget.courseData.title}",
+                "${widget.courseData.name}",
                 style: headLineSmall(context)?.copyWith(
                     height: ConstValue.courseNameTextScale, fontSize: 20),
                 textAlign: TextAlign.start,
@@ -68,7 +77,7 @@ class CourseCardState extends State<CourseCard> {
             Container(
               padding: const EdgeInsets.all(24),
               child: Text(
-                "${widget.courseData.level}  •  ${widget.courseData.chapterTitles.length} Lessons",
+                "${AppLocalizations.of(context)!.level} ${widget.courseData.level}  •  ${widget.courseData.topics?.length} ${AppLocalizations.of(context)!.lessons}",
                 style: bodyLarge(context),
                 textAlign: TextAlign.start,
                 softWrap: true,

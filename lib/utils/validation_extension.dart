@@ -1,17 +1,17 @@
 extension extString on String {
   bool get isValidEmail {
-    final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    final emailRegExp = RegExp(r"^[a-zA-Z0-9.+]+@[a-zA-Z0-9+]+\.[a-zA-Z+]+");
     return emailRegExp.hasMatch(this);
   }
 
   bool get isValidName{
-    final nameRegExp = RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    final nameRegExp = RegExp(r'^[a-zA-Z0-9]{2,}$');
     return nameRegExp.hasMatch(this);
   }
 
   bool get isValidPassword{
     final passwordRegExp =
-    RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$');
+    RegExp(r'^[a-zA-Z0-9]{6,}$');
     return passwordRegExp.hasMatch(this);
   }
 

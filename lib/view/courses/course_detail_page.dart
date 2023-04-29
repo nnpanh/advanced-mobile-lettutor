@@ -1,13 +1,13 @@
-import 'package:flutter/gestures.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/view/courses/widgets/chapter_card.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
-import '../../model/course_model.dart';
-import '../../utils/utils.dart';
+import '../../model/course/course_model.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
 
@@ -21,7 +21,8 @@ class CourseDetailPage extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBarDefault(MyRouter.courseDetail, context),
+        appBar:
+            appBarDefault(AppLocalizations.of(context)!.courseDetail, context),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white30,
@@ -30,18 +31,25 @@ class CourseDetailPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image(
+                CachedNetworkImage(
                   width: double.maxFinite,
                   height: size.width * .75 - 32,
                   fit: BoxFit.fill,
-                  image: NetworkImage(courseModel.illustrateUrl ??
-                      "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
+                  imageUrl: courseModel.imageUrl ?? "",
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress)),
+                  errorWidget: (context, url, error) => Image.asset(
+                    ImagesPath.error,
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: Text(
-                    "${courseModel.title}",
+                    "${courseModel.name}",
                     style: headLineSmall(context)
                         ?.copyWith(height: ConstValue.courseNameTextScale),
                     textAlign: TextAlign.start,
@@ -59,8 +67,8 @@ class CourseDetailPage extends StatelessWidget {
                     ),
                     colorClickableText: Colors.blue,
                     trimMode: TrimMode.Line,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: ' Show less',
+                    trimCollapsedText: AppLocalizations.of(context)!.showMore,
+                    trimExpandedText: AppLocalizations.of(context)!.showLess,
                   ),
                 ),
                 SizedBox(
@@ -71,16 +79,19 @@ class CourseDetailPage extends StatelessWidget {
                         title: 'Discover',
                         buttonType: ButtonType.filledButton,
                         callback: () {
-                          // Navigator.pushNamed(context, MyRouter.bookTutor,
-                          //     arguments:
-                          // TutorDetailArguments(courseModel: tutorData));
+                          Navigator.pushNamed(context, MyRouter.lessonDetail,
+                              arguments: LessonDetailArguments(
+                                  title:
+                                      courseModel.topics?[0].name ?? "No title",
+                                  pdfUrl: courseModel.topics?[0].nameFile ??
+                                      'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
                         },
                         radius: 50),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Overview',
+                  child: Text(AppLocalizations.of(context)!.overview,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -95,7 +106,7 @@ class CourseDetailPage extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Text("Why take this course",
+                      Text(AppLocalizations.of(context)!.whyTakeThisCourse,
                           style: bodyLargeBold(context)?.copyWith(
                               height: ConstValue.courseNameTextScale))
                     ],
@@ -109,7 +120,7 @@ class CourseDetailPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          CourseOverView.takenReason,
+                          courseModel.reason ?? CourseOverView.takenReason,
                           style: bodyLarge(context),
                           textAlign: TextAlign.justify,
                         ),
@@ -129,7 +140,7 @@ class CourseDetailPage extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Text("What will you be able to do",
+                      Text(AppLocalizations.of(context)!.whatAbleToDo,
                           style: bodyLargeBold(context)?.copyWith(
                               height: ConstValue.courseNameTextScale))
                     ],
@@ -143,7 +154,7 @@ class CourseDetailPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          CourseOverView.achievement,
+                          courseModel.purpose ?? CourseOverView.achievement,
                           style: bodyLarge(context),
                           textAlign: TextAlign.justify,
                         ),
@@ -153,7 +164,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Experience Level',
+                  child: Text(AppLocalizations.of(context)!.experienceLevel,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -176,7 +187,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Course Length',
+                  child: Text(AppLocalizations.of(context)!.courseLength,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -191,7 +202,8 @@ class CourseDetailPage extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Text("${courseModel.chapterTitles.length} Topics",
+                      Text(
+                          "${courseModel.topics?.length} ${AppLocalizations.of(context)!.topics}",
                           style: bodyLargeBold(context)?.copyWith(
                               height: ConstValue.courseNameTextScale))
                     ],
@@ -199,7 +211,7 @@ class CourseDetailPage extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('List of Topic',
+                  child: Text(AppLocalizations.of(context)!.listOfTopic,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -211,25 +223,29 @@ class CourseDetailPage extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.vertical,
-                          itemCount: courseModel.chapterTitles.length,
+                          itemCount: courseModel.topics?.length,
                           itemBuilder: (BuildContext context, int index) {
                             String title =
-                                "${index + 1}. ${courseModel.chapterTitles[index]}";
+                                "${index + 1}. ${courseModel.topics?[index].name}";
                             return ChapterCard(
                               title: title,
                               clickAction: () {
                                 Navigator.pushNamed(
                                     context, MyRouter.lessonDetail,
                                     arguments: LessonDetailArguments(
-                                        title: courseModel.title??"No title",
-                                        pdfUrl: 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
+                                        title:
+                                            courseModel.topics?[index].name ??
+                                                "No title",
+                                        pdfUrl: courseModel
+                                                .topics?[index].nameFile ??
+                                            'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'));
                               },
                             );
                           })),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  child: Text('Suggested Tutors',
+                  child: Text(AppLocalizations.of(context)!.categories,
                       style: headLineSmall(context)?.copyWith(fontSize: 20)),
                 ),
                 Container(
@@ -239,9 +255,9 @@ class CourseDetailPage extends StatelessWidget {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: courseModel.suggestedTutor.length,
+                      itemCount: courseModel.categories?.length,
                       itemBuilder: (BuildContext context, int index) {
-                        var course = courseModel.suggestedTutor[index];
+                        var course = courseModel.categories?[index];
                         return LimitedBox(
                           maxWidth: double.maxFinite,
                           maxHeight: double.maxFinite,
@@ -250,22 +266,15 @@ class CourseDetailPage extends StatelessWidget {
                             child: RichText(
                                 text: TextSpan(children: [
                               TextSpan(
-                                text: "•  $course   ",
+                                text: "•  ${course?.title}   ",
                                 style: bodyLarge(context)?.copyWith(
                                     fontSize: 16,
                                     height: ConstValue.courseNameTextScale),
                               ),
-                              TextSpan(
-                                  text: 'More info',
-                                  style: bodyLarge(context)
-                                      ?.copyWith(color: Colors.blueAccent),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pushNamed(
-                                          context, MyRouter.tutorDetail,
-                                          arguments: TutorDetailArguments(
-                                              tutorModel: testTutor()));
-                                    })
+                              if (course?.description != null)
+                                TextSpan(
+                                    text: ' - ${course?.description}',
+                                    style: bodyLarge(context))
                             ])),
                           ),
                         );

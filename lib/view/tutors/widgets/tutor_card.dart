@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/model/tutor/tutor_model.dart';
+import 'package:lettutor/view/common_widgets/circle_network_image.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 
 import '../../../config/router.dart';
 import '../../../config/router_arguments.dart';
 import '../../../const/export_const.dart';
-import '../../../model/tutor_model.dart';
 import '../../../utils/utils.dart';
 import '../../common_widgets/chip_button.dart';
 
 class TutorCard extends StatefulWidget {
-  const TutorCard({super.key, required this.tutorData});
+  const TutorCard(
+      {super.key,
+      required this.tutorData,
+      required this.isFavor,
+      required this.onClickFavorite,
+        required this.hasFavor});
 
   final TutorModel tutorData;
+  final bool isFavor;
+  final bool hasFavor;
+  final VoidCallback onClickFavorite;
 
   @override
   State<TutorCard> createState() => TutorCardState();
 }
 
 class TutorCardState extends State<TutorCard> {
+  late bool isFavored;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavored = widget.isFavor;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
@@ -38,13 +57,8 @@ class TutorCardState extends State<TutorCard> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.black54,
-                    foregroundColor: Colors.transparent,
-                    foregroundImage: NetworkImage(widget.tutorData.avatarUrl ??
-                        "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
-                  ),
+                  child: CircleNetworkImage(
+                      url: widget.tutorData.avatar, size: 80.0),
                 ),
                 Expanded(
                   flex: 2,
@@ -54,7 +68,6 @@ class TutorCardState extends State<TutorCard> {
                     children: [
                       Container(
                         padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
-                        // horizontal: 16, vertical: 12),
                         child: Text(
                           "${widget.tutorData.name}",
                           style: bodyLargeBold(context),
@@ -65,23 +78,24 @@ class TutorCardState extends State<TutorCard> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          "${widget.tutorData.nationality}",
+                          "${widget.tutorData.country}",
                           style: bodyLarge(context)
                               ?.copyWith(color: CustomColor.greyTextColor),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
+                            horizontal: 12, vertical: 12),
                         child: RatingBar(
                           ignoreGestures: true,
-                          initialRating: 3,
+                          initialRating: widget.tutorData.rating ?? 0.0,
                           minRating: 1,
                           direction: Axis.horizontal,
                           allowHalfRating: true,
                           itemCount: 5,
                           glow: false,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 1),
+                          itemPadding:
+                              const EdgeInsets.symmetric(horizontal: 1),
                           itemSize: 18,
                           onRatingUpdate: (double value) {},
                           ratingWidget: RatingWidget(
@@ -96,12 +110,16 @@ class TutorCardState extends State<TutorCard> {
                     ],
                   ),
                 ),
+                if (widget.hasFavor)
                 IconButton(
-                  icon: widget.tutorData.isFavorite
+                  icon: !isFavored
                       ? const Icon(Icons.favorite_outline, color: Colors.blue)
                       : const Icon(Icons.favorite, color: Colors.redAccent),
                   onPressed: () {
-                    //Todo: Truyen function click vao day, chi render lai dung trai tim
+                    widget.onClickFavorite();
+                    setState(() {
+                      isFavored = !isFavored;
+                    });
                   },
                 ),
               ],
@@ -110,7 +128,8 @@ class TutorCardState extends State<TutorCard> {
               height: getDescriptionHeight(context),
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: Text(
-                "${widget.tutorData.description}",
+                "${widget.tutorData.bio}",
+                // "${widget.tutorData.description}",
                 style: bodyLarge(context)
                     ?.copyWith(color: CustomColor.greyTextColor),
                 textAlign: TextAlign.justify,
@@ -124,7 +143,7 @@ class TutorCardState extends State<TutorCard> {
                 margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                 // padding: const EdgeInsets.all(16),
                 child: ChipButton(
-                  title: 'Book',
+                  title: AppLocalizations.of(context)!.book,
                   icon: Icons.calendar_month,
                   hasIcon: true,
                   chipType: ButtonType.outlinedButton,

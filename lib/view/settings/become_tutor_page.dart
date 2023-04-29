@@ -49,11 +49,12 @@ class _BecomeTutorPageState extends State<BecomeTutorPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    if (!isLastStep)
                     ConstrainedBox(
                       constraints: const BoxConstraints(minWidth: 120),
                       child: CustomElevatedButton(
                         callback: details.onStepContinue ?? () {},
-                        title: isLastStep ? 'Return' : 'Next',
+                        title: 'Next',
                         radius: 15,
                         buttonType: ButtonType.filledButton,
                       ),

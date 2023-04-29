@@ -4,24 +4,42 @@ import '../../const/const_value.dart';
 import 'chip_button.dart';
 import 'default_style.dart';
 
-class TitleAndChips extends StatelessWidget {
-  const TitleAndChips({super.key, required this.options, required this.title});
-  final List<String> options;
+class TitleAndChips extends StatefulWidget {
+  const TitleAndChips({super.key, required this.input, required this.title, required this.type});
   final String title;
+  final String input;
+  final String type;
+
+  @override
+  State<TitleAndChips> createState() => _TitleAndChipsState();
+}
+
+class _TitleAndChipsState extends State<TitleAndChips> {
+  late List<String> options;
+
+  @override
+  void initState() {
+    super.initState();
+    options = widget.input.split(',');
+
+    switch(widget.type) {
+      case TutorDetailListType.languages:
+        for (var i = 0; i < options.length; i++) {
+          options[i] = options[i].toUpperCase();
+        }
+        break;
+      case TutorDetailListType.specialities:
+        for (var i = 0; i < options.length; i++) {
+          options[i] = getNameByKey(options[i]);
+        }
+        break;
+        default:
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> test = [
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-      'Hehe',
-    ];
-
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -32,7 +50,7 @@ class TitleAndChips extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                child: Text(title, style: headLineSmall(context)),
+                child: Text(widget.title, style: headLineSmall(context)),
               ),
               Container(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -55,5 +73,28 @@ class TitleAndChips extends StatelessWidget {
         )
       ],
     );
+  }
+
+  String getNameByKey(String input) {
+    var result = "";
+    for (var element in Specialities.specialities) {
+      if (input == element.key) {
+        result = element.name!;
+        continue;
+      }
+    }
+    if (result != "") return result;
+
+    for (var element in Specialities.topics) {
+      if (input == element.key) {
+        result = element.name!;
+        continue;
+      }
+    }
+    if (result != "") {
+      return result;
+    } else {
+      return input.replaceAll("-", " ");
+    }
   }
 }

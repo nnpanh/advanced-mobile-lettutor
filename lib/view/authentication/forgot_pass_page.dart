@@ -1,11 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/data/repositories/user_repository.dart';
+import 'package:lettutor/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/router.dart';
 import '../../const/export_const.dart';
 import '../../utils/validation_extension.dart';
 import '../common_widgets/default_style.dart';
 import '../common_widgets/elevated_button.dart';
+import '../common_widgets/loading_overlay.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -16,9 +20,12 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -59,6 +66,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         margin: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 24),
                         child: TextFormField(
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -80,7 +88,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             title: 'Send link',
                             callback: () {
                               if (_formKey.currentState!.validate()) {
-                                Navigator.pushNamed(context, MyRouter.login);
+                                _handleResetPassword();
                               }
                             },
                             buttonType: ButtonType.filledButton,
@@ -93,10 +101,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       child: RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: "Don't remember your email?",
+                            text: "Already remember your account?",
                             style: bodyLarge(context)),
                         TextSpan(
-                            text: ' Ask for help',
+                            text: ' Login',
                             style: bodyLarge(context)
                                 ?.copyWith(color: Colors.blueAccent),
                             recognizer: TapGestureRecognizer()
@@ -111,5 +119,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
       ),
     );
+  }
+
+  void _handleResetPassword() async {
+    LoadingOverlay.of(context).show();
+    try {
+      final userRepository = UserRepository();
+      await userRepository.resetPassword(
+          email: _emailController.text,
+          showMessage: (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(e.toString())),
+            );
+          }
+      );
+    }
+      finally {
+      LoadingOverlay.of(context).hide();
+    }
   }
 }

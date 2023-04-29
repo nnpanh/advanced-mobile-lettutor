@@ -1,10 +1,12 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/model/user/user_model.dart';
 import 'package:lettutor/utils/validation_extension.dart';
 import 'package:lettutor/view/settings/widget/required_label.dart';
+import 'package:provider/provider.dart';
 
 import '../../../const/const_value.dart';
-import '../../../model/user_model.dart';
+import '../../../providers/auth_provider.dart';
 import '../../../utils/utils.dart';
 import '../../common_widgets/chip_dropdown.dart';
 import '../../common_widgets/default_style.dart';
@@ -24,28 +26,44 @@ class _FirstStepState extends State<FirstStep> {
   String? _txtLevel;
   bool hasUploaded = false;
   final List<DropdownMenuItem<String>> _levelList = [];
-  final UserModel userModel = testUser();
+  late UserModel userModel;
+  late bool hasInitValue = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _txtCountry.text = userModel.country ?? "";
-    if (userModel.birthday != null) {
-      _txtBirthday.text =
-          getDateString(userModel.birthday!, TimeFormat.getDateOnly);
-    }
-    for (var element in ConstValue.levelList) {
-      _levelList.add(DropdownMenuItem(
-        value: element,
-        child: Text(element),
-      ));
-    }
+  void initValues(AuthProvider authProvider) {
+
+      userModel = authProvider.currentUser!;
+      //Set values for form
+      _txtLevel = userModel.level;
+      _txtCountry.text = userModel.country ?? "";
+      if (userModel.birthday != null) {
+        _txtBirthday.text = formatDateStringFromApi(userModel.birthday);
+      }
+
+      for (var element in ConstValue.levelList) {
+          _levelList.add(DropdownMenuItem(
+            value: element,
+            child: Text(element),
+          ));
+      }
+
+      setState(() {
+        hasInitValue = true;
+      });
   }
+
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
+    final authProvider = Provider.of<AuthProvider>(context);
+
+    if (hasInitValue == false) {
+      initValues(authProvider);
+    }
+
+    return !hasInitValue
+        ? const SizedBox()
+        : Container(
       padding: const EdgeInsets.fromLTRB(8, 24, 8, 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -65,7 +83,7 @@ class _FirstStepState extends State<FirstStep> {
                     backgroundColor: Colors.blue,
                     child: CircleAvatar(
                       radius: 62,
-                      foregroundImage: NetworkImage(userModel.avatarUrl ?? ""),
+                      foregroundImage: NetworkImage(userModel.avatar ?? ""),
                     ),
                   ),
                   Container(
@@ -303,7 +321,7 @@ class _FirstStepState extends State<FirstStep> {
                               margin: const EdgeInsets.symmetric(vertical: 16),
                               child: Row(
                                 children: [
-                                  Text('File_name.mp4',
+                                  Text('Certificates.pdf',
                                       style: bodyLarge(context)?.copyWith(
                                           height:
                                               ConstValue.courseNameTextScale,

@@ -4,6 +4,7 @@ import 'package:lettutor/view/authentication/forgot_pass_page.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
 import 'package:lettutor/view/authentication/sign_up_page.dart';
 import 'package:lettutor/view/courses/lesson_detail_page.dart';
+import 'package:lettutor/view/schedule/chat_gpt_page.dart';
 import 'package:lettutor/view/schedule/join_meeting_page.dart';
 import 'package:lettutor/view/schedule/learning_history_page.dart';
 import 'package:lettutor/view/settings/account_page.dart';
@@ -17,6 +18,7 @@ import '../view/courses/select_page.dart';
 import '../view/home_page.dart';
 import '../view/schedule/schedule_page.dart';
 import '../view/tutors/booking_detail_page.dart';
+import '../view/tutors/search_result.dart';
 import '../view/tutors/tutor_detail_page.dart';
 import '../view/tutors/tutors_page.dart';
 import 'error_page.dart';
@@ -41,12 +43,16 @@ class MyRouter {
   static const String tutors = 'Online Tutors';
   static const String tutorDetail = 'Tutor Details';
   static const String bookingDetail = 'Booking Details';
+  static const String searchResults = 'Search Results';
 
   //Schedule
   static const String schedule = 'Schedule';
   static const String learningHistory = 'Learning History';
   static const String analysis = 'Analysis';
+
+  //Meeting
   static const String joinMeeting = 'Join Meeting';
+  static const String chatGpt = 'Chat GPT';
 
   //Settings
   static const String setting = 'Settings';
@@ -57,14 +63,17 @@ class MyRouter {
     var args = settings.arguments;
     switch (settings.name) {
       case home:
-        return successRoute(const HomePage(), settings);
+        return successRoute(LoadingOverlay(child: const HomePage()), settings);
       //Courses
       case courses:
-        return successRoute(const CoursesPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const CoursesPage()), settings);
       case courseDetail:
         if (args is CourseDetailArguments) {
           return successRoute(
-              CourseDetailPage(courseModel: args.courseModel), settings);
+              LoadingOverlay(
+                  child: CourseDetailPage(courseModel: args.courseModel)),
+              settings);
         } else {
           return errorRoute(
               'Input for Tutor detail page is not TutorDetailArguments',
@@ -73,7 +82,9 @@ class MyRouter {
       case lessonDetail:
         if (args is LessonDetailArguments) {
           return successRoute(
-              LessonDetailPage(title: args.title, url: args.pdfUrl), settings);
+              LoadingOverlay(
+                  child: LessonDetailPage(title: args.title, url: args.pdfUrl)),
+              settings);
         } else {
           return errorRoute(
               'Input for Tutor detail page is not TutorDetailArguments',
@@ -81,21 +92,27 @@ class MyRouter {
         }
       //Authentication
       case forgotPassword:
-        return successRoute(const ForgotPasswordPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const ForgotPasswordPage()), settings);
       case login:
-        return successRoute(LoadingOverlay( child: const LoginPage(),) , settings);
+        return successRoute(LoadingOverlay(child: const LoginPage()), settings);
       case signUp:
-        return successRoute(const SignUpPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const SignUpPage()), settings);
       //Selector
       case selectTutorOrCourse:
-        return successRoute(const TestPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const SelectPage()), settings);
       //Tutors
       case tutors:
-        return successRoute(const TutorsPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const TutorsPage()), settings);
       case tutorDetail:
         if (args is TutorDetailArguments) {
           return successRoute(
-              TutorDetailPage(tutorModel: args.tutorModel), settings);
+              LoadingOverlay(
+                  child: TutorDetailPage(tutorModel: args.tutorModel)),
+              settings);
         } else {
           return errorRoute(
               'Input for Tutor detail page is not TutorDetailArguments',
@@ -104,27 +121,61 @@ class MyRouter {
       case bookingDetail:
         if (args is TutorDetailArguments) {
           return successRoute(
-              BookingDetailPage(tutorModel: args.tutorModel), settings);
+              LoadingOverlay(
+                  child: BookingDetailPage(tutorModel: args.tutorModel)),
+              settings);
         } else {
           return errorRoute(
-              'Input for Book t page is not TutorDetailArguments', settings);
+              'Input for Booking page is not TutorDetailArguments', settings);
+        }
+      case searchResults:
+        if (args is SearchResultArguments) {
+          return successRoute(
+              LoadingOverlay(
+                  child: SearchResultPage(
+                nationality: args.nationality,
+                searchKey: args.searchKey,
+                specialities: args.specialities,
+              )),
+              settings);
+        } else {
+          return errorRoute(
+              'Input for Search result page is not SearchResultArguments',
+              settings);
         }
       //Schedule
       case schedule:
-        return successRoute(const SchedulePage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const SchedulePage()), settings);
       case joinMeeting:
-        return successRoute(const JoinMeetingPage(), settings);
+        if (args is BookingInfoArguments) {
+          return successRoute(
+              LoadingOverlay(
+                  child: JoinMeetingPage(
+                upcomingClass: args.upcomingLesson,
+              )),
+              settings);
+        } else {
+          return errorRoute(
+              'Input for Booking info is not BookingInfoArguments', settings);
+        }
+      case chatGpt:
+        return successRoute(LoadingOverlay(child: const ChatGPTPage()), settings);
       case learningHistory:
-        return successRoute(const LearningHistoryPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const LearningHistoryPage()), settings);
       // case analysis:
       //   return successRoute(const AnalysisPage(), settings);
       //Settings
       case setting:
-        return successRoute(const SettingsPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const SettingsPage()), settings);
       case becomeTutor:
-        return successRoute(const BecomeTutorPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const BecomeTutorPage()), settings);
       case account:
-        return successRoute(const AccountPage(), settings);
+        return successRoute(
+            LoadingOverlay(child: const AccountPage()), settings);
 
       default:
         return errorRoute("No route-name founded", settings);

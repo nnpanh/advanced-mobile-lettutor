@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/model/tutor/tutor_feedback.dart';
 
-import '../../../model/review_model.dart';
-import '../../../utils/utils.dart';
 import '../default_style.dart';
 import 'base_dialog/widget_dialog.dart';
 
-void onPressedShowReviews(Size size, BuildContext context) {
+void onPressedShowReviews(Size size, BuildContext context, List<TutorFeedback> listReview) {
   showDialog(
       context: context,
       builder: (BuildContext context) {
         return WidgetDialog(
-            title: 'Reviews', widget: ReviewDialogContent(size: size));
+            title: 'Reviews', widget: ReviewDialogContent(size: size, listReview: listReview));
       });
 }
 
 class ReviewDialogContent extends StatelessWidget {
-  ReviewDialogContent({super.key, required this.size});
+  const ReviewDialogContent({super.key, required this.size, required this.listReview});
   final Size size;
-  final List<ReviewModel> listReview = generateReviewList();
+  final List<TutorFeedback> listReview;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class ReviewDialogContent extends StatelessWidget {
 }
 
 class ReviewWidget extends StatelessWidget {
-  final ReviewModel reviewData;
+  final TutorFeedback reviewData;
 
   const ReviewWidget({super.key, required this.reviewData});
 
@@ -60,7 +59,7 @@ class ReviewWidget extends StatelessWidget {
               radius: 24,
               backgroundColor: Colors.black54,
               foregroundColor: Colors.transparent,
-              foregroundImage: NetworkImage(reviewData.avatarUrl ??
+              foregroundImage: NetworkImage(reviewData.firstInfo?.avatar ??
                   "https://i.imgur.com/M8p5g08_d.webp?maxwidth=760&fidelity=grand"),
             ),
           ),
@@ -74,13 +73,13 @@ class ReviewWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${reviewData.userName}",
+                  "${reviewData.firstInfo?.name}",
                   style: bodyLargeBold(context),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
                 RatingBar(
-                  initialRating: reviewData.ratingScore ?? 0.0,
+                  initialRating: reviewData.rating?.toDouble() ?? 0.0,
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
@@ -97,7 +96,7 @@ class ReviewWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${reviewData.comment}",
+                  "${reviewData.content}",
                   style: bodyLarge(context)?.copyWith(color: Colors.black),
                 ),
               ],

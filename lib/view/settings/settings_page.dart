@@ -54,6 +54,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         shape: BoxShape.circle,
                         color: Colors.white,
                       ),
+                      width:  48,
+                      height: 48,
                       child: CircleNetworkImage(
                           url: authProvider.currentUser?.avatar, size: 48.0),
                     ),

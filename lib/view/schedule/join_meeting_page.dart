@@ -11,13 +11,6 @@ import 'package:lettutor/view/common_widgets/elevated_button.dart';
 
 import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
 
-class ChatData {
-  final String content;
-  final bool isChatGPTAnswer;
-
-  ChatData(this.content, this.isChatGPTAnswer);
-}
-
 class JoinMeetingPage extends StatefulWidget {
   const JoinMeetingPage({super.key, required this.upcomingClass});
   final BookingInfo upcomingClass;
@@ -35,8 +28,9 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
   @override
   void initState() {
     super.initState();
-    endTime = DateTime.fromMillisecondsSinceEpoch(
-        upcomingClass.scheduleDetailInfo!.startPeriodTimestamp!);
+    endTime = DateTime.now().add(const Duration(seconds: 10));
+    // endTime = DateTime.fromMillisecondsSinceEpoch(
+    //     upcomingClass.scheduleDetailInfo!.startPeriodTimestamp!);
   }
 
   void onEnd() {
@@ -84,28 +78,30 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar:
-            appBarDefault(AppLocalizations.of(context)!.joinMeeting, context),
-        body: Center(
-            child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(ImagesPath.video),
-            CountdownTimer(
-              onEnd: onEnd,
-              endTime: endTime.millisecondsSinceEpoch,
-              textStyle: bodyLargeBold(context)?.copyWith(color: Colors.blue),
-              endWidget: CustomElevatedButton(
-                  title: AppLocalizations.of(context)!.joinMeeting,
-                  callback: () {
-                    _joinMeeting();
-                  },
-                  buttonType: ButtonType.filledButton,
-                  radius: 10),
-            ),
-          ],
-        )),
+        appBar: appBarDefault(AppLocalizations.of(context)!.joinMeeting, context),
+        body: SizedBox(
+          height: size.height,
+          width: size.width,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+          Image.asset(ImagesPath.video),
+          CountdownTimer(
+            onEnd: onEnd,
+            endTime: endTime.millisecondsSinceEpoch,
+            textStyle: bodyLargeBold(context)?.copyWith(color: Colors.blue),
+            endWidget: CustomElevatedButton(
+                title: AppLocalizations.of(context)!.joinMeeting,
+                callback: () {
+                  _joinMeeting();
+                },
+                buttonType: ButtonType.filledButton,
+                radius: 10),
+          ),
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             onPressedChatBubble(context, size);

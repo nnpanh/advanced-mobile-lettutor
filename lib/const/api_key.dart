@@ -1,1 +1,1 @@
-const apiKeyChatGPT ="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";
+const apiKeyChatGPT ="API_KEY_HERE";

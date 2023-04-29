@@ -165,17 +165,9 @@ class _SignUpPageState extends State<SignUpPage> {
           email: _emailController.text,
           password: _passwordController.text,
           onSuccess: (user, token) async {
-            authProvider.saveLoginInfo(user, token);
-
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.setString(
-              'refresh_token',
-              authProvider.token?.refresh?.token ?? "",
-            );
-
             Future.delayed(const Duration(seconds: 1), () {
               Navigator.pushNamedAndRemoveUntil(
-                  context, MyRouter.home, (route) => false);
+                  context, MyRouter.login, (route) => false);
             });
           },
           onFail: (e) {

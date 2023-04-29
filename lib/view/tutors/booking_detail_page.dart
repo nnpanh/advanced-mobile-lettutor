@@ -177,7 +177,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                     controller: _txtController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       hintText: AppLocalizations.of(context)!.leaveANote,
                     ),
                   ),
@@ -222,7 +222,12 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
               SnackBar(content: Text('Error: ${error.toString()}')),
             );
           });
-    } finally {
+    } catch(e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No available schedule')),
+      );
+    }
+    finally {
       LoadingOverlay.of(context).hide();
     }
   }
@@ -278,6 +283,11 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
         DateTime(endDateTime.year, endDateTime.month, endDateTime.day);
     int endTime = endDateTime.millisecondsSinceEpoch;
 
+    //Check if today
+    var todayDate = DateTime.now().day;
+    if (inputTime.day == todayDate) {
+      startTime = DateTime.now().millisecondsSinceEpoch;
+    }
     LoadingOverlay.of(context).show();
 
     try {

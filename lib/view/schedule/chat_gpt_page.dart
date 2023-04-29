@@ -128,11 +128,16 @@ class _ChatGPTPageState extends State<ChatGPTPage> {
 
               if (sendingPrompt.isNotEmpty) {
                 LoadingOverlay.of(context).show();
-                var response = await _createRequest(sendingPrompt);
-                final text = response?.choices.last.text.trim();
-                if (text!=null) {
-                  _updateDataFromGPT(text);
+                try {
+                  var response = await _createRequest(sendingPrompt);
+                  final text = response?.choices.last.text.trim();
+                  if (text != null) {
+                    _updateDataFromGPT(text);
+                  }
                 }
+                 finally {
+                   LoadingOverlay.of(context).hide();
+                 }
               }
             },
           ),

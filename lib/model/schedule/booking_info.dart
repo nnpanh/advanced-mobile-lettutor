@@ -26,7 +26,7 @@ class BookingInfo {
   ScheduleDetail? scheduleDetailInfo;
   ClassReview? classReview;
   //new
-  String? cancelReasonId;
+  int? cancelReasonId;
   String? lessonPlanId;
   String? cancelNote;
   String? calendarId;

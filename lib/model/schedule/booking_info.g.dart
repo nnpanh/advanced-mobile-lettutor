@@ -28,7 +28,7 @@ BookingInfo _$BookingInfoFromJson(Map<String, dynamic> json) => BookingInfo(
       classReview: json['classReview'] == null
           ? null
           : ClassReview.fromJson(json['classReview'] as Map<String, dynamic>),
-      cancelReasonId: json['cancelReasonId'] as String?,
+      cancelReasonId: json['cancelReasonId'] as int?,
       lessonPlanId: json['lessonPlanId'] as String?,
       cancelNote: json['cancelNote'] as String?,
       calendarId: json['calendarId'] as String?,

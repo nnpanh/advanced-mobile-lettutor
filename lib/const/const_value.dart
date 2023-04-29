@@ -21,10 +21,10 @@ class ConstValue {
   static const courseNameTextScale = 1.75;
   static const levelList = [
     "BEGINNER",
-    "HIGHER BEGINNER",
-    "PRE-INTERMEDIATE",
+    "HIGHER_BEGINNER",
+    "PRE_INTERMEDIATE",
     "INTERMEDIATE",
-    "UPPER-INTERMEDIATE",
+    "UPPER_INTERMEDIATE",
     "ADVANCED",
     "PROFICIENCY"
   ];

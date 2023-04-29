@@ -30,7 +30,7 @@ class _FirstStepState extends State<FirstStep> {
   late bool hasInitValue = false;
 
   void initValues(AuthProvider authProvider) {
-    setState(() {
+
       userModel = authProvider.currentUser!;
       //Set values for form
       _txtLevel = userModel.level;
@@ -38,16 +38,17 @@ class _FirstStepState extends State<FirstStep> {
       if (userModel.birthday != null) {
         _txtBirthday.text = formatDateStringFromApi(userModel.birthday);
       }
-      if (hasInitValue == false) {
-        for (var element in ConstValue.levelList) {
+
+      for (var element in ConstValue.levelList) {
           _levelList.add(DropdownMenuItem(
             value: element,
             child: Text(element),
           ));
-        }
       }
-      hasInitValue = true;
-    });
+
+      setState(() {
+        hasInitValue = true;
+      });
   }
 
 

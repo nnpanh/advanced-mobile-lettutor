@@ -34,7 +34,7 @@ class _ChipDropdownState extends State<ChipDropdown> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             LimitedBox(
-                maxWidth: widget.size.width - 90,
+                maxWidth: widget.size.width - 120,
                 child: Wrap(
                     children: selectedList
                         .map((item) => Container(

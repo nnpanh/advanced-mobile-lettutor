@@ -75,7 +75,10 @@ class UserRepository extends BaseRepository {
     required Function(String) showMessage,
   }) async {
     var response =
-        await service.post(url: "forgotPassword", data: {"email": email}) as BoundResource;
+        await service.post(url: "forgotPassword", headers: {
+          "origin": "https://sandbox.api.lettutor.com",
+          "referer":  "https://sandbox.api.lettutor.com",
+        }, data: {"email": email}) as BoundResource;
     switch (response.statusCode) {
       case 200:
       case 201:

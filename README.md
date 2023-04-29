@@ -17,4 +17,6 @@ Implement basic functions of LetTutor from [checklist](https://app.slack.com/cli
 
 Video demo: [https://www.youtube.com/watch?v=fbr4dlib914](https://www.youtube.com/watch?v=fbr4dlib914)
 
+Backup video in Google Drive: [https://drive.google.com/file/d/14gIr9xc28sKKghaM4L10ros8TBWS3Yj5/view?usp=sharing](https://drive.google.com/file/d/14gIr9xc28sKKghaM4L10ros8TBWS3Yj5/view?usp=sharing)
+
 

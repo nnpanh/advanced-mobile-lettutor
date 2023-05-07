@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/router.dart';
+import '../../providers/settings_provider.dart';
 
 class DefaultColor {
   late Color fontColor = Colors.black;
   late Color backgroundColor = Colors.transparent;
 
-  DefaultColor() {
-    if (getDeviceThemeMode() == ThemeMode.light) {
+  DefaultColor(BuildContext context) {
+    var colorTheme = Provider.of<SettingsProvider>(context).themeMode;
+    if (colorTheme == ThemeMode.light) {
       fontColor = Colors.black;
       backgroundColor = Colors.transparent;
     } else {
       fontColor = Colors.white;
-      backgroundColor = Colors.black;
+      backgroundColor = Colors.transparent;
     }
   }
 }
@@ -127,30 +130,30 @@ TextStyle? bodyLarge(BuildContext context) {
   return Theme.of(context).textTheme.bodyLarge?.copyWith(
       fontWeight: FontWeight.w400,
       height: ConstValue.descriptionTextScale,
-      color: DefaultColor().fontColor,
-      backgroundColor: DefaultColor().backgroundColor);
+      color: DefaultColor(context).fontColor,
+      backgroundColor: DefaultColor(context).backgroundColor);
 }
 
 TextStyle? bodyLargeBold(BuildContext context) {
   return Theme.of(context).textTheme.bodyLarge?.copyWith(
       fontWeight: FontWeight.w500,
       height: ConstValue.descriptionTextScale,
-      color: DefaultColor().fontColor,
-      backgroundColor: DefaultColor().backgroundColor);
+      color: DefaultColor(context).fontColor,
+      backgroundColor: DefaultColor(context).backgroundColor);
 }
 
 TextStyle? headLineSmall(BuildContext context) {
   return Theme.of(context).textTheme.headlineSmall?.copyWith(
       fontWeight: FontWeight.w500,
       height: ConstValue.descriptionTextScale,
-      color: DefaultColor().fontColor,
-      backgroundColor: DefaultColor().backgroundColor);
+      color: DefaultColor(context).fontColor,
+      backgroundColor: DefaultColor(context).backgroundColor);
 }
 
 TextStyle? headLineMedium(BuildContext context) {
   return Theme.of(context).textTheme.headlineMedium?.copyWith(
       fontWeight: FontWeight.w500,
       height: ConstValue.descriptionTextScale,
-      color: DefaultColor().fontColor,
-      backgroundColor: DefaultColor().backgroundColor);
+      color: DefaultColor(context).fontColor,
+      backgroundColor: DefaultColor(context).backgroundColor);
 }

@@ -64,9 +64,9 @@ class MyAppState extends State<MyApp> {
         builder: (context, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'LetTutor',
-            theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
-            darkTheme:
-                ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
+            theme: Provider.of<SettingsProvider>(context).themeMode == ThemeMode.light?
+            ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme())
+                : ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
             themeMode: getDeviceThemeMode(),
             onGenerateRoute: MyRouter.generateRoute,
             localizationsDelegates: AppLocalizations.localizationsDelegates,

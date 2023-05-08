@@ -1,16 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:lettutor/data/responses/response_get_list_course.dart';
 
 import '../../model/course/course_model.dart';
-import '../../model/user/user_model.dart';
-import '../../model/user/user_token.dart';
 import '../services/api_service.dart';
 import 'base_repository.dart';
 
 class CourseRepository extends BaseRepository {
-  static const String prefix = "course";
+  static const String prefix = "";
 
   CourseRepository() : super(prefix);
 
@@ -18,19 +13,19 @@ class CourseRepository extends BaseRepository {
     required String accessToken,
     required int size,
     required int page,
-    required Function(List<CourseModel>) onSuccess,
+    required String search,
+    required Function(List<CourseModel>, int) onSuccess,
     required Function(String) onFail,
   }) async {
     final response = await service.get(
-        url: "?page=$page&size=$size",
-        headers: {
-          "Authorization":"Bearer $accessToken"
-        }) as BoundResource;
+        url: "course?page=$page&size=$size&q=$search",
+        headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
 
     switch (response.statusCode) {
       case 200:
       case 201:
-        onSuccess(ResponseGetListCourse.fromJson(response.response).data?.rows??[]);
+        var result = ResponseGetListCourse.fromJson(response.response).data;
+        onSuccess(result?.rows ?? [], result?.count ?? 0);
         break;
       default:
         onFail(response.errorMsg.toString());
@@ -38,4 +33,27 @@ class CourseRepository extends BaseRepository {
     }
   }
 
+  Future<void> getEbookListWithPagination({
+    required String accessToken,
+    required int size,
+    required int page,
+    required String search,
+    required Function(List<CourseModel>, int) onSuccess,
+    required Function(String) onFail,
+  }) async {
+    final response = await service.get(
+        url: "e-book?page=$page&size=$size&q=$search",
+        headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        var result = ResponseGetListCourse.fromJson(response.response).data;
+        onSuccess(result?.rows ?? [], result?.count ?? 0);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
+  }
 }

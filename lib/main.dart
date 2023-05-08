@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/providers/auth_provider.dart';
+import 'package:lettutor/providers/course_provider.dart';
 import 'package:lettutor/providers/settings_provider.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
@@ -60,13 +61,16 @@ class MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
             create: (_) => SettingsProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (_) => CourseProvider(),
+          ),
         ],
         builder: (context, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'LetTutor',
-            theme: ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme()),
-            darkTheme:
-                ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
+            theme: Provider.of<SettingsProvider>(context).themeMode == ThemeMode.light?
+            ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme())
+                : ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
             themeMode: getDeviceThemeMode(),
             onGenerateRoute: MyRouter.generateRoute,
             localizationsDelegates: AppLocalizations.localizationsDelegates,

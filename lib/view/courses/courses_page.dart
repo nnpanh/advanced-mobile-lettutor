@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lettutor/providers/course_provider.dart';
 import 'package:lettutor/view/courses/widgets/course_tab.dart';
+import 'package:provider/provider.dart';
 
 class CoursesPage extends StatefulWidget {
   const CoursesPage({super.key});
@@ -13,7 +15,7 @@ class CoursesPage extends StatefulWidget {
 class _CoursesPageState extends State<CoursesPage>
     with SingleTickerProviderStateMixin {
   static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'All courses', icon: Icon(Icons.history_edu)),
+    Tab(text: 'Course', icon: Icon(Icons.history_edu)),
     Tab(text: 'Ebook', icon: Icon(FontAwesomeIcons.bookOpen)),
   ];
 
@@ -36,17 +38,19 @@ class _CoursesPageState extends State<CoursesPage>
 
   @override
   Widget build(BuildContext context) {
+    var courseProvider = Provider.of<CourseProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: isSearching
-            ? buildSearchField()
+            ? buildSearchField(courseProvider)
             : Text(AppLocalizations.of(context)!.onlineCourses),
         // automaticallyImplyLeading: isSearching ? false : true,
         leading: isSearching
             ? IconButton(
                 icon: const Icon(Icons.search_off),
                 onPressed: () {
-                  onSearch(context);
+                  onTurnOffSearchMode(context);
                 },
               )
             : const BackButton(),
@@ -74,8 +78,9 @@ class _CoursesPageState extends State<CoursesPage>
               if (isSearching) {
                 _txtController.clear();
               } else {
-                onSearch(context);
+                onTurnOffSearchMode(context);
               }
+              courseProvider.setKeys("");
             },
           )
         ],
@@ -84,19 +89,22 @@ class _CoursesPageState extends State<CoursesPage>
         controller: _tabController,
         children: myTabs.map((Tab tab) {
           final String label = tab.text!.toLowerCase();
-          return Center(child: CourseTab(tabType: label));
+          return Center(
+              child: CourseTab(
+            tabType: label,
+          ));
         }).toList(),
       ),
     );
   }
 
-  void onSearch(BuildContext context) {
+  void onTurnOffSearchMode(BuildContext context) {
     setState(() {
       isSearching = !isSearching;
     });
   }
 
-  TextField buildSearchField() {
+  TextField buildSearchField(CourseProvider courseProvider) {
     return TextField(
       controller: _txtController,
       autofocus: true,
@@ -106,7 +114,9 @@ class _CoursesPageState extends State<CoursesPage>
         hintStyle: const TextStyle(color: Colors.white54),
       ),
       style: const TextStyle(color: Colors.white, fontSize: 16.0),
-      onChanged: (query) {},
+      onChanged: (query) {
+        courseProvider.setKeys(query);
+      },
     );
   }
 }

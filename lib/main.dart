@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/providers/auth_provider.dart';
+import 'package:lettutor/providers/course_provider.dart';
 import 'package:lettutor/providers/settings_provider.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/view/authentication/login_page.dart';
@@ -59,6 +60,9 @@ class MyAppState extends State<MyApp> {
           ),
           ChangeNotifierProvider(
             create: (_) => SettingsProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => CourseProvider(),
           ),
         ],
         builder: (context, child) => MaterialApp(

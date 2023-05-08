@@ -158,60 +158,60 @@ class _SettingsPageState extends State<SettingsPage> {
                     textAlign: TextAlign.start,
                     softWrap: true,
                   ),
-                  ExpansionTile(
-                    title: Text(
-                      AppLocalizations.of(context)!.notifications,
-                      style: bodyLarge(context),
-                    ),
-                    tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
-                    childrenPadding: const EdgeInsets.fromLTRB(12, 0, 2, 0),
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(
-                            AppLocalizations.of(context)!.receiveInAppNoti,
-                            style: bodyLarge(context)),
-                        contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing: Switch(
-                          value: _notifications[0],
-                          activeColor: Colors.blue,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _notifications[0] = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(AppLocalizations.of(context)!.receiveEmail,
-                            style: bodyLarge(context)),
-                        contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing: Switch(
-                          value: _notifications[1],
-                          activeColor: Colors.blue,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _notifications[1] = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                            AppLocalizations.of(context)!.receiveSMSText,
-                            style: bodyLarge(context)),
-                        contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing: Switch(
-                          value: _notifications[2],
-                          activeColor: Colors.blue,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _notifications[2] = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  // ExpansionTile(
+                  //   title: Text(
+                  //     AppLocalizations.of(context)!.notifications,
+                  //     style: bodyLarge(context),
+                  //   ),
+                  //   tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
+                  //   childrenPadding: const EdgeInsets.fromLTRB(12, 0, 2, 0),
+                  //   children: <Widget>[
+                  //     ListTile(
+                  //       title: Text(
+                  //           AppLocalizations.of(context)!.receiveInAppNoti,
+                  //           style: bodyLarge(context)),
+                  //       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  //       trailing: Switch(
+                  //         value: _notifications[0],
+                  //         activeColor: Colors.blue,
+                  //         onChanged: (bool value) {
+                  //           setState(() {
+                  //             _notifications[0] = value;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //     ListTile(
+                  //       title: Text(AppLocalizations.of(context)!.receiveEmail,
+                  //           style: bodyLarge(context)),
+                  //       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  //       trailing: Switch(
+                  //         value: _notifications[1],
+                  //         activeColor: Colors.blue,
+                  //         onChanged: (bool value) {
+                  //           setState(() {
+                  //             _notifications[1] = value;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //     ListTile(
+                  //       title: Text(
+                  //           AppLocalizations.of(context)!.receiveSMSText,
+                  //           style: bodyLarge(context)),
+                  //       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  //       trailing: Switch(
+                  //         value: _notifications[2],
+                  //         activeColor: Colors.blue,
+                  //         onChanged: (bool value) {
+                  //           setState(() {
+                  //             _notifications[2] = value;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   ExpansionTile(
                     title: Text(
                       AppLocalizations.of(context)!.language,

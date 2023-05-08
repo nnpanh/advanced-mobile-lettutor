@@ -48,10 +48,10 @@ class _CourseTabState extends State<CourseTab> {
         children: [
           _loading
               ? const LoadingFilled()
-              : LimitedBox(
-                  maxHeight: double.maxFinite,
-                  child: courseList.isNotEmpty
-                      ? ListView.builder(
+              : courseList.isNotEmpty
+                  ? LimitedBox(
+                      maxHeight: double.maxFinite,
+                      child: ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
@@ -59,12 +59,10 @@ class _CourseTabState extends State<CourseTab> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             return CourseCard(courseData: courseList[index]);
-                          })
-                      : Center(
-                          child: Text(
-                              style: headLineSmall(context),
-                              "No match result")),
-                ),
+                          }))
+                  : Center(
+                      child: Text(
+                          style: headLineSmall(context), "No match result")),
           Container(
             padding: const EdgeInsets.all(16),
             child: PaginationList(

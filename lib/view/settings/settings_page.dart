@@ -24,6 +24,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _isLightMode = true;
+  bool _hasLoadedMode = false;
   final List<bool> _notifications = [true, true, false];
 
   @override
@@ -31,6 +32,11 @@ class _SettingsPageState extends State<SettingsPage> {
     Size size = MediaQuery.of(context).size;
     final authProvider = Provider.of<AuthProvider>(context);
     final settingsProvider = Provider.of<SettingsProvider>(context);
+
+    if (!_hasLoadedMode) {
+      _isLightMode = settingsProvider.themeMode == ThemeMode.light;
+      _hasLoadedMode = true;
+    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -152,60 +158,60 @@ class _SettingsPageState extends State<SettingsPage> {
                     textAlign: TextAlign.start,
                     softWrap: true,
                   ),
-                  ExpansionTile(
-                    title: Text(
-                      AppLocalizations.of(context)!.notifications,
-                      style: bodyLarge(context),
-                    ),
-                    tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
-                    childrenPadding: const EdgeInsets.fromLTRB(12, 0, 2, 0),
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(
-                            AppLocalizations.of(context)!.receiveInAppNoti,
-                            style: bodyLarge(context)),
-                        contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing: Switch(
-                          value: _notifications[0],
-                          activeColor: Colors.blue,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _notifications[0] = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(AppLocalizations.of(context)!.receiveEmail,
-                            style: bodyLarge(context)),
-                        contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing: Switch(
-                          value: _notifications[1],
-                          activeColor: Colors.blue,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _notifications[1] = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                            AppLocalizations.of(context)!.receiveSMSText,
-                            style: bodyLarge(context)),
-                        contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        trailing: Switch(
-                          value: _notifications[2],
-                          activeColor: Colors.blue,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _notifications[2] = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  // ExpansionTile(
+                  //   title: Text(
+                  //     AppLocalizations.of(context)!.notifications,
+                  //     style: bodyLarge(context),
+                  //   ),
+                  //   tilePadding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
+                  //   childrenPadding: const EdgeInsets.fromLTRB(12, 0, 2, 0),
+                  //   children: <Widget>[
+                  //     ListTile(
+                  //       title: Text(
+                  //           AppLocalizations.of(context)!.receiveInAppNoti,
+                  //           style: bodyLarge(context)),
+                  //       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  //       trailing: Switch(
+                  //         value: _notifications[0],
+                  //         activeColor: Colors.blue,
+                  //         onChanged: (bool value) {
+                  //           setState(() {
+                  //             _notifications[0] = value;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //     ListTile(
+                  //       title: Text(AppLocalizations.of(context)!.receiveEmail,
+                  //           style: bodyLarge(context)),
+                  //       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  //       trailing: Switch(
+                  //         value: _notifications[1],
+                  //         activeColor: Colors.blue,
+                  //         onChanged: (bool value) {
+                  //           setState(() {
+                  //             _notifications[1] = value;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //     ListTile(
+                  //       title: Text(
+                  //           AppLocalizations.of(context)!.receiveSMSText,
+                  //           style: bodyLarge(context)),
+                  //       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  //       trailing: Switch(
+                  //         value: _notifications[2],
+                  //         activeColor: Colors.blue,
+                  //         onChanged: (bool value) {
+                  //           setState(() {
+                  //             _notifications[2] = value;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   ExpansionTile(
                     title: Text(
                       AppLocalizations.of(context)!.language,
@@ -284,6 +290,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: () {
                           setState(() {
                             _isLightMode = true;
+                            settingsProvider.toggleTheme(false);
                           });
                         },
                       ),
@@ -306,6 +313,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: () {
                           setState(() {
                             _isLightMode = false;
+                            settingsProvider.toggleTheme(true);
                           });
                         },
                       ),

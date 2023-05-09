@@ -27,6 +27,7 @@ class _CourseTabState extends State<CourseTab> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     final authProvider = Provider.of<AuthProvider>(context);
     final courseProvider = Provider.of<CourseProvider>(context);
 
@@ -47,19 +48,24 @@ class _CourseTabState extends State<CourseTab> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _loading
-              ? const LoadingFilled()
+              ? ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: size.height * 0.5,
+                maxHeight: size.height,
+                minWidth: size.width * 0.5,
+                maxWidth: size.width,
+              ),
+              child: const LoadingFilled())
               : courseList.isNotEmpty
-                  ? LimitedBox(
-                      maxHeight: double.maxFinite,
-                      child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: courseList.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            return CourseCard(courseData: courseList[index]);
-                          }))
+                  ? ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: courseList.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return CourseCard(courseData: courseList[index]);
+                      })
                   : Center(
                       child: Text(
                           style: headLineSmall(context), "No match result")),
@@ -100,9 +106,7 @@ class _CourseTabState extends State<CourseTab> {
         size: perPage,
         onSuccess: (response, total) async {
           setState(() {
-            if (response.isNotEmpty) {
-              courseList = response;
-            }
+            courseList = response;
             _hasFetch = true;
             totalItems = total;
             _loading = false;
@@ -127,9 +131,7 @@ class _CourseTabState extends State<CourseTab> {
         size: perPage,
         onSuccess: (response, total) async {
           setState(() {
-            if (response.isNotEmpty) {
-              courseList = response;
-            }
+            courseList = response;
             _hasFetch = true;
             totalItems = total;
             _loading = false;

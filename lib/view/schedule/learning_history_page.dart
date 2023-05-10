@@ -91,7 +91,13 @@ class _LearningHistoryPageState extends State<LearningHistoryPage> {
                                           size,
                                           lesson.scheduleDetailInfo
                                               ?.scheduleInfo?.tutorInfo?.name,
-                                          context);
+                                          context,
+                                          lesson
+                                                  .scheduleDetailInfo
+                                                  ?.scheduleInfo
+                                                  ?.tutorInfo
+                                                  ?.id ??
+                                              "");
                                     },
                                     rightButtonCallback: () {
                                       CreateReviewArguments reviewArguments =

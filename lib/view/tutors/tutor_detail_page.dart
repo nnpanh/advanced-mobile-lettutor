@@ -191,8 +191,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  onPressedReport(
-                                      size, tutorData.name, context);
+                                  onPressedReport(size, tutorData.name, context,
+                                      tutorData.id ?? "");
                                 },
                                 icon: const Icon(
                                   Icons.report_outlined,

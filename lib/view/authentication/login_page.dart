@@ -33,13 +33,19 @@ class _LoginPageState extends State<LoginPage> {
   bool _hasAuthenticated = false;
 
   @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final authProvider = Provider.of<AuthProvider>(context);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     if (!_hasAuthenticated) {
       restorePreviousSession(authProvider);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
       body: _hasAuthenticated
@@ -341,15 +347,14 @@ class _LoginPageState extends State<LoginPage> {
             'refresh_token',
             authProvider.token!.refresh!.token!,
           );
+          _hasAuthenticated = true;
 
-          setState(() {
-            _hasAuthenticated = true;
-          });
-
-          Future.delayed(const Duration(seconds: 0), () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, MyRouter.home, (route) => false);
-          });
+          if (mounted) {
+            Future.delayed(const Duration(seconds: 0), () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, MyRouter.home, (route) => false);
+            });
+          }
         },
       );
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_pagination/flutter_pagination.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/utils/utils.dart';
@@ -25,19 +26,25 @@ class _SchedulePageState extends State<SchedulePage> {
   bool _hasFetch = false;
 
   //Pagination
+  bool _loading = true;
   final int perPage = 5;
   int currentPage = 1;
   int maximumPage = 1;
   int numberOfShowPages = 0;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_hasFetch) {
+      callApiGetListSchedules(1, BookingRepository(),
+          Provider.of<AuthProvider>(context, listen: false));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    if (!_hasFetch) {
-      callApiGetListSchedules(
-          1, BookingRepository(), Provider.of<AuthProvider>(context));
-    }
+    var authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -106,33 +113,57 @@ class _SchedulePageState extends State<SchedulePage> {
             ),
             _hasFetch
                 ? lessonList.isNotEmpty
-                    ? Container(
-                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                        child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            itemCount: lessonList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return LessonCard(
-                                lessonData: lessonList[index],
-                                isHistoryCard: false,
-                                leftButton:
-                                    AppLocalizations.of(context)!.cancel,
-                                rightButton:
-                                    AppLocalizations.of(context)!.goToMeeting,
-                                leftButtonCallback: () {
-                                  onPressedCancel(context, size);
+                    ? Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                            child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                itemCount: lessonList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return LessonCard(
+                                    lessonData: lessonList[index],
+                                    isHistoryCard: false,
+                                    leftButton:
+                                        AppLocalizations.of(context)!.cancel,
+                                    rightButton: AppLocalizations.of(context)!
+                                        .goToMeeting,
+                                    leftButtonCallback: () {
+                                      onPressedCancel(context, size);
+                                    },
+                                    rightButtonCallback: () {
+                                      onPressedGoToMeeting();
+                                    },
+                                    iconButtonCallback: () {
+                                      onPressedLeaveNote(context, size);
+                                    },
+                                  );
+                                }),
+                          ),
+                          Container(
+                              padding: const EdgeInsets.all(16),
+                              child: Pagination(
+                                paginateButtonStyles: paginationStyle(context),
+                                prevButtonStyles: prevButtonStyles(context),
+                                nextButtonStyles: nextButtonStyles(context),
+                                onPageChange: (number) {
+                                  setState(() {
+                                    _loading = true;
+                                    currentPage = number;
+                                  });
+                                  //Call API
+                                  callApiGetListSchedules(number,
+                                      BookingRepository(), authProvider);
                                 },
-                                rightButtonCallback: () {
-                                  onPressedGoToMeeting();
-                                },
-                                iconButtonCallback: () {
-                                  onPressedLeaveNote(context, size);
-                                },
-                              );
-                            }),
+                                useGroup: false,
+                                totalPage: maximumPage,
+                                show: numberOfShowPages,
+                                currentPage: currentPage,
+                              ))
+                        ],
                       )
                     : SizedBox(
                         height: size.height * 0.5,

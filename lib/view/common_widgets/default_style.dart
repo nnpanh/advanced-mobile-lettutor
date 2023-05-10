@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_pagination/widgets/button_styles.dart';
 import 'package:lettutor/const/const_value.dart';
 import 'package:lettutor/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -156,4 +157,34 @@ TextStyle? headLineMedium(BuildContext context) {
       height: ConstValue.descriptionTextScale,
       color: DefaultColor(context).fontColor,
       backgroundColor: DefaultColor(context).backgroundColor);
+}
+
+PaginateButtonStyles paginationStyle(BuildContext context) {
+  return PaginateButtonStyles(
+      backgroundColor: Colors.white,
+      activeBackgroundColor: Colors.blue,
+      textStyle: bodyLarge(context)?.copyWith(color: Colors.blue),
+      activeTextStyle: bodyLarge(context)?.copyWith(color: Colors.white));
+}
+
+PaginateSkipButton prevButtonStyles(BuildContext context) {
+  return PaginateSkipButton(
+      icon: const Icon(
+        Icons.navigate_before,
+        color: Colors.blue,
+      ),
+      buttonBackgroundColor: Colors.white,
+      borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16), bottomLeft: Radius.circular(16)));
+}
+
+PaginateSkipButton nextButtonStyles(BuildContext context) {
+  return PaginateSkipButton(
+      icon: const Icon(
+        Icons.navigate_next,
+        color: Colors.blue,
+      ),
+      buttonBackgroundColor: Colors.white,
+      borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(16), bottomRight: Radius.circular(16)));
 }

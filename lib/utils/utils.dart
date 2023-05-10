@@ -140,3 +140,15 @@ extension DateTimeFromTimeOfDay on DateTime {
     return DateTime.utc(year, month, day, timeOfDay.hour, timeOfDay.minute);
   }
 }
+
+int getShowPagesBasedOnPages(int pages) {
+  if (pages > 2) {
+    return 2;
+  } else if (pages == 2) {
+    return 1;
+  } else if (pages <= 1) {
+    return 0;
+  } else {
+    return 0;
+  }
+}

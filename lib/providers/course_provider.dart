@@ -4,7 +4,7 @@ class CourseProvider extends ChangeNotifier {
   String _searchKeys = "";
   String get searchKeys => _searchKeys;
 
-  bool reloadFlag = false;
+  bool reloadFlag = true;
 
   void setReloadFlag() {
     reloadFlag = false;

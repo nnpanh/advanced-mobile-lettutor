@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/providers/auth_provider.dart';
+import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/dialogs/base_dialog/confirm_dialog.dart';
 import 'package:lettutor/view/schedule/widgets/lesson_card.dart';
@@ -22,6 +23,12 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   final lessonList = [];
   bool _hasFetch = false;
+
+  //Pagination
+  final int perPage = 5;
+  int currentPage = 1;
+  int maximumPage = 1;
+  int numberOfShowPages = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -101,33 +108,31 @@ class _SchedulePageState extends State<SchedulePage> {
                 ? lessonList.isNotEmpty
                     ? Container(
                         padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                        child: LimitedBox(
-                            maxHeight: double.maxFinite,
-                            child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                itemCount: lessonList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return LessonCard(
-                                    lessonData: lessonList[index],
-                                    isHistoryCard: false,
-                                    leftButton:
-                                        AppLocalizations.of(context)!.cancel,
-                                    rightButton: AppLocalizations.of(context)!
-                                        .goToMeeting,
-                                    leftButtonCallback: () {
-                                      onPressedCancel(context, size);
-                                    },
-                                    rightButtonCallback: () {
-                                      onPressedGoToMeeting();
-                                    },
-                                    iconButtonCallback: () {
-                                      onPressedLeaveNote(context, size);
-                                    },
-                                  );
-                                })),
+                        child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            itemCount: lessonList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return LessonCard(
+                                lessonData: lessonList[index],
+                                isHistoryCard: false,
+                                leftButton:
+                                    AppLocalizations.of(context)!.cancel,
+                                rightButton:
+                                    AppLocalizations.of(context)!.goToMeeting,
+                                leftButtonCallback: () {
+                                  onPressedCancel(context, size);
+                                },
+                                rightButtonCallback: () {
+                                  onPressedGoToMeeting();
+                                },
+                                iconButtonCallback: () {
+                                  onPressedLeaveNote(context, size);
+                                },
+                              );
+                            }),
                       )
                     : SizedBox(
                         height: size.height * 0.5,
@@ -224,7 +229,8 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   void onPressedGoToMeeting() {
-    Navigator.of(context).pushNamed(MyRouter.joinMeeting, arguments: BookingInfoArguments(upcomingLesson: lessonList.first));
+    Navigator.of(context).pushNamed(MyRouter.joinMeeting,
+        arguments: BookingInfoArguments(upcomingLesson: lessonList.first));
   }
 
   Future<void> callApiGetListSchedules(int page,
@@ -234,8 +240,11 @@ class _SchedulePageState extends State<SchedulePage> {
         page: page,
         perPage: 20,
         now: DateTime.now().millisecondsSinceEpoch.toString(),
-        onSuccess: (response) async {
+        onSuccess: (response, total) async {
           _filterListScheduleFromApi(response);
+          currentPage = page;
+          maximumPage = (total / perPage).ceil();
+          numberOfShowPages = getShowPagesBasedOnPages(maximumPage);
         },
         onFail: (error) {
           ScaffoldMessenger.of(context).showSnackBar(

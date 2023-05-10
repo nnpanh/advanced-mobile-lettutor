@@ -15,7 +15,7 @@ class BookingRepository extends BaseRepository {
     required String now,
     required int page,
     required int perPage,
-    required Function(List<BookingInfo>) onSuccess,
+    required Function(List<BookingInfo>, int) onSuccess,
     required Function(String) onFail,
   }) async {
     final response = await service.get(
@@ -26,9 +26,8 @@ class BookingRepository extends BaseRepository {
     switch (response.statusCode) {
       case 200:
       case 201:
-        onSuccess(
-            ResponseGetListBooking.fromJson(response.response).data?.rows ??
-                []);
+        var result = ResponseGetListBooking.fromJson(response.response).data;
+        onSuccess(result?.rows ?? [], result?.count ?? 0);
         break;
       default:
         onFail(response.errorMsg.toString());
@@ -41,7 +40,7 @@ class BookingRepository extends BaseRepository {
     required String now,
     required int page,
     required int perPage,
-    required Function(List<BookingInfo>) onSuccess,
+    required Function(List<BookingInfo>, int) onSuccess,
     required Function(String) onFail,
   }) async {
     final response = await service.get(
@@ -52,8 +51,8 @@ class BookingRepository extends BaseRepository {
     switch (response.statusCode) {
       case 200:
       case 201:
-        onSuccess(
-            ResponseGetListBooking.fromJson(response.response).data?.rows ?? []);
+        var result = ResponseGetListBooking.fromJson(response.response).data;
+        onSuccess(result?.rows ?? [], result?.count ?? 0);
         break;
       default:
         onFail(response.errorMsg.toString());
@@ -68,15 +67,14 @@ class BookingRepository extends BaseRepository {
     required Function(String) onFail,
   }) async {
     final response = await service.get(
-        url:
-        "next?dateTime=$now",
+        url: "next?dateTime=$now",
         headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
 
     switch (response.statusCode) {
       case 200:
       case 201:
         onSuccess(
-            ResponseGetNextBookingInfo.fromJson(response.response).data?? []);
+            ResponseGetNextBookingInfo.fromJson(response.response).data ?? []);
         break;
       default:
         onFail(response.errorMsg.toString());
@@ -93,10 +91,7 @@ class BookingRepository extends BaseRepository {
   }) async {
     final response = await service.post(
         url: "",
-        data: {
-          "note":notes,
-          "scheduleDetailIds":scheduleDetailIds
-        },
+        data: {"note": notes, "scheduleDetailIds": scheduleDetailIds},
         headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
 
     switch (response.statusCode) {

@@ -4,6 +4,7 @@ import 'package:lettutor/data/repositories/course_repository.dart';
 import 'package:lettutor/model/course/course_model.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/providers/course_provider.dart';
+import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/loading_filled.dart';
 import 'package:provider/provider.dart';
@@ -108,15 +109,7 @@ class _CourseTabState extends State<CourseTab> {
 
   void calculatePages(int totalItems) {
     maximumPage = (totalItems / perPage).ceil();
-    if (maximumPage > 2) {
-      numberOfShowPages = 2;
-    } else if (maximumPage == 2) {
-      currentPage = 1;
-      numberOfShowPages = 1;
-    } else if (maximumPage <= 1) {
-      currentPage = 1;
-      numberOfShowPages = 0;
-    }
+    numberOfShowPages = getShowPagesBasedOnPages(maximumPage);
   }
 
   Future<void> callAPIGetCourseList(int page, CourseRepository courseRepository,

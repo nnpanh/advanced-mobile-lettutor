@@ -48,9 +48,11 @@ class _HomePageState extends State<HomePage> {
         callAPIGetTutorList(1, TutorRepository(), authProvider),
         callApiGetListSchedules(BookingRepository(), authProvider)
       ]).whenComplete(() {
-        setState(() {
-          _hasFetched = true;
-        });
+        if (mounted) {
+          setState(() {
+            _hasFetched = true;
+          });
+        }
       });
     }
   }
@@ -234,7 +236,7 @@ class _HomePageState extends State<HomePage> {
         page: 1,
         perPage: 100000,
         now: DateTime.now().millisecondsSinceEpoch.toString(),
-        onSuccess: (response) async {
+        onSuccess: (response, total) async {
           _filterListScheduleFromApi(response);
         },
         onFail: (error) {

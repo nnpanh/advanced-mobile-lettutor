@@ -3,7 +3,6 @@ import 'package:lettutor/data/repositories/extension_repository.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/elevated_button.dart';
-import 'package:lettutor/view/common_widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../../const/export_const.dart';
@@ -18,11 +17,10 @@ class ReportModel {
 
 void callApiSendReport(
     BuildContext context, String reason, String tutorId) async {
-  var authProvider = Provider.of<AuthProvider>(context);
+  var authProvider = Provider.of<AuthProvider>(context, listen: false);
   var noPrefixRepo = ExtensionRepository();
 
   try {
-    LoadingOverlay.of(context).show();
     await noPrefixRepo.postReportATutor(
         accessToken: authProvider.token?.access?.token ?? "",
         reason: reason,
@@ -38,9 +36,7 @@ void callApiSendReport(
             SnackBar(content: Text('Error: ${error.toString()}')),
           );
         });
-  } finally {
-    LoadingOverlay.of(context).hide();
-  }
+  } finally {}
 }
 
 void onPressedReport(
@@ -141,17 +137,6 @@ class ReportDialogContentState extends State<ReportDialogContent> {
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: CustomElevatedButton(
                       callback: () {
-                        String reportReasons = "";
-                        for (var element in listReport) {
-                          if (element.isChecked == true) {
-                            reportReasons =
-                                "$reportReasons${element.content}\n";
-                          }
-                        }
-                        if (reportReasons.isNotEmpty) {
-                          widget.sendReport(
-                              context, reportReasons, widget.tutorId);
-                        }
                         Navigator.of(context).pop();
                       },
                       title: 'Cancel',
@@ -164,7 +149,17 @@ class ReportDialogContentState extends State<ReportDialogContent> {
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: CustomElevatedButton(
                       callback: () {
-                        Navigator.of(context).pop();
+                        String reportReasons = "";
+                        for (var element in listReport) {
+                          if (element.isChecked == true) {
+                            reportReasons =
+                                "$reportReasons${element.content}\n";
+                          }
+                        }
+                        if (reportReasons.isNotEmpty) {
+                          widget.sendReport(
+                              context, reportReasons, widget.tutorId);
+                        }
                       },
                       title: 'Send report',
                       radius: 30,

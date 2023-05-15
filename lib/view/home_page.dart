@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage> {
     UserRepository userRepository = UserRepository();
     await userRepository.manageFavoriteTutor(
         accessToken: authProvider.token?.access?.token ?? "",
-        tutorId: tutorClicked.id!,
+        tutorId: tutorClicked.userId!,
         onSuccess: (message, unfavored) async {
           if (unfavored) {
             _favTutorSecondId.remove(tutorClicked.userId);

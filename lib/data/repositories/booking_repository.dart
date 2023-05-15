@@ -104,4 +104,30 @@ class BookingRepository extends BaseRepository {
         break;
     }
   }
+
+  Future<void> cancelALesson({
+    required String accessToken,
+    required String scheduleDetailIds,
+    required int cancelReasonId,
+    required String? notes,
+    required Function(String) onSuccess,
+    required Function(String) onFail,
+  }) async {
+    final response = await service.delete(url: "", data: {
+      "scheduleDetailIds": [scheduleDetailIds],
+      "cancelInfo": {"cancelReasonId": cancelReasonId, "note": notes}
+    }, headers: {
+      "Authorization": "Bearer $accessToken"
+    }) as BoundResource;
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        onSuccess(response.response['message']);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
+  }
 }

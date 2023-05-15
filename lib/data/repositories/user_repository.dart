@@ -8,15 +8,27 @@ class UserRepository extends BaseRepository {
 
   UserRepository() : super(prefix);
 
-  //TODO: RESPONSE UNKNOWN
-  Future<void> getUser({
-    required Function() onSuccess,
+  Future<void> manageFavoriteTutor({
+    required String accessToken,
+    required String tutorId,
+    required Function(String, bool) onSuccess,
+    required Function(String) onFail,
   }) async {
-    final response = await service.get(
-      url: "info",
-    );
+    final response = await service.post(
+        url: "manageFavoriteTutor",
+        data: {"tutorId": tutorId},
+        headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
 
-    await onSuccess();
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        onSuccess(
+            response.response['message'], response.response['result'] == 1);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
 
   Future<void> updateUserInfo({
@@ -33,11 +45,9 @@ class UserRepository extends BaseRepository {
     input.testPreparations?.forEach((element) {
       testPreparations.add(element.id);
     });
-    final response = await service.put(url: 'info',
-        headers: {
-          "Authorization":"Bearer $accessToken"
-        },
-        data: {
+    final response = await service.put(url: 'info', headers: {
+      "Authorization": "Bearer $accessToken"
+    }, data: {
       "name": input.name,
       "country": input.country,
       "phone": input.phone,
@@ -74,11 +84,12 @@ class UserRepository extends BaseRepository {
     required String email,
     required Function(String) showMessage,
   }) async {
-    var response =
-        await service.post(url: "forgotPassword", headers: {
-          "origin": "https://sandbox.api.lettutor.com",
-          "referer":  "https://sandbox.api.lettutor.com",
-        }, data: {"email": email}) as BoundResource;
+    var response = await service.post(url: "forgotPassword", headers: {
+      "origin": "https://sandbox.api.lettutor.com",
+      "referer": "https://sandbox.api.lettutor.com",
+    }, data: {
+      "email": email
+    }) as BoundResource;
     switch (response.statusCode) {
       case 200:
       case 201:

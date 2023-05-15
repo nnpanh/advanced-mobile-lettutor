@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lettutor/config/router_arguments.dart';
 import 'package:lettutor/data/repositories/tutor_repository.dart';
+import 'package:lettutor/data/repositories/user_repository.dart';
 import 'package:lettutor/data/responses/response_get_list_tutor.dart';
 import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/providers/auth_provider.dart';
@@ -26,7 +27,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //Tutor list
-  final List<TutorModel> _tutorList = [];
+  List<TutorModel> _tutorList = [];
   List<String> _favTutorSecondId = [];
 
   //Upcoming lesson data
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage> {
 
   //Fetch API
   bool _hasFetched = false;
+  bool _isLoading = true;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -51,6 +53,7 @@ class _HomePageState extends State<HomePage> {
         if (mounted) {
           setState(() {
             _hasFetched = true;
+            _isLoading = false;
           });
         }
       });
@@ -59,106 +62,134 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return !_hasFetched
+    var authProvider = Provider.of<AuthProvider>(context);
+
+    return _isLoading
         ? const LoadingFilled()
         : Scaffold(
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                      padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
-                      width: double.infinity,
-                      color: Colors.blue,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.upComingLesson,
-                            style: bodyLargeBold(context)
-                                ?.copyWith(color: Colors.white, fontSize: 18),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: (upcomingLesson != null)
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                          getDateString(
-                                              DateTime.fromMillisecondsSinceEpoch(
-                                                  upcomingLesson!
-                                                      .scheduleDetailInfo!
-                                                      .startPeriodTimestamp!),
-                                              TimeFormat.getDateAndTime),
-                                          style: bodyLarge(context)
-                                              ?.copyWith(color: Colors.white),
+            body: RefreshIndicator(
+              onRefresh: () async {
+                setState(() {
+                  _tutorList = [];
+                  _favTutorSecondId = [];
+                  lessonList = [];
+                  _isLoading = true;
+                });
+                await Future.wait([
+                  callAPIGetTutorList(1, TutorRepository(), authProvider),
+                  callApiGetListSchedules(BookingRepository(), authProvider)
+                ]).whenComplete(() {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  return Future<void>.delayed(const Duration(seconds: 0));
+                });
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
+                        width: double.infinity,
+                        color: Colors.blue,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.upComingLesson,
+                              style: bodyLargeBold(context)
+                                  ?.copyWith(color: Colors.white, fontSize: 18),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: (upcomingLesson != null)
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            getDateString(
+                                                DateTime.fromMillisecondsSinceEpoch(
+                                                    upcomingLesson!
+                                                        .scheduleDetailInfo!
+                                                        .startPeriodTimestamp!),
+                                                TimeFormat.getDateAndTime),
+                                            style: bodyLarge(context)
+                                                ?.copyWith(color: Colors.white),
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                          flex: 1,
-                                          child: ChipButton(
-                                            callback: () {
-                                              joinUpcomingMeeting(context);
-                                            },
-                                            title: AppLocalizations.of(context)!
-                                                .join,
-                                            hasIcon: false,
-                                            chipType:
-                                                ButtonType.filledWhiteButton,
-                                          ))
-                                    ],
-                                  )
-                                : const SizedBox(),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            (totalLessonTime.isEmpty)
-                                ? AppLocalizations.of(context)!.noUpcomingLesson
-                                : "${AppLocalizations.of(context)!.totalLearningHoursLeft}: $totalLessonTime",
-                            style: bodyLarge(context)
-                                ?.copyWith(color: Colors.white),
-                          ),
-                        ],
-                      )),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-                    child: Text(AppLocalizations.of(context)!.recommendTutors,
-                        style: headLineMedium(context)),
-                  ),
-                  Container(
-                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                      child: LimitedBox(
-                          maxHeight: double.maxFinite,
-                          child: ListView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              itemCount: _tutorList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TutorCard(
-                                    hasFavor: true,
-                                    tutorData: _tutorList[index],
-                                    isFavor: checkIfTutorIsFavored(
-                                        _tutorList[index]),
-                                    onClickFavorite: () {
-                                      onClickFavorite(_tutorList[index]);
-                                    });
-                              })))
-                ],
+                                        Expanded(
+                                            flex: 1,
+                                            child: ChipButton(
+                                              callback: () {
+                                                joinUpcomingMeeting(context);
+                                              },
+                                              title:
+                                                  AppLocalizations.of(context)!
+                                                      .join,
+                                              hasIcon: false,
+                                              chipType:
+                                                  ButtonType.filledWhiteButton,
+                                            ))
+                                      ],
+                                    )
+                                  : const SizedBox(),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              (totalLessonTime.isEmpty)
+                                  ? AppLocalizations.of(context)!
+                                      .noUpcomingLesson
+                                  : "${AppLocalizations.of(context)!.totalLearningHoursLeft}: $totalLessonTime",
+                              style: bodyLarge(context)
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ],
+                        )),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+                      child: Text(AppLocalizations.of(context)!.recommendTutors,
+                          style: headLineMedium(context)),
+                    ),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                        child: LimitedBox(
+                            maxHeight: double.maxFinite,
+                            child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                itemCount: _tutorList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TutorCard(
+                                      hasFavor: true,
+                                      tutorData: _tutorList[index],
+                                      isFavor: checkIfTutorIsFavored(
+                                          _tutorList[index]),
+                                      onClickFavorite: () {
+                                        callApiManageFavoriteTutor(
+                                            _tutorList[index],
+                                            authProvider,
+                                            index);
+                                      });
+                                })))
+                  ],
+                ),
               ),
             ),
             bottomNavigationBar: CustomBottomNavigationBar(
@@ -168,15 +199,31 @@ class _HomePageState extends State<HomePage> {
           );
   }
 
-  void onClickFavorite(TutorModel tutorClicked) {
-    if (checkIfTutorIsFavored(tutorClicked)) {
-      _favTutorSecondId.remove(tutorClicked.userId);
-    } else {
-      if (tutorClicked.userId != null) {
-        _favTutorSecondId.add(tutorClicked.userId!);
-        _favTutorSecondId = _favTutorSecondId.toSet().toList();
-      }
-    }
+  Future<void> callApiManageFavoriteTutor(
+      TutorModel tutorClicked, AuthProvider authProvider, int index) async {
+    UserRepository userRepository = UserRepository();
+    await userRepository.manageFavoriteTutor(
+        accessToken: authProvider.token?.access?.token ?? "",
+        tutorId: tutorClicked.id!,
+        onSuccess: (message, unfavored) async {
+          if (unfavored) {
+            _favTutorSecondId.remove(tutorClicked.userId);
+          } else {
+            _favTutorSecondId.add(tutorClicked.userId!);
+            _favTutorSecondId = _favTutorSecondId.toSet().toList();
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        },
+        onFail: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${error.toString()}')),
+          );
+        });
   }
 
   Future<void> callAPIGetTutorList(int page, TutorRepository tutorRepository,

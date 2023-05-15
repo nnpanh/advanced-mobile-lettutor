@@ -21,8 +21,11 @@ import '../common_widgets/elevated_button.dart';
 import '../common_widgets/title_and_chips.dart';
 
 class TutorDetailPage extends StatefulWidget {
-  const TutorDetailPage({super.key, required this.tutorModel});
+  const TutorDetailPage(
+      {super.key, required this.tutorModel, required this.onClickFavorite});
+
   final TutorModel tutorModel;
+  final Function onClickFavorite;
 
   @override
   State<TutorDetailPage> createState() => _TutorDetailPageState();
@@ -47,12 +50,18 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_hasFetch) {
+      callAPIGetTutorById(TutorRepository(),
+          Provider.of<AuthProvider>(context, listen: false), tutorData.userId);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    if (!_hasFetch) {
-      callAPIGetTutorById(TutorRepository(), Provider.of<AuthProvider>(context),
-          tutorData.userId);
-    }
+    var authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
         appBar:
@@ -163,6 +172,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                             children: [
                               IconButton(
                                 onPressed: () {
+                                  // callApiManageFavoriteTutor(authProvider);
+                                  widget.onClickFavorite.call();
                                   setState(() {
                                     if (tutorInfo.isFavorite != null) {
                                       tutorInfo.isFavorite =
@@ -317,7 +328,9 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                                 Navigator.pushNamed(
                                     context, MyRouter.bookingDetail,
                                     arguments: TutorDetailArguments(
-                                        tutorModel: tutorData));
+                                        tutorModel: tutorData,
+                                        onClickFavorite:
+                                            widget.onClickFavorite));
                               },
                               radius: 15),
                         ),
@@ -354,4 +367,29 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
           );
         });
   }
+
+// Future<void> callApiManageFavoriteTutor(AuthProvider authProvider) async {
+//   UserRepository userRepository = UserRepository();
+//   await userRepository.manageFavoriteTutor(
+//       accessToken: authProvider.token?.access?.token ?? "",
+//       tutorId: tutorData.id!,
+//       onSuccess: (message, unfavored) async {
+//         setState(() {
+//           if (tutorInfo.isFavorite != null) {
+//             tutorInfo.isFavorite = !unfavored;
+//           }
+//         });
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(
+//             content: Text(message),
+//             duration: const Duration(seconds: 1),
+//           ),
+//         );
+//       },
+//       onFail: (error) {
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(content: Text('Error: ${error.toString()}')),
+//         );
+//       });
+// }
 }

@@ -22,7 +22,7 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  final lessonList = [];
+  List<BookingInfo> lessonList = [];
   bool _hasFetch = false;
 
   //Pagination
@@ -111,7 +111,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 ],
               ),
             ),
-            _hasFetch
+            !_loading
                 ? lessonList.isNotEmpty
                     ? Column(
                         children: [
@@ -269,7 +269,7 @@ class _SchedulePageState extends State<SchedulePage> {
     await bookingRepository.getIncomingLessons(
         accessToken: authProvider.token?.access?.token ?? "",
         page: page,
-        perPage: 20,
+        perPage: perPage,
         now: DateTime.now().millisecondsSinceEpoch.toString(),
         onSuccess: (response, total) async {
           _filterListScheduleFromApi(response);
@@ -285,6 +285,8 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   void _filterListScheduleFromApi(List<BookingInfo> listBooking) {
+    lessonList = [];
+
     for (var value in listBooking) {
       if (value.isDeleted != true) {
         lessonList.insert(0, value);
@@ -293,6 +295,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
     setState(() {
       _hasFetch = true;
+      _loading = false;
     });
   }
 }

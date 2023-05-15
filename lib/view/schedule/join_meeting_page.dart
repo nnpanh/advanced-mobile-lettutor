@@ -9,8 +9,6 @@ import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/elevated_button.dart';
 
-import '../common_widgets/dialogs/base_dialog/bottom_sheet_dialog.dart';
-
 class JoinMeetingPage extends StatefulWidget {
   const JoinMeetingPage({super.key, required this.upcomingClass});
   final BookingInfo upcomingClass;
@@ -28,9 +26,9 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
   @override
   void initState() {
     super.initState();
-    endTime = DateTime.now().add(const Duration(seconds: 10));
-    // endTime = DateTime.fromMillisecondsSinceEpoch(
-    //     upcomingClass.scheduleDetailInfo!.startPeriodTimestamp!);
+    // endTime = DateTime.now().add(const Duration(seconds: 10));
+    endTime = DateTime.fromMillisecondsSinceEpoch(
+        upcomingClass.scheduleDetailInfo!.startPeriodTimestamp!);
   }
 
   void onEnd() {
@@ -78,7 +76,8 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: appBarDefault(AppLocalizations.of(context)!.joinMeeting, context),
+        appBar:
+            appBarDefault(AppLocalizations.of(context)!.joinMeeting, context),
         body: SizedBox(
           height: size.height,
           width: size.width,
@@ -86,19 +85,19 @@ class _JoinMeetingPageState extends State<JoinMeetingPage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-          Image.asset(ImagesPath.video),
-          CountdownTimer(
-            onEnd: onEnd,
-            endTime: endTime.millisecondsSinceEpoch,
-            textStyle: bodyLargeBold(context)?.copyWith(color: Colors.blue),
-            endWidget: CustomElevatedButton(
-                title: AppLocalizations.of(context)!.joinMeeting,
-                callback: () {
-                  _joinMeeting();
-                },
-                buttonType: ButtonType.filledButton,
-                radius: 10),
-          ),
+              Image.asset(ImagesPath.video),
+              CountdownTimer(
+                onEnd: onEnd,
+                endTime: endTime.millisecondsSinceEpoch,
+                textStyle: bodyLargeBold(context)?.copyWith(color: Colors.blue),
+                endWidget: CustomElevatedButton(
+                    title: AppLocalizations.of(context)!.joinMeeting,
+                    callback: () {
+                      _joinMeeting();
+                    },
+                    buttonType: ButtonType.filledButton,
+                    radius: 10),
+              ),
             ],
           ),
         ),

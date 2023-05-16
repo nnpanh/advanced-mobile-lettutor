@@ -304,6 +304,8 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       _onLoginFailed(e);
+    } finally {
+      LoadingOverlay.of(context).hide();
     }
   }
 

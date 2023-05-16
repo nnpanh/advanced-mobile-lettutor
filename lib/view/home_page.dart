@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Expanded(
-                                          flex: 2,
+                                          flex: 3,
                                           child: Text(
                                             getDateString(
                                                 DateTime.fromMillisecondsSinceEpoch(

@@ -88,9 +88,10 @@ class TutorRepository extends BaseRepository {
   Future<void> searchTutor({
     required String accessToken,
     required String searchKeys,
+    required int page,
     required List<String> speciality,
     required Map<String, dynamic> nationality,
-    required Function(List<TutorModel>) onSuccess,
+    required Function(List<TutorModel>, int) onSuccess,
     required Function(String) onFail,
 
   }) async {
@@ -107,8 +108,8 @@ class TutorRepository extends BaseRepository {
             ]
           },
           "search": searchKeys,
-          "page": "1",
-          "perPage": 12
+          "page": "$page",
+          "perPage": 10
         },
         headers: {
           "Authorization":"Bearer $accessToken"
@@ -117,7 +118,8 @@ class TutorRepository extends BaseRepository {
     switch (response.statusCode) {
       case 200:
       case 201:
-      await onSuccess(TutorPagination.fromJson(response.response).rows??[]);
+      var result = TutorPagination.fromJson(response.response);
+      onSuccess(result.rows ?? [], result.count ?? 0);
       break;
       default:
         onFail(response.errorMsg.toString());

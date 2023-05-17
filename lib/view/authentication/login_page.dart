@@ -348,30 +348,35 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> restorePreviousSession(AuthProvider authProvider) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final refreshToken = prefs.getString('refresh_token') ?? "";
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final refreshToken = prefs.getString('refresh_token') ?? "";
 
-    if (refreshToken.isNotEmpty) {
-      await authProvider.authRepository.refreshToken(
-        refreshToken: refreshToken,
-        onSuccess: (user, token) async {
-          authProvider.saveLoginInfo(user, token);
+      if (refreshToken.isNotEmpty) {
+        await authProvider.authRepository.refreshToken(
+          refreshToken: refreshToken,
+          onSuccess: (user, token) async {
+            authProvider.saveLoginInfo(user, token);
 
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString(
-            'refresh_token',
-            authProvider.token!.refresh!.token!,
-          );
-          _hasAuthenticated = true;
-          if (mounted) {
-            await Future.delayed(const Duration(seconds: 1), () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, MyRouter.home, (route) => false);
-            });
-          }
-        },
-      );
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString(
+              'refresh_token',
+              authProvider.token!.refresh!.token!,
+            );
+            _hasAuthenticated = true;
+            if (mounted) {
+              await Future.delayed(const Duration(seconds: 1), () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, MyRouter.home, (route) => false);
+              });
+            }
+          },
+        );
+      }
+    } finally {
+      setState(() {
+        _loading = false;
+      });
     }
-    _loading = false;
   }
 }

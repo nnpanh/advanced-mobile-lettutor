@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:lettutor/model/user/user_model.dart';
 
 import '../services/api_service.dart';
@@ -69,27 +70,16 @@ class UserRepository extends BaseRepository {
     }
   }
 
-  //TODO: RESPONSE UNKNOWN
-  Future<void> getReferrals({
-    required Function() onSuccess,
-  }) async {
-    final response = await service.post(
-      url: "referrals",
-    );
-
-    await onSuccess();
-  }
-
   Future<void> resetPassword({
     required String email,
     required Function(String) showMessage,
   }) async {
-
-    var response =
-        await service.post(url: "forgotPassword", headers: {
-          "origin": "https://sandbox.app.lettutor.com",
-          "referer":  "https://sandbox.app.lettutor.com/",
-        }, data: {"email": email}) as BoundResource;
+    var response = await service.post(url: "forgotPassword", headers: {
+      "origin": "https://sandbox.app.lettutor.com",
+      "referer": "https://sandbox.app.lettutor.com/",
+    }, data: {
+      "email": email
+    }) as BoundResource;
 
     switch (response.statusCode) {
       case 200:
@@ -98,6 +88,33 @@ class UserRepository extends BaseRepository {
         break;
       default:
         showMessage(response.errorMsg.toString());
+        break;
+    }
+  }
+
+  Future<void> uploadAvatar({
+    required String accessToken,
+    required String imagePath,
+    required Function(UserModel) onSuccess,
+    required Function(String) onFail,
+  }) async {
+    final formDataImage = FormData.fromMap({
+      'avatar': await MultipartFile.fromFile(
+        imagePath,
+      ),
+    });
+    final response = await service.postFormData(
+        url: "uploadAvatar",
+        headers: {"Authorization": "Bearer $accessToken"},
+        data: formDataImage) as BoundResource;
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        final user = UserModel.fromJson(response.response);
+        await onSuccess(user);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
         break;
     }
   }

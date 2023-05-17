@@ -79,7 +79,7 @@ class MyAppState extends State<MyApp> {
             locale: Provider.of<SettingsProvider>(context).locale,
             home: LoadingOverlay(
               child: AnimatedSplashScreen(
-                  duration: 500,
+                  duration: 1000,
                   splash: const Image(image: AssetImage(ImagesPath.logo)),
                   nextScreen: LoadingOverlay(child: const LoginPage()),
                   // nextScreen: const LoginPage(),

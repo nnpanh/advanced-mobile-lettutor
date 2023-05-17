@@ -17,12 +17,14 @@ class TutorCard extends StatefulWidget {
       required this.tutorData,
       required this.isFavor,
       required this.onClickFavorite,
-      required this.hasFavor});
+      required this.hasFavor,
+      required this.onReturnFromNavigate});
 
   final TutorModel tutorData;
   final bool isFavor;
   final bool hasFavor;
   final VoidCallback onClickFavorite;
+  final VoidCallback onReturnFromNavigate;
 
   @override
   State<TutorCard> createState() => TutorCardState();
@@ -149,9 +151,12 @@ class TutorCardState extends State<TutorCard> {
                   chipType: ButtonType.outlinedButton,
                   callback: () {
                     Navigator.pushNamed(context, MyRouter.tutorDetail,
-                        arguments: TutorDetailArguments(
-                            tutorModel: widget.tutorData,
-                            onClickFavorite: widget.onClickFavorite));
+                            arguments: TutorDetailArguments(
+                                tutorModel: widget.tutorData,
+                                onClickFavorite: widget.onClickFavorite))
+                        .then((value) {
+                      widget.onReturnFromNavigate();
+                    });
                   },
                 ))
           ],

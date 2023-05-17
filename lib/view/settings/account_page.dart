@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lettutor/data/repositories/user_repository.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/utils/utils.dart';
@@ -28,6 +31,7 @@ class _AccountPageState extends State<AccountPage> {
   final _txtName = TextEditingController();
   final _txtCountry = TextEditingController();
   final _txtBirthday = TextEditingController();
+  File? imageFile;
   String? _txtLevel;
   final List<DropdownMenuItem<String>> _levelList = [];
   late UserModel userModel;
@@ -102,7 +106,9 @@ class _AccountPageState extends State<AccountPage> {
                                         color: Colors.blue, width: 2)),
                                 margin: const EdgeInsets.only(left: 100),
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _getFromGallery(authProvider);
+                                  },
                                   icon: const Icon(
                                     Icons.photo_camera,
                                     color: Colors.blue,
@@ -449,6 +455,36 @@ class _AccountPageState extends State<AccountPage> {
             level: _txtLevel,
             learnTopics: userModel.learnTopics,
             testPreparations: userModel.testPreparations),
+        onSuccess: (user) async {
+          authProvider.saveLoginInfo(user, authProvider.token);
+          initValues(authProvider);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profile updated successfully')),
+          );
+        },
+        onFail: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${error.toString()}')),
+          );
+        });
+  }
+
+  _getFromGallery(AuthProvider authProvider) async {
+    XFile? pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      callAPIUpdateAvatar(UserRepository(), authProvider, pickedFile.path);
+    }
+  }
+
+  Future<void> callAPIUpdateAvatar(UserRepository userRepository,
+      AuthProvider authProvider, String avatar) async {
+    await userRepository.uploadAvatar(
+        accessToken: authProvider.token?.access?.token ?? "",
+        imagePath: avatar,
         onSuccess: (user) async {
           authProvider.saveLoginInfo(user, authProvider.token);
           initValues(authProvider);

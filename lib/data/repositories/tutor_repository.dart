@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:lettutor/data/responses/response_get_list_tutor.dart';
 import 'package:lettutor/model/tutor/tutor_info.dart';
 import 'package:lettutor/model/tutor/tutor_model.dart';
@@ -17,7 +14,7 @@ class TutorRepository extends BaseRepository {
   Future<void> becomeTutor({
     required Function() onSuccess,
   }) async {
-    final response = await service.postFormData(
+    final response = await service.postFormUrlEncoded(
       url: "register",
       data: {},
     );
@@ -33,10 +30,8 @@ class TutorRepository extends BaseRepository {
     required Function(String) onFail,
   }) async {
     final response = await service.get(
-      url: "more?perPage=$perPage&page=$page",
-      headers: {
-        "Authorization":"Bearer $accessToken"
-      }) as BoundResource;
+        url: "more?perPage=$perPage&page=$page",
+        headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
 
     switch (response.statusCode) {
       case 200:
@@ -56,7 +51,6 @@ class TutorRepository extends BaseRepository {
   }) async {
     final response = await service.post(
       url: "feedbackTutor",
-
     );
 
     await onSuccess();
@@ -69,10 +63,8 @@ class TutorRepository extends BaseRepository {
     required Function(String) onFail,
   }) async {
     final response = await service.get(
-      url: tutorId,
-        headers: {
-          "Authorization":"Bearer $accessToken"
-      }) as BoundResource;
+        url: tutorId,
+        headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
 
     switch (response.statusCode) {
       case 200:
@@ -93,34 +85,27 @@ class TutorRepository extends BaseRepository {
     required Map<String, dynamic> nationality,
     required Function(List<TutorModel>, int) onSuccess,
     required Function(String) onFail,
-
   }) async {
-    final response = await service.post(
-      url: "search",
-        data: {
-          "filters": {
-            "specialties": speciality,
-            "nationality": nationality,
-            "date": null,
-            "tutoringTimeAvailable": [
-              null,
-              null
-            ]
-          },
-          "search": searchKeys,
-          "page": "$page",
-          "perPage": 10
-        },
-        headers: {
-          "Authorization":"Bearer $accessToken"
-      }) as BoundResource;
+    final response = await service.post(url: "search", data: {
+      "filters": {
+        "specialties": speciality,
+        "nationality": nationality,
+        "date": null,
+        "tutoringTimeAvailable": [null, null]
+      },
+      "search": searchKeys,
+      "page": "$page",
+      "perPage": 10
+    }, headers: {
+      "Authorization": "Bearer $accessToken"
+    }) as BoundResource;
 
     switch (response.statusCode) {
       case 200:
       case 201:
-      var result = TutorPagination.fromJson(response.response);
-      onSuccess(result.rows ?? [], result.count ?? 0);
-      break;
+        var result = TutorPagination.fromJson(response.response);
+        onSuccess(result.rows ?? [], result.count ?? 0);
+        break;
       default:
         onFail(response.errorMsg.toString());
         break;

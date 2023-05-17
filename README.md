@@ -19,4 +19,11 @@ Video demo: [https://www.youtube.com/watch?v=fbr4dlib914](https://www.youtube.co
 
 Backup video in Google Drive: [https://drive.google.com/file/d/14gIr9xc28sKKghaM4L10ros8TBWS3Yj5/view?usp=sharing](https://drive.google.com/file/d/14gIr9xc28sKKghaM4L10ros8TBWS3Yj5/view?usp=sharing)
 
+## Milestone 3
+
+Self-estimate scorecard: [Document](https://studenthcmusedu-my.sharepoint.com/:w:/g/personal/19127097_student_hcmus_edu_vn/EZ8y_aH9JmxIh0gv9Z4o8xoB4sQq3NJM4rtFEhX8-ys4yg?e=dWlKCC)
+
+Video demo: [https://www.youtube.com/watch?v=fbr4dlib914](https://www.youtube.com/watch?v=fbr4dlib914)
+
+Backup video in Google Drive: [https://drive.google.com/file/d/14gIr9xc28sKKghaM4L10ros8TBWS3Yj5/view?usp=sharing](https://drive.google.com/file/d/14gIr9xc28sKKghaM4L10ros8TBWS3Yj5/view?usp=sharing)
 

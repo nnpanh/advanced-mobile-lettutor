@@ -68,8 +68,9 @@ class MyAppState extends State<MyApp> {
         builder: (context, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'LetTutor',
-            theme: Provider.of<SettingsProvider>(context).themeMode == ThemeMode.light?
-            ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme())
+            theme: Provider.of<SettingsProvider>(context).themeMode ==
+                    ThemeMode.light
+                ? ThemeData(fontFamily: 'Roboto', colorScheme: lightTheme())
                 : ThemeData(fontFamily: 'Roboto', colorScheme: darkTheme()),
             themeMode: getDeviceThemeMode(),
             onGenerateRoute: MyRouter.generateRoute,
@@ -78,7 +79,7 @@ class MyAppState extends State<MyApp> {
             locale: Provider.of<SettingsProvider>(context).locale,
             home: LoadingOverlay(
               child: AnimatedSplashScreen(
-                  duration: 2000,
+                  duration: 500,
                   splash: const Image(image: AssetImage(ImagesPath.logo)),
                   nextScreen: LoadingOverlay(child: const LoginPage()),
                   // nextScreen: const LoginPage(),

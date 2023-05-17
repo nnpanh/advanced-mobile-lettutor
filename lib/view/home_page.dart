@@ -8,7 +8,6 @@ import 'package:lettutor/model/schedule/booking_info.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/view/common_widgets/chip_button.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
-import 'package:lettutor/view/common_widgets/loading_filled.dart';
 import 'package:lettutor/view/tutors/widgets/tutor_card.dart';
 import 'package:provider/provider.dart';
 
@@ -63,140 +62,138 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var authProvider = Provider.of<AuthProvider>(context);
+    Size size = MediaQuery.of(context).size;
 
-    return _isLoading
-        ? const LoadingFilled()
-        : Scaffold(
-            body: RefreshIndicator(
-              onRefresh: () async {
-                setState(() {
-                  _tutorList = [];
-                  _favTutorSecondId = [];
-                  lessonList = [];
-                  _isLoading = true;
-                });
-                await Future.wait([
-                  callAPIGetTutorList(1, TutorRepository(), authProvider),
-                  callApiGetListSchedules(BookingRepository(), authProvider)
-                ]).whenComplete(() {
-                  setState(() {
-                    _isLoading = false;
-                  });
-                  return Future<void>.delayed(const Duration(seconds: 0));
-                });
-              },
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
-                        width: double.infinity,
-                        color: Colors.blue,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.upComingLesson,
-                              style: bodyLargeBold(context)
-                                  ?.copyWith(color: Colors.white, fontSize: 18),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: (upcomingLesson != null)
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: Text(
-                                            getDateString(
-                                                DateTime.fromMillisecondsSinceEpoch(
-                                                    upcomingLesson!
-                                                        .scheduleDetailInfo!
-                                                        .startPeriodTimestamp!),
-                                                TimeFormat.getDateAndTime),
-                                            style: bodyLarge(context)
-                                                ?.copyWith(color: Colors.white),
-                                          ),
-                                        ),
-                                        Expanded(
-                                            flex: 1,
-                                            child: ChipButton(
-                                              callback: () {
-                                                joinUpcomingMeeting(context);
-                                              },
-                                              title:
-                                                  AppLocalizations.of(context)!
-                                                      .join,
-                                              hasIcon: false,
-                                              chipType:
-                                                  ButtonType.filledWhiteButton,
-                                            ))
-                                      ],
-                                    )
-                                  : const SizedBox(),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              (totalLessonTime.isEmpty)
-                                  ? AppLocalizations.of(context)!
-                                      .noUpcomingLesson
-                                  : "${AppLocalizations.of(context)!.totalLearningHoursLeft}: $totalLessonTime",
-                              style: bodyLarge(context)
-                                  ?.copyWith(color: Colors.white),
-                            ),
-                          ],
-                        )),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-                      child: Text(AppLocalizations.of(context)!.recommendTutors,
-                          style: headLineMedium(context)),
-                    ),
-                    Container(
-                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                        child: LimitedBox(
-                            maxHeight: double.maxFinite,
-                            child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                itemCount: _tutorList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return TutorCard(
-                                      hasFavor: true,
-                                      tutorData: _tutorList[index],
-                                      isFavor: checkIfTutorIsFavored(
-                                          _tutorList[index]),
-                                      onClickFavorite: () {
-                                        callApiManageFavoriteTutor(
-                                            _tutorList[index],
-                                            authProvider,
-                                            index);
-                                      });
-                                })))
-                  ],
-                ),
+    return Scaffold(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            _tutorList = [];
+            _favTutorSecondId = [];
+            lessonList = [];
+            _isLoading = true;
+          });
+          await Future.wait([
+            callAPIGetTutorList(1, TutorRepository(), authProvider),
+            callApiGetListSchedules(BookingRepository(), authProvider)
+          ]).whenComplete(() {
+            setState(() {
+              _isLoading = false;
+            });
+            return Future<void>.delayed(const Duration(seconds: 0));
+          });
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  padding: const EdgeInsets.fromLTRB(24, 48, 24, 36),
+                  width: double.infinity,
+                  color: Colors.blue,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.upComingLesson,
+                        style: bodyLargeBold(context)
+                            ?.copyWith(color: Colors.white, fontSize: 18),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: (upcomingLesson != null)
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(
+                                      getDateString(
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              upcomingLesson!
+                                                  .scheduleDetailInfo!
+                                                  .startPeriodTimestamp!),
+                                          TimeFormat.getDateAndTime),
+                                      style: bodyLarge(context)
+                                          ?.copyWith(color: Colors.white),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      flex: 1,
+                                      child: ChipButton(
+                                        callback: () {
+                                          joinUpcomingMeeting(context);
+                                        },
+                                        title:
+                                            AppLocalizations.of(context)!.join,
+                                        hasIcon: false,
+                                        chipType: ButtonType.filledWhiteButton,
+                                      ))
+                                ],
+                              )
+                            : const SizedBox(),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        (totalLessonTime.isEmpty)
+                            ? AppLocalizations.of(context)!.noUpcomingLesson
+                            : "${AppLocalizations.of(context)!.totalLearningHoursLeft}: $totalLessonTime",
+                        style:
+                            bodyLarge(context)?.copyWith(color: Colors.white),
+                      ),
+                    ],
+                  )),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+                child: Text(AppLocalizations.of(context)!.recommendTutors,
+                    style: headLineMedium(context)),
               ),
-            ),
-            bottomNavigationBar: CustomBottomNavigationBar(
-              selectedIndex: NavigationIndex.homePage,
-              context: context,
-            ),
-          );
+              !_isLoading
+                  ? Container(
+                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                      child: LimitedBox(
+                          maxHeight: double.maxFinite,
+                          child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemCount: _tutorList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TutorCard(
+                                    hasFavor: true,
+                                    tutorData: _tutorList[index],
+                                    isFavor: checkIfTutorIsFavored(
+                                        _tutorList[index]),
+                                    onClickFavorite: () {
+                                      callApiManageFavoriteTutor(
+                                          _tutorList[index],
+                                          authProvider,
+                                          index);
+                                    });
+                              })))
+                  : SizedBox(
+                      height: size.height * 0.5,
+                      child: const Center(child: CircularProgressIndicator()),
+                    ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: NavigationIndex.homePage,
+        context: context,
+      ),
+    );
   }
 
   Future<void> callApiManageFavoriteTutor(

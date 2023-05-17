@@ -157,10 +157,9 @@ class _AccountPageState extends State<AccountPage> {
                             padding: const EdgeInsets.only(right: 18),
                             child: IconButton(
                                 onPressed: () {
-                                  Clipboard.setData(
-                                          ClipboardData(text: userModel.id))
+                                  Clipboard.setData(ClipboardData(
+                                          text: userModel.id ?? ""))
                                       .then((value) {
-                                    //only if ->
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(const SnackBar(
                                             duration: Duration(seconds: 2),

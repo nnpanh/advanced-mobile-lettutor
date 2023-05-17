@@ -24,7 +24,7 @@ class ReviewDialogContent extends StatelessWidget {
     return SizedBox(
       height: size.height * 0.6, // Change as per your requirement
       width: size.width, // Change as per your requirement
-      child: ListView.builder(
+      child: listReview.isNotEmpty? ListView.builder(
         shrinkWrap: true,
         itemCount: listReview.length,
         itemBuilder: (BuildContext context, int index) {
@@ -35,7 +35,7 @@ class ReviewDialogContent extends StatelessWidget {
             ),
           );
         },
-      ),
+      ): Center(child: Text("This tutor has no reviews", style: bodyLargeBold(context))),
     );
   }
 }

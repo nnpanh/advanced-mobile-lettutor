@@ -10,6 +10,8 @@ class AuthProvider extends ChangeNotifier {
   UserModel? currentUser;
   UserToken? token;
 
+  bool refreshHome = false;
+
   AuthProvider() {
     authRepository = AuthRepository();
   }

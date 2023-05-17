@@ -4,8 +4,10 @@ import 'package:lettutor/model/tutor/tutor_model.dart';
 
 class TutorDetailArguments {
   final TutorModel tutorModel;
+  final Function onClickFavorite;
 
-  const TutorDetailArguments({required this.tutorModel});
+  const TutorDetailArguments(
+      {required this.tutorModel, required this.onClickFavorite});
 }
 
 class CourseDetailArguments {
@@ -20,7 +22,6 @@ class BookingInfoArguments {
   const BookingInfoArguments({required this.upcomingLesson});
 }
 
-
 class LessonDetailArguments {
   final String title;
   final String pdfUrl;
@@ -33,5 +34,6 @@ class SearchResultArguments {
   final String searchKey;
   final List<String> specialities;
 
-  const SearchResultArguments(this.nationality, this.searchKey, this.specialities);
+  const SearchResultArguments(
+      this.nationality, this.searchKey, this.specialities);
 }

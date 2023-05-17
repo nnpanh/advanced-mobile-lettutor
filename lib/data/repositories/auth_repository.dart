@@ -81,14 +81,15 @@ class AuthRepository extends BaseRepository {
     required Function(UserModel, UserToken) onSuccess,
     required Function(String) onFail,
   }) async {
-    final response = await service.postFormData(
-            url: "register",
-        headers: {
-          "origin": "https://sandbox.api.lettutor.com",
-          "referer":  "https://sandbox.api.lettutor.com",
-        },
-            data: {"email": email, "password": password, "source": null})
-        as BoundResource;
+    final response =
+        await service.postFormUrlEncoded(url: "register", headers: {
+      "origin": "https://sandbox.app.lettutor.com",
+      "referer": "https://sandbox.app.lettutor.com/",
+    }, data: {
+      "email": email,
+      "password": password,
+      "source": null
+    }) as BoundResource;
 
     switch (response.statusCode) {
       case 200:
@@ -109,7 +110,7 @@ class AuthRepository extends BaseRepository {
     required Function(UserModel, UserToken) onSuccess,
     required Function() onFail,
   }) async {
-    final response = await service.postFormData(
+    final response = await service.postFormUrlEncoded(
         url: "register",
         data: {"phone": phone, "password": password, "source": null});
 
@@ -128,7 +129,7 @@ class AuthRepository extends BaseRepository {
   }) async {
     final response = await service.post(
         url: "refresh-token",
-        data: {"refreshToken": refreshToken, "timezone": 7})  as BoundResource;
+        data: {"refreshToken": refreshToken, "timezone": 7}) as BoundResource;
 
     switch (response.statusCode) {
       case 200:

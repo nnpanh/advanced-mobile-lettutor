@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:lettutor/model/user/user_model.dart';
 
 import '../services/api_service.dart';
@@ -8,15 +9,27 @@ class UserRepository extends BaseRepository {
 
   UserRepository() : super(prefix);
 
-  //TODO: RESPONSE UNKNOWN
-  Future<void> getUser({
-    required Function() onSuccess,
+  Future<void> manageFavoriteTutor({
+    required String accessToken,
+    required String tutorId,
+    required Function(String, bool) onSuccess,
+    required Function(String) onFail,
   }) async {
-    final response = await service.get(
-      url: "info",
-    );
+    final response = await service.post(
+        url: "manageFavoriteTutor",
+        data: {"tutorId": tutorId},
+        headers: {"Authorization": "Bearer $accessToken"}) as BoundResource;
 
-    await onSuccess();
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        onSuccess(
+            response.response['message'], response.response['result'] == 1);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
+        break;
+    }
   }
 
   Future<void> updateUserInfo({
@@ -33,11 +46,9 @@ class UserRepository extends BaseRepository {
     input.testPreparations?.forEach((element) {
       testPreparations.add(element.id);
     });
-    final response = await service.put(url: 'info',
-        headers: {
-          "Authorization":"Bearer $accessToken"
-        },
-        data: {
+    final response = await service.put(url: 'info', headers: {
+      "Authorization": "Bearer $accessToken"
+    }, data: {
       "name": input.name,
       "country": input.country,
       "phone": input.phone,
@@ -59,26 +70,17 @@ class UserRepository extends BaseRepository {
     }
   }
 
-  //TODO: RESPONSE UNKNOWN
-  Future<void> getReferrals({
-    required Function() onSuccess,
-  }) async {
-    final response = await service.post(
-      url: "referrals",
-    );
-
-    await onSuccess();
-  }
-
   Future<void> resetPassword({
     required String email,
     required Function(String) showMessage,
   }) async {
-    var response =
-        await service.post(url: "forgotPassword", headers: {
-          "origin": "https://sandbox.api.lettutor.com",
-          "referer":  "https://sandbox.api.lettutor.com",
-        }, data: {"email": email}) as BoundResource;
+    var response = await service.post(url: "forgotPassword", headers: {
+      "origin": "https://sandbox.app.lettutor.com",
+      "referer": "https://sandbox.app.lettutor.com/",
+    }, data: {
+      "email": email
+    }) as BoundResource;
+
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -86,6 +88,33 @@ class UserRepository extends BaseRepository {
         break;
       default:
         showMessage(response.errorMsg.toString());
+        break;
+    }
+  }
+
+  Future<void> uploadAvatar({
+    required String accessToken,
+    required String imagePath,
+    required Function(UserModel) onSuccess,
+    required Function(String) onFail,
+  }) async {
+    final formDataImage = FormData.fromMap({
+      'avatar': await MultipartFile.fromFile(
+        imagePath,
+      ),
+    });
+    final response = await service.postFormData(
+        url: "uploadAvatar",
+        headers: {"Authorization": "Bearer $accessToken"},
+        data: formDataImage) as BoundResource;
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        final user = UserModel.fromJson(response.response);
+        await onSuccess(user);
+        break;
+      default:
+        onFail(response.errorMsg.toString());
         break;
     }
   }

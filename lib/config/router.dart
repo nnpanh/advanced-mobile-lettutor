@@ -111,7 +111,10 @@ class MyRouter {
         if (args is TutorDetailArguments) {
           return successRoute(
               LoadingOverlay(
-                  child: TutorDetailPage(tutorModel: args.tutorModel)),
+                  child: TutorDetailPage(
+                tutorModel: args.tutorModel,
+                onClickFavorite: args.onClickFavorite,
+              )),
               settings);
         } else {
           return errorRoute(
@@ -160,7 +163,8 @@ class MyRouter {
               'Input for Booking info is not BookingInfoArguments', settings);
         }
       case chatGpt:
-        return successRoute(LoadingOverlay(child: const ChatGPTPage()), settings);
+        return successRoute(
+            LoadingOverlay(child: const ChatGPTPage()), settings);
       case learningHistory:
         return successRoute(
             LoadingOverlay(child: const LearningHistoryPage()), settings);

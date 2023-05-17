@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pagination/flutter_pagination.dart';
 import 'package:lettutor/data/repositories/course_repository.dart';
 import 'package:lettutor/model/course/course_model.dart';
 import 'package:lettutor/providers/auth_provider.dart';
 import 'package:lettutor/providers/course_provider.dart';
+import 'package:lettutor/utils/utils.dart';
 import 'package:lettutor/view/common_widgets/default_style.dart';
 import 'package:lettutor/view/common_widgets/loading_filled.dart';
-import 'package:lettutor/view/common_widgets/pagination.dart';
 import 'package:provider/provider.dart';
 
 import 'course_card.dart';
@@ -21,12 +22,18 @@ class CourseTab extends StatefulWidget {
 class _CourseTabState extends State<CourseTab> {
   bool _hasFetch = false;
   bool _loading = true;
-  int totalItems = 3;
   final int perPage = 5;
+
+  //Pagination
+  int currentPage = 1;
+  int maximumPage = 1;
+  int numberOfShowPages = 0;
+
   List<CourseModel> courseList = [];
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     final authProvider = Provider.of<AuthProvider>(context);
     final courseProvider = Provider.of<CourseProvider>(context);
 
@@ -47,45 +54,62 @@ class _CourseTabState extends State<CourseTab> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _loading
-              ? const LoadingFilled()
+              ? ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: size.height * 0.5,
+                    maxHeight: size.height,
+                    minWidth: size.width * 0.5,
+                    maxWidth: size.width,
+                  ),
+                  child: const LoadingFilled())
               : courseList.isNotEmpty
-                  ? LimitedBox(
-                      maxHeight: double.maxFinite,
-                      child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: courseList.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            return CourseCard(courseData: courseList[index]);
-                          }))
+                  ? ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: courseList.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return CourseCard(courseData: courseList[index]);
+                      })
                   : Center(
                       child: Text(
                           style: headLineSmall(context), "No match result")),
           Container(
-            padding: const EdgeInsets.all(16),
-            child: PaginationList(
-              onClickPage: (number) {
-                setState(() {
-                  _loading = true;
-                });
-                //Call API
-                if (widget.tabType == "course") {
-                  callAPIGetCourseList(
-                      number, CourseRepository(), courseProvider, authProvider);
-                } else if (widget.tabType == "ebook") {
-                  callAPIGetEbookList(
-                      number, CourseRepository(), courseProvider, authProvider);
-                }
-              },
-              total: totalItems,
-              perPage: perPage,
-            ),
-          )
+              padding: const EdgeInsets.all(16),
+              child: (courseList.isNotEmpty)
+                  ? Pagination(
+                      paginateButtonStyles: paginationStyle(context),
+                      prevButtonStyles: prevButtonStyles(context),
+                      nextButtonStyles: nextButtonStyles(context),
+                      onPageChange: (number) {
+                        setState(() {
+                          _loading = true;
+                          currentPage = number;
+                        });
+                        //Call API
+                        if (widget.tabType == "course") {
+                          callAPIGetCourseList(number, CourseRepository(),
+                              courseProvider, authProvider);
+                        } else if (widget.tabType == "ebook") {
+                          callAPIGetEbookList(number, CourseRepository(),
+                              courseProvider, authProvider);
+                        }
+                      },
+                      useGroup: false,
+                      totalPage: maximumPage,
+                      show: numberOfShowPages,
+                      currentPage: currentPage,
+                    )
+                  : const SizedBox())
         ],
       ),
     );
+  }
+
+  void calculatePages(int totalItems) {
+    maximumPage = (totalItems / perPage).ceil();
+    numberOfShowPages = getShowPagesBasedOnPages(maximumPage);
   }
 
   Future<void> callAPIGetCourseList(int page, CourseRepository courseRepository,
@@ -100,11 +124,10 @@ class _CourseTabState extends State<CourseTab> {
         size: perPage,
         onSuccess: (response, total) async {
           setState(() {
-            if (response.isNotEmpty) {
-              courseList = response;
-            }
+            courseList = response;
             _hasFetch = true;
-            totalItems = total;
+            currentPage = page;
+            calculatePages(total);
             _loading = false;
           });
         },
@@ -127,11 +150,10 @@ class _CourseTabState extends State<CourseTab> {
         size: perPage,
         onSuccess: (response, total) async {
           setState(() {
-            if (response.isNotEmpty) {
-              courseList = response;
-            }
+            courseList = response;
             _hasFetch = true;
-            totalItems = total;
+            currentPage = page;
+            calculatePages(total);
             _loading = false;
           });
         },
